@@ -49,6 +49,7 @@ This page is a quick-reference for mobs that are currently configured as mountab
 | Bear Polar |
 | Crocodile |
 | Emberwulf |
+| Frost Dragon |
 | Leopard Snow |
 | Raptor Cave |
 | Rex Cave |
@@ -62,6 +63,7 @@ This page is a quick-reference for mobs that are currently configured as mountab
 ## Notes
 - This list reflects current role configuration (`IsMountable: true`) and can change in future updates.
 - If a species is tameable but not listed here, it is currently not mount-enabled.
+- Frost Dragon is an AvatarFlight mount and deliberately uses flight-specific movement rather than a native `MountMovementConfig` profile.
 
 > [Screenshot Placeholder: Player mounting a livestock companion]
 > [Screenshot Placeholder: Player mounting a Beast companion]
