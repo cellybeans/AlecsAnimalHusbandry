@@ -2,6 +2,7 @@
   "Type": "Variant",
   "Reference": "AH_Template_Predator_Tamed",
   "Modify": {
+    "MountMovementConfig": "AH_Mount_Bear_Polar",
     "Appearance": "Bear_Polar",
     "NeedsSeekConsumeStartDistance": 2.5,
     "NeedsSeekConsumeMaintainMaxDistance": 2.25,

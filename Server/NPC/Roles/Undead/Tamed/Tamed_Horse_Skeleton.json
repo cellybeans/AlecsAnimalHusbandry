@@ -1,5 +1,6 @@
 {
   "Modify": {
+    "MountMovementConfig": "AH_Mount_Horse_Skeleton",
     "Appearance": "Horse_Skeleton",
     "NeedsSeekConsumeStartDistance": 2.25,
     "NeedsSeekConsumeMaintainMaxDistance": 2,

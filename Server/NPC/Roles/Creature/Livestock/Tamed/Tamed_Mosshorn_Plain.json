@@ -2,6 +2,7 @@
   "Type": "Variant",
   "Reference": "AH_Template_Livestock_Tamed",
   "Modify": {
+    "MountMovementConfig": "AH_Mount_Mosshorn_Plain",
     "Appearance": "Mosshorn_Plain",
     "NeedsSeekConsumeStartDistance": 2.25,
     "NeedsSeekConsumeMaintainMaxDistance": 2,

@@ -1,5 +1,6 @@
 {
   "Modify": {
+    "MountMovementConfig": "AH_Mount_Deer_Stag",
     "NeedsSeekConsumeStartDistance": 2.25,
     "NeedsSeekConsumeMaintainMaxDistance": 2,
     "NeedsSeekConsumeMaintainDistanceRange": [1, 2],

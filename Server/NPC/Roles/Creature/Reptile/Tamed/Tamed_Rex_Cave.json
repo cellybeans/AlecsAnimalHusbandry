@@ -2,6 +2,7 @@
   "Type": "Variant",
   "Reference": "AH_Template_Predator_Tamed",
   "Modify": {
+    "MountMovementConfig": "AH_Mount_Rex_Cave",
     "Appearance": "Rex_Cave",
     "NeedsSeekConsumeStartDistance": 3,
     "NeedsSeekConsumeMaintainMaxDistance": 2.75,

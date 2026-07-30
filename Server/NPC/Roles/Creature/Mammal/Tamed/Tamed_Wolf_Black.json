@@ -2,6 +2,7 @@
   "Type": "Variant",
   "Reference": "AH_Template_Predator_Tamed",
   "Modify": {
+    "MountMovementConfig": "AH_Mount_Wolf_Black",
     "Appearance": {
       "Compute": "Appearance"
     },

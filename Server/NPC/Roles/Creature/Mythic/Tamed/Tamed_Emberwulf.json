@@ -2,6 +2,7 @@
   "Type": "Variant",
   "Reference": "AH_Template_Predator_Tamed",
   "Modify": {
+    "MountMovementConfig": "AH_Mount_Emberwulf",
     "Appearance": "Emberwulf",
     "NeedsSeekConsumeStartDistance": 2.25,
     "NeedsSeekConsumeMaintainMaxDistance": 2,

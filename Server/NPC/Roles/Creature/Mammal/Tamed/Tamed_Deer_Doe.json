@@ -1,5 +1,6 @@
 {
   "Modify": {
+    "MountMovementConfig": "AH_Mount_Deer_Doe",
     "NeedsSeekConsumeStartDistance": 2,
     "NeedsSeekConsumeMaintainMaxDistance": 1.75,
     "NeedsSeekConsumeMaintainDistanceRange": [1, 1.75],

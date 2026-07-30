@@ -1,5 +1,6 @@
 {
   "Modify": {
+    "MountMovementConfig": "AH_Mount_Moose_Bull",
     "Appearance": "Moose_Bull",
     "NeedsSeekConsumeStartDistance": 2.5,
     "NeedsSeekConsumeMaintainMaxDistance": 2.25,

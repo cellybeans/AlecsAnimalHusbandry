@@ -1,0 +1,6 @@
+{
+  "Parent": "Mount",
+  "BaseSpeed": 8.2,
+  "Acceleration": 0.14,
+  "JumpForce": 15
+}

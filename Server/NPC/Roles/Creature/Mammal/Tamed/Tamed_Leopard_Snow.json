@@ -2,6 +2,7 @@
   "Type": "Variant",
   "Reference": "AH_Template_Predator_Tamed",
   "Modify": {
+    "MountMovementConfig": "AH_Mount_Leopard_Snow",
     "NeedsSeekConsumeStartDistance": 2,
     "NeedsSeekConsumeMaintainMaxDistance": 1.75,
     "NeedsSeekConsumeMaintainDistanceRange": [1, 1.75],

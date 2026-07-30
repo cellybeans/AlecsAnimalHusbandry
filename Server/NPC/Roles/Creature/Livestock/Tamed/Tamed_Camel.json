@@ -2,6 +2,7 @@
   "Type": "Variant",
   "Reference": "AH_Template_Livestock_Tamed",
   "Modify": {
+    "MountMovementConfig": "AH_Mount_Camel",
     "Appearance": "Camel",
     "NeedsSeekConsumeStartDistance": 2.25,
     "NeedsSeekConsumeMaintainMaxDistance": 2,

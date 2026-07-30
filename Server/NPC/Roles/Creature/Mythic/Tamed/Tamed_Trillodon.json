@@ -1,5 +1,6 @@
 {
   "Modify": {
+    "MountMovementConfig": "AH_Mount_Trillodon",
     "Appearance": "Trillodon",
     "NeedsSeekConsumeStartDistance": 2.75,
     "NeedsSeekConsumeMaintainMaxDistance": 2.5,

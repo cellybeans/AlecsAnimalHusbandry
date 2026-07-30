@@ -2,6 +2,7 @@
   "Type": "Variant",
   "Reference": "AH_Template_Predator_Tamed",
   "Modify": {
+    "MountMovementConfig": "AH_Mount_Spider_Cave",
     "NeedsSeekConsumeStartDistance": 1.85,
     "NeedsSeekConsumeMaintainMaxDistance": 1.6,
     "NeedsSeekConsumeMaintainDistanceRange": [1, 1.6],

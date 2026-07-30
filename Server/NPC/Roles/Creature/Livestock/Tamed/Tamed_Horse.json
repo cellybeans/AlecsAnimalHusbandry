@@ -2,6 +2,7 @@
   "Type": "Variant",
   "Reference": "AH_Template_Livestock_Tamed",
   "Modify": {
+    "MountMovementConfig": "AH_Mount_Horse",
     "Appearance": "Horse",
     "NeedsSeekConsumeStartDistance": 2.25,
     "NeedsSeekConsumeMaintainMaxDistance": 2,

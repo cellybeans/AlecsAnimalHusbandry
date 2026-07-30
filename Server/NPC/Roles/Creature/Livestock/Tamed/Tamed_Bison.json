@@ -2,6 +2,7 @@
   "Type": "Variant",
   "Reference": "AH_Template_Livestock_Tamed",
   "Modify": {
+    "MountMovementConfig": "AH_Mount_Bison",
     "Appearance": "Bison",
     "NeedsSeekConsumeStartDistance": 2.5,
     "NeedsSeekConsumeMaintainMaxDistance": 2.25,
