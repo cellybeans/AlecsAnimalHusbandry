@@ -9,6 +9,8 @@ dist/
 *.zip
 Common/Items/AnimalHusbandry/*.py
 docs/superpowers/
+.worktrees/
+.asset-tools/
 
 # OS noise
 Thumbs.db
