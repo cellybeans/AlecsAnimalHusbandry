@@ -2764,6 +2764,9 @@
                   },
                   "Actions": [
                     {
+                      "Type": "TameworkForgetHostileTarget"
+                    },
+                    {
                       "Type": "ReleaseTarget",
                       "TargetSlot": "LockedTarget"
                     },
@@ -2905,6 +2908,9 @@
                 ]
               },
               "Actions": [
+                {
+                  "Type": "TameworkForgetHostileTarget"
+                },
                 {
                   "Type": "ReleaseTarget",
                   "TargetSlot": "LockedTarget"

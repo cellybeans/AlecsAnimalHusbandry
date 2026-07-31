@@ -13,6 +13,7 @@
 
 ### Fixed
 - Fixed Frost Dragon flap sounds accumulating during forward flight or remaining silent while hovering. Flight and hover now schedule randomized one-shot wing sounds at their respective animation cadences.
+- Prevented accidental owner hits from leaving tamed livestock and aerial companions, including moose, with hostile target memory that made them repeatedly flee from or attack their owner.
 
 ## 1.7.1 - Mountable Creatures and Telemetry Descriptor Hotfix - 2026-06-30
 

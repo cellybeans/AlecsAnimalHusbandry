@@ -14,8 +14,8 @@
       "Z": -1.5
     }
   },
-  "MinScale": 0.25,
-  "MaxScale": 0.45,
+  "MinScale": 1,
+  "MaxScale": 1,
   "Camera": {
     "Pitch": {
       "AngleRange": {
