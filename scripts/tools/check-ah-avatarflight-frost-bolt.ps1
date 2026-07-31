@@ -11,6 +11,38 @@ $nativeInteractionPath = Join-Path $Root "Server/Item/Interactions/NPCs/AnimalHu
 
 $failures = New-Object System.Collections.Generic.List[string]
 
+function Test-JsonEquivalent($expected, $actual, [string] $path) {
+    if ($expected -is [System.Management.Automation.PSCustomObject]) {
+        $expectedProperties = @($expected.PSObject.Properties.Name | Sort-Object)
+        $actualProperties = @($actual.PSObject.Properties.Name | Sort-Object)
+        if (@(Compare-Object $expectedProperties $actualProperties).Count -ne 0) {
+            $failures.Add("${path}: property set differs from the native frost bolt")
+            return
+        }
+        foreach ($property in $expectedProperties) {
+            Test-JsonEquivalent $expected.$property $actual.$property "$path.$property"
+        }
+        return
+    }
+
+    if ($expected -is [System.Collections.IEnumerable] -and $expected -isnot [string]) {
+        $expectedItems = @($expected)
+        $actualItems = @($actual)
+        if ($expectedItems.Count -ne $actualItems.Count) {
+            $failures.Add("${path}: array length differs from the native frost bolt")
+            return
+        }
+        for ($index = 0; $index -lt $expectedItems.Count; $index++) {
+            Test-JsonEquivalent $expectedItems[$index] $actualItems[$index] "$path[$index]"
+        }
+        return
+    }
+
+    if ($expected -ne $actual) {
+        $failures.Add("${path}: value differs from the native frost bolt")
+    }
+}
+
 foreach ($path in @($configPath, $rootPath, $interactionPath, $nativeInteractionPath)) {
     if (-not (Test-Path -LiteralPath $path)) {
         $failures.Add("missing required asset: $path")
@@ -23,12 +55,13 @@ if ($failures.Count -eq 0) {
     $interaction = Get-Content -LiteralPath $interactionPath -Raw | ConvertFrom-Json
     $nativeInteraction = Get-Content -LiteralPath $nativeInteractionPath -Raw | ConvertFrom-Json
 
+    $combatAbilityNames = @($config.CombatAbilities.PSObject.Properties.Name)
+    if ($combatAbilityNames.Count -ne 1 -or $combatAbilityNames[0] -ne "Ability2") {
+        $failures.Add("CombatAbilities must contain only Ability2; Ability3 and unknown entries are not allowed")
+    }
     $ability2 = $config.CombatAbilities.Ability2
     if ($null -eq $ability2 -or $ability2.RootInteraction -ne "Root_NPC_AH_Dragon_Frost_Avatar_Frost_Bolt" -or $ability2.Glyph -ne "ICE") {
         $failures.Add("Ability2 must reference the Frost Dragon AvatarFlight root with the ICE glyph")
-    }
-    if ($null -ne $config.CombatAbilities.Ability3) {
-        $failures.Add("Ability3 must remain absent")
     }
 
     if (@($rootAsset.Interactions).Count -ne 1 -or $rootAsset.Interactions[0] -ne "AH_Dragon_Frost_Avatar_Frost_Bolt") {
@@ -51,6 +84,15 @@ if ($failures.Count -eq 0) {
     if ($nativeLaunchStep.Count -ne 1 -or $nativeLaunchStep[0].TargetSlot -ne "LockedTarget") {
         $failures.Add("native NPC frost bolt must retain LockedTarget targeting")
     }
+
+    $playerComparable = $interaction | ConvertTo-Json -Depth 100 | ConvertFrom-Json
+    $nativeComparable = $nativeInteraction | ConvertTo-Json -Depth 100 | ConvertFrom-Json
+    $playerComparable.PSObject.Properties.Remove("`$Comment")
+    $nativeComparable.PSObject.Properties.Remove("`$Comment")
+    $nativeComparableLaunchStep = @($nativeComparable.Interactions | Where-Object { $_.Type -eq "TameworkLaunchProjectile" })
+    $nativeComparableLaunchStep[0].PSObject.Properties.Remove("TargetSlot")
+    $nativeComparableLaunchStep[0] | Add-Member -NotePropertyName "LookTargetDistance" -NotePropertyValue 48.0
+    Test-JsonEquivalent $nativeComparable $playerComparable "frost-bolt sequence"
 }
 
 if ($failures.Count -gt 0) {
