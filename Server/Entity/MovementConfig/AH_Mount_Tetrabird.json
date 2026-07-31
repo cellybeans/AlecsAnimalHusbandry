@@ -5,5 +5,6 @@
   "JumpForce": 15.5,
   "AirDragMin": 0.985,
   "AirDragMax": 0.998,
-  "AirSpeedMultiplier": 1.05
+  "AirSpeedMultiplier": 1.05,
+  "VariableJumpFallForce": 8.0
 }
