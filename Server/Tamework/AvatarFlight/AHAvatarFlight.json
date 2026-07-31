@@ -63,6 +63,12 @@
     "UpwardBoostAnimation": "IcyWind",
     "AirbrakeAnimation": "IcyWind"
   },
+  "CombatAbilities": {
+    "Ability2": {
+      "RootInteraction": "Root_NPC_AH_Dragon_Frost_Avatar_Frost_Bolt",
+      "Glyph": "ICE"
+    }
+  },
   "RiderVisual": {
     "HideOwnerEquipment": true,
     "HideOwnerArmor": true,
