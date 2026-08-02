@@ -35,6 +35,17 @@ SPECIES.update({
     "Vulture": ("Avian/Raptor", "Drop_Vulture", 30, 61, None, "Food_Wildmeat_Raw", "", ("Tw_Feed_Carnivore",)),
 })
 
+TAMED_IDS = tuple(f"Tamed_{name}" for name in SPECIES)
+OMNIVORE_IDS = {"Tamed_Crow", "Tamed_Raven", "Tamed_Duck", "Tamed_Woodpecker"}
+CARNIVORE_IDS = {
+    "Tamed_Archaeopteryx",
+    "Tamed_Hawk",
+    "Tamed_Owl_Brown",
+    "Tamed_Owl_Snow",
+    "Tamed_Pterodactyl",
+    "Tamed_Vulture",
+}
+
 
 def load(path: Path) -> dict:
     with path.open(encoding="utf-8-sig") as handle:
@@ -48,6 +59,17 @@ def text(path: Path) -> str:
 def require(condition: bool, message: str) -> None:
     if not condition:
         raise AssertionError(message)
+
+
+def members(relative: str, *keys: str) -> set[str]:
+    value = load(ROOT / relative)
+    for key in keys:
+        value = value[key]
+    return set(value)
+
+
+def role_ids(relative: str) -> set[str]:
+    return members(relative, "RoleIds")
 
 
 def has_item_target_loss_sensor(sensor: dict) -> bool:
@@ -710,6 +732,44 @@ def check_species(names: tuple[str, ...]) -> None:
         )
 
 
+def check_configs() -> None:
+    aerial = load(ROOT / "Server/Tamework/Companion/AHCompAerial.json")
+    require(aerial.get("Parent") == "TwCompanionConfig_Default", "wrong aerial companion parent")
+    require(aerial.get("Priority") == 10, "wrong aerial companion priority")
+    require(set(aerial.get("RoleIds", [])) == set(TAMED_IDS), "flight toggle role set drift")
+    require(
+        aerial["Command"]["FlightToggle"] == {"Enabled": True, "HookId": HOOK_ID},
+        "flight toggle contract drift",
+    )
+    for relative in (
+        "Server/Tamework/Companion/AHCompNeutral.json",
+        "Server/Tamework/CompanionMovement/AHCompanionMovement.json",
+        "Server/Tamework/Happiness/AHHappNeutral.json",
+        "Server/Tamework/Needs/AHNeedsMain.json",
+        "Server/Tamework/Leveling/AHLevelNeutral.json",
+        "Server/Tamework/Talents/AHTalentNeutral.json",
+    ):
+        require(set(TAMED_IDS) <= role_ids(relative), f"missing tamed flyer membership in {relative}")
+    wild_and_tamed = set(SPECIES) | set(TAMED_IDS)
+    for relative in (
+        "Server/Tamework/Interactions/AHIntNeutral.json",
+        "Server/Tamework/Breeding/AHBreedNeutral.json",
+        "Server/Tamework/Traits/AHTraitNeutral.json",
+    ):
+        require(wild_and_tamed <= role_ids(relative), f"missing wild/tamed flyer membership in {relative}")
+    require(OMNIVORE_IDS <= role_ids("Server/Tamework/Needs/AHNeedsOmnivore.json"), "omnivore needs membership drift")
+    require(CARNIVORE_IDS <= role_ids("Server/Tamework/Needs/AHNeedsCarnivore.json"), "carnivore needs membership drift")
+    group_ids = members("Server/NPC/Groups/AH_Livestock_Tamed.json", "IncludeRoles")
+    require({f"{role_id}*" for role_id in TAMED_IDS} <= group_ids, "livestock group membership drift")
+    command_ids = members("Server/Tamework/Items/Commands/AHCommLivestock.json", "AllowedRoles", "Allowlist")
+    require(set(TAMED_IDS) <= command_ids, "livestock command membership drift")
+    lantern_ids = members("Server/Tamework/Items/Spawners/AHSpawnSoulLantern.json", "AllowedRoles", "Allowlist")
+    require(wild_and_tamed <= lantern_ids, "Soul Lantern membership drift")
+    food_overrides = load(ROOT / "Server/Tamework/Food/AHFoodNeutral.json")["RoleOverrides"]
+    for role_id in wild_and_tamed:
+        require(role_id in food_overrides, f"missing food override for {role_id}")
+
+
 AERIAL_SPECIES = (
     "Bluebird",
     "Sparrow",
@@ -728,6 +788,7 @@ SCOPES = {
     "tamed-shared": check_tamed_shared,
     "aerial-species": lambda: check_species(AERIAL_SPECIES),
     "fowl-raptor-species": lambda: check_species(("Pigeon", "Duck", "Archaeopteryx", "Hawk", "Pterodactyl", "Vulture")),
+    "configs": check_configs,
 }
 
 
