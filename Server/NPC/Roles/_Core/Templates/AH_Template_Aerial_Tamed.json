@@ -1,6 +1,7 @@
 {
   "Type": "Abstract",
   "StartState": "Idle",
+  "InitialMotionController": "Walk",
   "Parameters": {
     "Appearance": {
       "Value": "Deer_Stag",
@@ -746,6 +747,191 @@
   },
   "Instructions": [
     {
+      "$Comment": "Start every tamed aerial companion grounded until the owner explicitly toggles airborne mode.",
+      "Continue": true,
+      "Sensor": {
+        "Type": "Any",
+        "Once": true
+      },
+      "Actions": [
+        {
+          "Type": "SetFlag",
+          "Name": "AirborneMode",
+          "SetTo": false
+        },
+        {
+          "Type": "SetFlag",
+          "Name": "AerialGroundedActivity",
+          "SetTo": false
+        }
+      ]
+    },
+    {
+      "$Comment": "Mark Sleep as a grounded husbandry activity and hand landing to Tamework before sleep behavior runs.",
+      "Continue": true,
+      "Sensor": {
+        "Type": "State",
+        "State": "Sleep"
+      },
+      "Instructions": [
+        {
+          "Continue": true,
+          "Sensor": {
+            "Type": "Any",
+            "Once": true
+          },
+          "Actions": [
+            {
+              "Type": "SetFlag",
+              "Name": "AerialGroundedActivity",
+              "SetTo": true
+            },
+            {
+              "Type": "TameworkSetFlyingCompanionMode",
+              "Mode": "Hold",
+              "LandingState": "Sleep",
+              "GroundedState": "Sleep",
+              "DescendStep": 0.12,
+              "ReissueDelayMs": 50,
+              "GroundedStableTicks": 3,
+              "VerticalMovementEpsilon": 0.15
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$Comment": "Mark BreedPair as a grounded husbandry activity and land before pair movement runs.",
+      "Continue": true,
+      "Sensor": {
+        "Type": "State",
+        "State": "BreedPair"
+      },
+      "Instructions": [
+        {
+          "Continue": true,
+          "Sensor": {
+            "Type": "Any",
+            "Once": true
+          },
+          "Actions": [
+            {
+              "Type": "SetFlag",
+              "Name": "AerialGroundedActivity",
+              "SetTo": true
+            },
+            {
+              "Type": "TameworkSetFlyingCompanionMode",
+              "Mode": "Hold",
+              "LandingState": "BreedPair",
+              "GroundedState": "BreedPair",
+              "DescendStep": 0.12,
+              "ReissueDelayMs": 50,
+              "GroundedStableTicks": 3,
+              "VerticalMovementEpsilon": 0.15
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$Comment": "Keep needs-seek water grounded until the resource activity completes.",
+      "Continue": true,
+      "Sensor": {
+        "Type": "State",
+        "State": "NeedsSeekWater"
+      },
+      "Instructions": [
+        {
+          "Continue": true,
+          "Sensor": {
+            "Type": "Any",
+            "Once": true
+          },
+          "Actions": [
+            {
+              "Type": "SetFlag",
+              "Name": "AerialGroundedActivity",
+              "SetTo": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$Comment": "Keep needs-seek food grounded until the resource activity completes.",
+      "Continue": true,
+      "Sensor": {
+        "Type": "State",
+        "State": "NeedsSeekFood"
+      },
+      "Instructions": [
+        {
+          "Continue": true,
+          "Sensor": {
+            "Type": "Any",
+            "Once": true
+          },
+          "Actions": [
+            {
+              "Type": "SetFlag",
+              "Name": "AerialGroundedActivity",
+              "SetTo": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$Comment": "Release grounded activity ownership after needs, breeding, or sleep completes/wakes.",
+      "Continue": true,
+      "Sensor": {
+        "Type": "And",
+        "Sensors": [
+          {
+            "Type": "Flag",
+            "Name": "AerialGroundedActivity"
+          },
+          {
+            "Type": "Not",
+            "Sensor": {
+              "Type": "Or",
+              "Sensors": [
+                {
+                  "Type": "State",
+                  "State": "Sleep"
+                },
+                {
+                  "Type": "State",
+                  "State": "BreedPair"
+                },
+                {
+                  "Type": "State",
+                  "State": "NeedsSeekWater"
+                },
+                {
+                  "Type": "State",
+                  "State": "NeedsSeekFood"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "Actions": [
+        {
+          "Type": "SetFlag",
+          "Name": "AerialGroundedActivity",
+          "SetTo": false
+        }
+      ]
+    },
+    {
+      "$Comment": "Keep the tamed aerial mode transition global across every order.",
+      "Continue": true,
+      "Reference": "AH_Component_Tamework_Instruction_Aerial_Mode_Transition"
+    },
+    {
       "$Comment": "Bridge command-item move hooks into NPC movement.",
       "Enabled": {
         "Compute": "CanMoveToLocation || CanReturnHome"
@@ -1382,6 +1568,20 @@
               ]
             },
             {
+              "$Comment": "Neutralize stale landing state whenever Idle is entered.",
+              "Continue": true,
+              "Sensor": {
+                "Type": "Any",
+                "Once": true
+              },
+              "Actions": [
+                {
+                  "Type": "TameworkSetFlyingCompanionMode",
+                  "Mode": "Follow"
+                }
+              ]
+            },
+            {
               "$Comment": "Switch to flee state if any flock member engages a target TODO switch to attack if you are very close and can attack? otherwise flee.",
               "Enabled": {
                 "Compute": "!isEmptyStringArray(FlockArray)"
@@ -1608,8 +1808,22 @@
             },
             {
               "Sensor": {
-                "Type": "State",
-                "State": ".EatFromBlock"
+                "Type": "And",
+                "Sensors": [
+                  {
+                    "Type": "State",
+                    "State": ".EatFromBlock"
+                  },
+                  {
+                    "Type": "Flag",
+                    "Name": "AirborneMode",
+                    "Set": false
+                  },
+                  {
+                    "Type": "MotionController",
+                    "MotionController": "Walk"
+                  }
+                ]
               },
               "Instructions": [
                 {
@@ -1787,49 +2001,91 @@
                       ]
                     },
                     {
-                      "Reference": "Component_Instruction_Leash_To_Flock_Leader",
-                      "Modify": {
-                        "Enabled": {
-                          "Compute": "!isEmptyStringArray(FlockArray)"
-                        },
-                        "WanderRadius": {
-                          "Compute": "WanderRadius"
-                        },
-                        "RelativeSpeed": 0.3,
-                        "StopDistance": 3
-                      }
-                    },
-                    {
-                      "BodyMotion": {
-                        "Type": "Sequence",
-                        "Looped": true,
-                        "Motions": [
+                      "$Comment": "Grounded idle wander uses the existing leash-aware behavior.",
+                      "Sensor": {
+                        "Type": "And",
+                        "Sensors": [
                           {
-                            "Type": "Timer",
-                            "Time": [
-                              1,
-                              5
-                            ],
-                            "Motion": {
-                              "Type": "WanderInCircle",
-                              "Radius": {
-                                "Compute": "WanderRadius"
-                              },
-                              "MaxHeadingChange": 60,
-                              "RelativeSpeed": 0.18
-                            }
+                            "Type": "Flag",
+                            "Name": "AirborneMode",
+                            "Set": false
                           },
                           {
-                            "Type": "Timer",
-                            "Time": [
-                              3,
-                              8
-                            ],
-                            "Motion": {
-                              "Type": "Nothing"
-                            }
+                            "Type": "MotionController",
+                            "MotionController": "Walk"
                           }
                         ]
+                      },
+                      "Instructions": [
+                        {
+                          "Reference": "Component_Instruction_Leash_To_Flock_Leader",
+                          "Modify": {
+                            "Enabled": {
+                              "Compute": "!isEmptyStringArray(FlockArray)"
+                            },
+                            "WanderRadius": {
+                              "Compute": "WanderRadius"
+                            },
+                            "RelativeSpeed": 0.3,
+                            "StopDistance": 3
+                          }
+                        },
+                        {
+                          "BodyMotion": {
+                            "Type": "Sequence",
+                            "Looped": true,
+                            "Motions": [
+                              {
+                                "Type": "Timer",
+                                "Time": [
+                                  1,
+                                  5
+                                ],
+                                "Motion": {
+                                  "Type": "WanderInCircle",
+                                  "Radius": {
+                                    "Compute": "WanderRadius"
+                                  },
+                                  "MaxHeadingChange": 60,
+                                  "RelativeSpeed": 0.18
+                                }
+                              },
+                              {
+                                "Type": "Timer",
+                                "Time": [
+                                  3,
+                                  8
+                                ],
+                                "Motion": {
+                                  "Type": "Nothing"
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "$Comment": "Airborne idle wander keeps the selected Fly controller active.",
+                      "Sensor": {
+                        "Type": "And",
+                        "Sensors": [
+                          {
+                            "Type": "Flag",
+                            "Name": "AirborneMode"
+                          },
+                          {
+                            "Type": "MotionController",
+                            "MotionController": "Fly"
+                          }
+                        ]
+                      },
+                      "BodyMotion": {
+                        "Type": "WanderInCircle",
+                        "Radius": {
+                          "Compute": "WanderRadius"
+                        },
+                        "RelativeSpeed": 0.3
                       }
                     }
                   ]
@@ -1840,13 +2096,27 @@
                   "Instructions": [
                     {
                       "Sensor": {
-                        "Type": "Self",
-                        "Filters": [
+                        "Type": "And",
+                        "Sensors": [
                           {
-                            "Type": "StandingOnBlock",
-                            "BlockSet": {
-                              "Compute": "GrazingBlockSet"
-                            }
+                            "Type": "Flag",
+                            "Name": "AirborneMode",
+                            "Set": false
+                          },
+                          {
+                            "Type": "MotionController",
+                            "MotionController": "Walk"
+                          },
+                          {
+                            "Type": "Self",
+                            "Filters": [
+                              {
+                                "Type": "StandingOnBlock",
+                                "BlockSet": {
+                                  "Compute": "GrazingBlockSet"
+                                }
+                              }
+                            ]
                           }
                         ]
                       },
@@ -1897,6 +2167,15 @@
                       "Sensor": {
                         "Type": "And",
                         "Sensors": [
+                          {
+                            "Type": "Flag",
+                            "Name": "AirborneMode",
+                            "Set": false
+                          },
+                          {
+                            "Type": "MotionController",
+                            "MotionController": "Walk"
+                          },
                           {
                             "Type": "Alarm",
                             "Name": "Eat_Ready",
@@ -2177,39 +2456,92 @@
           },
           "Sensor": {
             "Type": "State",
-          "State": "Follow"
-        },
-        "Instructions": [
-          {
-            "Continue": true,
-            "Sensor": {
-              "Type": "Any",
-              "Once": true
-            },
-            "Actions": [
-              {
-                "Type": "TameworkSetFlyingCompanionMode",
-                "Mode": "Follow"
-              }
-            ]
+            "State": "Follow"
           },
-          {
-            "Reference": "AH_Component_Tamework_Instruction_Follow_Flying",
-            "Modify": {
-              "MasterTargetSlot": "MasterTarget",
-              "FollowDesiredAltitudeRange": [
-                6,
-                10
-              ],
-              "FollowTeleportThresholdRange": 32,
-              "FollowSeekSlowDownDistance": 10,
-              "FollowSeekStopDistance": 6,
-              "FollowSeekRelativeSpeed": 0.9,
-              "FollowHoverRadius": 1.75,
-              "FollowHoverRelativeSpeed": 0.12
+          "Instructions": [
+            {
+              "$Comment": "Clear stale landing state whenever command follow is entered.",
+              "Continue": true,
+              "Sensor": {
+                "Type": "Any",
+                "Once": true
+              },
+              "Actions": [
+                {
+                  "Type": "TameworkSetFlyingCompanionMode",
+                  "Mode": "Follow"
+                }
+              ]
+            },
+            {
+              "$Comment": "Grounded follow uses the advanced land-follow behavior.",
+              "Sensor": {
+                "Type": "And",
+                "Sensors": [
+                  {
+                    "Type": "Flag",
+                    "Name": "AirborneMode",
+                    "Set": false
+                  },
+                  {
+                    "Type": "MotionController",
+                    "MotionController": "Walk"
+                  }
+                ]
+              },
+              "Instructions": [
+                {
+                  "Reference": "Component_Tamework_Instruction_Follow_Advanced",
+                  "Modify": {
+                    "MasterTargetSlot": "MasterTarget",
+                    "FollowDefaultSpotRange": 10,
+                    "FollowLockOnRange": 20,
+                    "FollowSeekSlowDownDistance": 8,
+                    "FollowSeekStopDistance": 6,
+                    "FollowScanRange": 16,
+                    "FollowMaintainDistanceRange": [
+                      5,
+                      9
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "$Comment": "Airborne follow uses the dedicated flying follow behavior.",
+              "Sensor": {
+                "Type": "And",
+                "Sensors": [
+                  {
+                    "Type": "Flag",
+                    "Name": "AirborneMode"
+                  },
+                  {
+                    "Type": "MotionController",
+                    "MotionController": "Fly"
+                  }
+                ]
+              },
+              "Instructions": [
+                {
+                  "Reference": "AH_Component_Tamework_Instruction_Follow_Flying",
+                  "Modify": {
+                    "MasterTargetSlot": "MasterTarget",
+                    "FollowDesiredAltitudeRange": [
+                      6,
+                      10
+                    ],
+                    "FollowTeleportThresholdRange": 32,
+                    "FollowSeekSlowDownDistance": 10,
+                    "FollowSeekStopDistance": 6,
+                    "FollowSeekRelativeSpeed": 0.9,
+                    "FollowHoverRadius": 1.75,
+                    "FollowHoverRelativeSpeed": 0.12
+                  }
+                }
+              ]
             }
-          }
-        ]
+          ]
         },
         {
           "$Comment": "Command hold state used by Tamework mode cycle.",
@@ -2219,11 +2551,11 @@
           "Sensor": {
             "Type": "State",
             "State": "Hold"
-        },
-        "Instructions": [
-          {
-            "$Comment": "Refresh the base leash point when command hold settles the NPC in place.",
-            "Continue": true,
+          },
+          "Instructions": [
+            {
+              "$Comment": "Refresh the base leash point when command hold settles the NPC in place.",
+              "Continue": true,
               "Sensor": {
                 "Type": "Any",
                 "Once": true
@@ -2232,31 +2564,64 @@
                 {
                   "Type": "SetLeashPosition",
                   "ToCurrent": true
-              }
-            ]
-          },
-          {
-            "Continue": true,
-            "Sensor": {
-              "Type": "Any",
-              "Once": true
+                }
+              ]
             },
-            "Actions": [
-              {
-                "Type": "TameworkSetFlyingCompanionMode",
-                "Mode": "Hold",
-                "LandingState": "Hold",
-                "GroundedState": "HoldGrounded",
-                "DescendStep": 0.12,
-                "ReissueDelayMs": 50,
-                "GroundedStableTicks": 3,
-                "VerticalMovementEpsilon": 0.15,
-                "LandingTargetSlot": "MasterTarget"
+            {
+              "$Comment": "Airborne hold neutralizes stale landing state and hovers in place.",
+              "Sensor": {
+                "Type": "And",
+                "Sensors": [
+                  {
+                    "Type": "Flag",
+                    "Name": "AirborneMode"
+                  },
+                  {
+                    "Type": "MotionController",
+                    "MotionController": "Fly"
+                  }
+                ]
+              },
+              "Instructions": [
+                {
+                  "Continue": true,
+                  "Sensor": {
+                    "Type": "Any",
+                    "Once": true
+                  },
+                  "Actions": [
+                    {
+                      "Type": "TameworkSetFlyingCompanionMode",
+                      "Mode": "Follow"
+                    }
+                  ]
+                },
+                {
+                  "BodyMotion": {
+                    "Type": "Nothing"
+                  }
+                }
+              ]
+            },
+            {
+              "$Comment": "Grounded hold remains stationary without the landing-oriented flying-hold component.",
+              "Sensor": {
+                "Type": "And",
+                "Sensors": [
+                  {
+                    "Type": "Flag",
+                    "Name": "AirborneMode",
+                    "Set": false
+                  },
+                  {
+                    "Type": "MotionController",
+                    "MotionController": "Walk"
+                  }
+                ]
+              },
+              "BodyMotion": {
+                "Type": "Nothing"
               }
-            ]
-          },
-          {
-            "Reference": "AH_Component_Tamework_Instruction_Hold_Flying"
             }
           ]
         },
