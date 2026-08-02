@@ -13,7 +13,7 @@
     "IsTameable": {
       "Compute": "IsTameable"
     },
-    "MaxHealth": 30,
+    "MaxHealth": 61,
     "MemoriesCategory": "Avian",
     "NameTranslationKey": {
       "Compute": "NameTranslationKey"
@@ -21,7 +21,7 @@
     "TameRoleChange": {
       "Compute": "TameRoleChange"
     },
-    "WanderRadius": 61
+    "WanderRadius": 30
   },
   "Parameters": {
     "IsTameable": {

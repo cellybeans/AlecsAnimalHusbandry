@@ -1,44 +1,44 @@
 {
-  "Type": "Variant",
-  "Reference": "AH_Template_Aerial_Tamed",
   "Modify": {
     "Appearance": "Parrot",
-    "FlockArray": [
-      "Tamed_Parrot"
-    ],
-    "DropList": "Drop_Parrot",
-    "MaxHealth": 12,
-    "WanderRadius": 29,
-    "IsMemory": false,
-    "MemoriesCategory": "Avian",
-    "NameTranslationKey": {
-      "Compute": "NameTranslationKey"
-    },
+    "AttitudeGroup": "AH_Livestock_Tamed",
     "AttractiveItemSet": [
       "Plant_Fruit_Apple"
     ],
     "AttractiveItemSetParticles": "Want_Food_Apple",
+    "CanAttackTarget": false,
+    "CanBreedPair": true,
+    "CanDefend": false,
+    "CanFollow": true,
+    "CanHold": true,
+    "CanMoveToLocation": true,
+    "CanRecall": true,
+    "CanReturnHome": true,
+    "CanSetHome": true,
+    "DropList": "Drop_Parrot",
+    "FlockArray": [
+      "Tamed_Parrot"
+    ],
     "FoodFavorite": [
       "Plant_Fruit_Apple"
     ],
     "FoodGeneric": [
       "Tw_Feed_Herbivore"
     ],
-    "AttitudeGroup": "AH_Livestock_Tamed",
-    "CanFollow": true,
-    "CanHold": true,
-    "CanDefend": false,
-    "CanAttackTarget": false,
-    "CanMoveToLocation": true,
-    "CanReturnHome": true,
-    "CanRecall": true,
-    "CanSetHome": true,
-    "CanBreedPair": true
+    "IsMemory": false,
+    "MaxHealth": 29,
+    "MemoriesCategory": "Avian",
+    "NameTranslationKey": {
+      "Compute": "NameTranslationKey"
+    },
+    "WanderRadius": 12
   },
   "Parameters": {
     "NameTranslationKey": {
-      "Value": "server.npcRoles.Parrot.name",
-      "Description": "Translation key for NPC name display"
+      "Description": "Translation key for NPC name display",
+      "Value": "server.npcRoles.Parrot.name"
     }
-  }
+  },
+  "Reference": "AH_Template_Aerial_Tamed",
+  "Type": "Variant"
 }

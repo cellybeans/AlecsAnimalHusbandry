@@ -1,43 +1,43 @@
 {
-  "Type": "Variant",
-  "Reference": "AH_Template_Aerial_Neutral",
   "Modify": {
     "Appearance": "Owl_Brown",
-    "FlockArray": [
-      "Owl_Brown"
-    ],
-    "DropList": "Drop_Owl_Brown",
-    "MaxHealth": 12,
-    "WanderRadius": 29,
-    "IsMemory": true,
-    "MemoriesCategory": "Avian",
-    "NameTranslationKey": {
-      "Compute": "NameTranslationKey"
-    },
     "AttractiveItemSet": [
       "Food_Wildmeat_Raw"
     ],
     "AttractiveItemSetParticles": "",
+    "DropList": "Drop_Owl_Brown",
+    "FlockArray": [
+      "Owl_Brown"
+    ],
+    "IsMemory": true,
     "IsTameable": {
       "Compute": "IsTameable"
+    },
+    "MaxHealth": 29,
+    "MemoriesCategory": "Avian",
+    "MemoriesNameOverride": "Owl_Brown",
+    "NameTranslationKey": {
+      "Compute": "NameTranslationKey"
     },
     "TameRoleChange": {
       "Compute": "TameRoleChange"
     },
-    "MemoriesNameOverride": "Owl_Brown"
+    "WanderRadius": 12
   },
   "Parameters": {
-    "NameTranslationKey": {
-      "Value": "server.npcRoles.Owl_Brown.name",
-      "Description": "Translation key for NPC name display"
-    },
     "IsTameable": {
-      "Value": true,
-      "Description": "Whether this NPC can be tamed."
+      "Description": "Whether this NPC can be tamed.",
+      "Value": true
+    },
+    "NameTranslationKey": {
+      "Description": "Translation key for NPC name display",
+      "Value": "server.npcRoles.Owl_Brown.name"
     },
     "TameRoleChange": {
-      "Value": "Tamed_Owl_Brown",
-      "Description": "The role the NPC will change into when it's tamed."
+      "Description": "The role the NPC will change into when it's tamed.",
+      "Value": "Tamed_Owl_Brown"
     }
-  }
+  },
+  "Reference": "AH_Template_Aerial_Neutral",
+  "Type": "Variant"
 }

@@ -1,42 +1,42 @@
 {
-  "Type": "Variant",
-  "Reference": "AH_Template_Aerial_Neutral",
   "Modify": {
     "Appearance": "Raven",
-    "FlockArray": [
-      "Raven"
-    ],
-    "DropList": "Drop_Raven",
-    "MaxHealth": 15,
-    "WanderRadius": 49,
-    "IsMemory": true,
-    "MemoriesCategory": "Avian",
-    "NameTranslationKey": {
-      "Compute": "NameTranslationKey"
-    },
     "AttractiveItemSet": [
       "Plant_Crop_Corn_Item"
     ],
     "AttractiveItemSetParticles": "Want_Food_Corn",
+    "DropList": "Drop_Raven",
+    "FlockArray": [
+      "Raven"
+    ],
+    "IsMemory": true,
     "IsTameable": {
       "Compute": "IsTameable"
     },
+    "MaxHealth": 49,
+    "MemoriesCategory": "Avian",
+    "NameTranslationKey": {
+      "Compute": "NameTranslationKey"
+    },
     "TameRoleChange": {
       "Compute": "TameRoleChange"
-    }
+    },
+    "WanderRadius": 15
   },
   "Parameters": {
-    "NameTranslationKey": {
-      "Value": "server.npcRoles.Raven.name",
-      "Description": "Translation key for NPC name display"
-    },
     "IsTameable": {
-      "Value": true,
-      "Description": "Whether this NPC can be tamed."
+      "Description": "Whether this NPC can be tamed.",
+      "Value": true
+    },
+    "NameTranslationKey": {
+      "Description": "Translation key for NPC name display",
+      "Value": "server.npcRoles.Raven.name"
     },
     "TameRoleChange": {
-      "Value": "Tamed_Raven",
-      "Description": "The role the NPC will change into when it's tamed."
+      "Description": "The role the NPC will change into when it's tamed.",
+      "Value": "Tamed_Raven"
     }
-  }
+  },
+  "Reference": "AH_Template_Aerial_Neutral",
+  "Type": "Variant"
 }

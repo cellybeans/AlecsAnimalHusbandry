@@ -620,7 +620,8 @@ def check_tamed_shared() -> None:
 
 def check_species(names: tuple[str, ...]) -> None:
     for name in names:
-        directory, drop, health, radius, memories_override, favorite, particles, generic = SPECIES[name]
+        # Vanilla's source tuple stores the numeric fields as (WanderRadius, MaxHealth).
+        directory, drop, radius, health, memories_override, favorite, particles, generic = SPECIES[name]
         wild_path = ROOT / "Server/NPC/Roles" / directory / f"{name}.json"
         tamed_path = ROOT / "Server/NPC/Roles" / directory / "Tamed" / f"Tamed_{name}.json"
         require(wild_path.exists(), f"missing {wild_path.relative_to(ROOT)}")

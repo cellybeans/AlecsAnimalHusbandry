@@ -26,12 +26,12 @@
       "Tw_Feed_Carnivore"
     ],
     "IsMemory": false,
-    "MaxHealth": 15,
+    "MaxHealth": 38,
     "MemoriesCategory": "Avian",
     "NameTranslationKey": {
       "Compute": "NameTranslationKey"
     },
-    "WanderRadius": 38
+    "WanderRadius": 15
   },
   "Parameters": {
     "NameTranslationKey": {

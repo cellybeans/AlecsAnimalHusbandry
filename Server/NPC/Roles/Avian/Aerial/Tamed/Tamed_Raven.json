@@ -1,23 +1,24 @@
 {
-  "Type": "Variant",
-  "Reference": "AH_Template_Aerial_Tamed",
   "Modify": {
     "Appearance": "Raven",
-    "FlockArray": [
-      "Tamed_Raven"
-    ],
-    "DropList": "Drop_Raven",
-    "MaxHealth": 15,
-    "WanderRadius": 49,
-    "IsMemory": false,
-    "MemoriesCategory": "Avian",
-    "NameTranslationKey": {
-      "Compute": "NameTranslationKey"
-    },
+    "AttitudeGroup": "AH_Livestock_Tamed",
     "AttractiveItemSet": [
       "Plant_Crop_Corn_Item"
     ],
     "AttractiveItemSetParticles": "Want_Food_Corn",
+    "CanAttackTarget": false,
+    "CanBreedPair": true,
+    "CanDefend": false,
+    "CanFollow": true,
+    "CanHold": true,
+    "CanMoveToLocation": true,
+    "CanRecall": true,
+    "CanReturnHome": true,
+    "CanSetHome": true,
+    "DropList": "Drop_Raven",
+    "FlockArray": [
+      "Tamed_Raven"
+    ],
     "FoodFavorite": [
       "Plant_Crop_Corn_Item"
     ],
@@ -25,21 +26,20 @@
       "Tw_Feed_Herbivore",
       "Tw_Feed_Carnivore"
     ],
-    "AttitudeGroup": "AH_Livestock_Tamed",
-    "CanFollow": true,
-    "CanHold": true,
-    "CanDefend": false,
-    "CanAttackTarget": false,
-    "CanMoveToLocation": true,
-    "CanReturnHome": true,
-    "CanRecall": true,
-    "CanSetHome": true,
-    "CanBreedPair": true
+    "IsMemory": false,
+    "MaxHealth": 49,
+    "MemoriesCategory": "Avian",
+    "NameTranslationKey": {
+      "Compute": "NameTranslationKey"
+    },
+    "WanderRadius": 15
   },
   "Parameters": {
     "NameTranslationKey": {
-      "Value": "server.npcRoles.Raven.name",
-      "Description": "Translation key for NPC name display"
+      "Description": "Translation key for NPC name display",
+      "Value": "server.npcRoles.Raven.name"
     }
-  }
+  },
+  "Reference": "AH_Template_Aerial_Tamed",
+  "Type": "Variant"
 }
