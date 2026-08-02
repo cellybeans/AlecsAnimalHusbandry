@@ -1,0 +1,44 @@
+{
+  "Modify": {
+    "Appearance": "Pigeon",
+    "AttitudeGroup": "AH_Livestock_Tamed",
+    "AttractiveItemSet": [
+      "Plant_Crop_Corn_Item"
+    ],
+    "AttractiveItemSetParticles": "Want_Food_Corn",
+    "CanAttackTarget": false,
+    "CanBreedPair": true,
+    "CanDefend": false,
+    "CanFollow": true,
+    "CanHold": true,
+    "CanMoveToLocation": true,
+    "CanRecall": true,
+    "CanReturnHome": true,
+    "CanSetHome": true,
+    "DropList": "Drop_Pigeon",
+    "FlockArray": [
+      "Tamed_Pigeon"
+    ],
+    "FoodFavorite": [
+      "Plant_Crop_Corn_Item"
+    ],
+    "FoodGeneric": [
+      "Tw_Feed_Herbivore"
+    ],
+    "IsMemory": false,
+    "MaxHealth": 15,
+    "MemoriesCategory": "Avian",
+    "NameTranslationKey": {
+      "Compute": "NameTranslationKey"
+    },
+    "WanderRadius": 20
+  },
+  "Parameters": {
+    "NameTranslationKey": {
+      "Description": "Translation key for NPC name display",
+      "Value": "server.npcRoles.Pigeon.name"
+    }
+  },
+  "Reference": "AH_Template_Aerial_Tamed",
+  "Type": "Variant"
+}

@@ -1,0 +1,44 @@
+{
+  "Modify": {
+    "Appearance": "Vulture",
+    "AttitudeGroup": "AH_Livestock_Tamed",
+    "AttractiveItemSet": [
+      "Food_Wildmeat_Raw"
+    ],
+    "AttractiveItemSetParticles": "",
+    "CanAttackTarget": false,
+    "CanBreedPair": true,
+    "CanDefend": false,
+    "CanFollow": true,
+    "CanHold": true,
+    "CanMoveToLocation": true,
+    "CanRecall": true,
+    "CanReturnHome": true,
+    "CanSetHome": true,
+    "DropList": "Drop_Vulture",
+    "FlockArray": [
+      "Tamed_Vulture"
+    ],
+    "FoodFavorite": [
+      "Food_Wildmeat_Raw"
+    ],
+    "FoodGeneric": [
+      "Tw_Feed_Carnivore"
+    ],
+    "IsMemory": false,
+    "MaxHealth": 30,
+    "MemoriesCategory": "Avian",
+    "NameTranslationKey": {
+      "Compute": "NameTranslationKey"
+    },
+    "WanderRadius": 61
+  },
+  "Parameters": {
+    "NameTranslationKey": {
+      "Description": "Translation key for NPC name display",
+      "Value": "server.npcRoles.Vulture.name"
+    }
+  },
+  "Reference": "AH_Template_Aerial_Tamed",
+  "Type": "Variant"
+}

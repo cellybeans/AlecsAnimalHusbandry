@@ -26,6 +26,15 @@ SPECIES = {
     "Bat_Ice": ("Avian/Aerial", "Drop_Bat_Ice", 15, 25, None, "Plant_Fruit_Apple", "Want_Food_Apple", ("Tw_Feed_Herbivore",)),
 }
 
+SPECIES.update({
+    "Pigeon": ("Avian/Fowl", "Drop_Pigeon", 15, 20, None, "Plant_Crop_Corn_Item", "Want_Food_Corn", ("Tw_Feed_Herbivore",)),
+    "Duck": ("Avian/Fowl", "Drop_Duck", 15, 25, "Duck", "Plant_Crop_Corn_Item", "Want_Food_Corn", ("Tw_Feed_Herbivore", "Tw_Feed_Carnivore")),
+    "Archaeopteryx": ("Avian/Raptor", "Drop_Archaeopteryx", 15, 61, None, "Food_Wildmeat_Raw", "", ("Tw_Feed_Carnivore",)),
+    "Hawk": ("Avian/Raptor", "Drop_Hawk", 15, 38, None, "Food_Wildmeat_Raw", "", ("Tw_Feed_Carnivore",)),
+    "Pterodactyl": ("Avian/Raptor", "Drop_Pterodactyl", 25, 60, None, "Food_Wildmeat_Raw", "", ("Tw_Feed_Carnivore",)),
+    "Vulture": ("Avian/Raptor", "Drop_Vulture", 30, 61, None, "Food_Wildmeat_Raw", "", ("Tw_Feed_Carnivore",)),
+})
+
 
 def load(path: Path) -> dict:
     with path.open(encoding="utf-8-sig") as handle:
@@ -700,11 +709,24 @@ def check_species(names: tuple[str, ...]) -> None:
         )
 
 
-AERIAL_SPECIES = tuple(SPECIES)
+AERIAL_SPECIES = (
+    "Bluebird",
+    "Sparrow",
+    "Parrot",
+    "Raven",
+    "Crow",
+    "Finch_Green",
+    "Woodpecker",
+    "Owl_Brown",
+    "Owl_Snow",
+    "Bat",
+    "Bat_Ice",
+)
 SCOPES = {
     "wild-shared": check_wild_shared,
     "tamed-shared": check_tamed_shared,
     "aerial-species": lambda: check_species(AERIAL_SPECIES),
+    "fowl-raptor-species": lambda: check_species(("Pigeon", "Duck", "Archaeopteryx", "Hawk", "Pterodactyl", "Vulture")),
 }
 
 
