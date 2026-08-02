@@ -76,6 +76,51 @@
         }
       },
       {
+        "$Comment": "If the item is lost before takeoff, release the target and restore vanilla idle.",
+        "Sensor": {
+          "Type": "And",
+          "Sensors": [
+            {
+              "Type": "State",
+              "State": "FollowItem"
+            },
+            {
+              "Type": "MotionController",
+              "MotionController": "Walk"
+            },
+            {
+              "Type": "Not",
+              "Sensor": {
+                "Type": "Target",
+                "TargetSlot": {
+                  "Compute": "InteractionTargetSlot"
+                },
+                "Filters": [
+                  {
+                    "Type": "ItemInHand",
+                    "Items": {
+                      "Compute": "AttractiveItemSet"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "Actions": [
+          {
+            "Type": "ReleaseTarget",
+            "TargetSlot": {
+              "Compute": "InteractionTargetSlot"
+            }
+          },
+          {
+            "Type": "State",
+            "State": "Idle"
+          }
+        ]
+      },
+      {
         "$Comment": "Fly toward a favorite-item target while outside the landing approach radius.",
         "Continue": true,
         "Sensor": {

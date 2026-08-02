@@ -26,6 +26,39 @@ def require(condition: bool, message: str) -> None:
         raise AssertionError(message)
 
 
+def has_item_target_loss_sensor(sensor: dict) -> bool:
+    if sensor.get("Type") != "Not":
+        return False
+    target = sensor.get("Sensor", {})
+    return target.get("Type") == "Target" and any(
+        filter_entry.get("Type") == "ItemInHand"
+        for filter_entry in target.get("Filters", [])
+    )
+
+
+def has_target_loss_branch(instructions: list[dict], state: str, controller: str, action_types: list[str]) -> bool:
+    for instruction in instructions:
+        sensors = instruction.get("Sensor", {}).get("Sensors", [])
+        if not any(sensor.get("Type") == "State" and sensor.get("State") == state for sensor in sensors):
+            continue
+        if not any(
+            sensor.get("Type") == "MotionController" and sensor.get("MotionController") == controller
+            for sensor in sensors
+        ):
+            continue
+        if not any(has_item_target_loss_sensor(sensor) for sensor in sensors):
+            continue
+        actions = instruction.get("Actions", [])
+        if [action.get("Type") for action in actions] != action_types:
+            continue
+        if not actions or actions[0].get("TargetSlot", {}).get("Compute") != "InteractionTargetSlot":
+            continue
+        if actions[-1].get("Type") != "State" or actions[-1].get("State") != "Idle":
+            continue
+        return True
+    return False
+
+
 def check_wild_shared() -> None:
     require(WILD_COMPONENT.exists(), f"missing {WILD_COMPONENT.relative_to(ROOT)}")
     component = load(WILD_COMPONENT)
@@ -41,6 +74,22 @@ def check_wild_shared() -> None:
             for action in instruction.get("Actions", [])
         ),
         "wild component has no State action targeting FollowItemGrounded",
+    )
+    require(
+        has_target_loss_branch(instructions, "FollowItem", "Walk", ["ReleaseTarget", "State"]),
+        "wild component has no FollowItem + Walk target-loss ReleaseTarget/Idle branch",
+    )
+    require(
+        has_target_loss_branch(instructions, "FollowItem", "Fly", ["ReleaseTarget", "State"]),
+        "wild component has no FollowItem + Fly target-loss ReleaseTarget/Idle branch",
+    )
+    require(
+        has_target_loss_branch(instructions, "FollowItemLanding", "Walk", ["ReleaseTarget", "TakeOff", "State"]),
+        "wild component has no FollowItemLanding + Walk target-loss release/takeoff/Idle branch",
+    )
+    require(
+        has_target_loss_branch(instructions, "FollowItemGrounded", "Walk", ["ReleaseTarget", "TakeOff", "State"]),
+        "wild component has no FollowItemGrounded + Walk target-loss release/takeoff/Idle branch",
     )
     template_text = text(WILD_TEMPLATE)
     require("AH_Component_Tamework_Instruction_Aerial_Follow_Item" in template_text, "wild template does not consume attraction component")
