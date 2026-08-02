@@ -1,0 +1,53 @@
+{
+  "Type": "Serial",
+  "$Comment": "Player-safe mounted Frost Dragon bolt with an ice charge and look-targeted launch.",
+  "Interactions": [
+    {
+      "Type": "Simple",
+      "Effects": {
+        "ItemPlayerAnimationsId": "AH_Dragon_Frost_Default",
+        "ItemAnimationId": "FrostBoltMoving",
+        "Particles": [
+          {
+            "TargetEntityPart": "Entity",
+            "TargetNodeName": "Head",
+            "SystemId": "AH_Dragon_Frost_Frost_Bolt_Charging",
+            "DetachedFromModel": false,
+            "PositionOffset": {
+              "Y": 0,
+              "Z": -1.5
+            },
+            "Scale": 0.6
+          }
+        ]
+      },
+      "RunTime": 0.35
+    },
+    {
+      "Type": "TameworkLaunchProjectile",
+      "RunTime": 0,
+      "ProjectileId": "AH_Dragon_Frost_Frost_Bolt",
+      "LaunchPositionOffset": {
+        "X": 0,
+        "Y": 0.5,
+        "Z": -2.5
+      },
+      "TrajectoryMode": "Direct",
+      "LookTargetDistance": 48,
+      "ImpactEffect": {
+        "EffectId": "AH_Dragon_Frost_Chilled",
+        "Radius": 3,
+        "ExcludeSource": true
+      },
+      "Effects": {
+        "WorldSoundEventId": "SFX_Staff_Ice_Shoot",
+        "LocalSoundEventId": "SFX_Staff_Ice_Shoot"
+      },
+      "Tags": {}
+    },
+    {
+      "Type": "Simple",
+      "RunTime": 0.35
+    }
+  ]
+}

@@ -13,6 +13,11 @@
       "Weight": 5,
       "SpawnBlockSet": "Soil",
       "Id": "Fox_Arctic"
+    },
+    {
+      "Weight": 1,
+      "SpawnBlockSet": "Soil",
+      "Id": "Dragon_Frost"
     }
   ],
   "DayTimeRange": [

@@ -63,6 +63,10 @@
       "Value": 8,
       "Description": "Maximum walking speed."
     },
+    "FlightSpeed": {
+      "Value": 12,
+      "Description": "Maximum horizontal speed while airborne."
+    },
     "RunThreshold": {
       "Value": 0.55,
       "Description": "At what ratio NPC switches to run animation e.g MaxSpeed is 10, at RunThreshold 0.55 NPC will run at speed 5.5."
@@ -520,6 +524,10 @@
       "Value": false,
       "Description": "Whether Defend state behavior is enabled for this role."
     },
+    "UseFrostDragonTamedCombat": {
+      "Value": false,
+      "Description": "Whether Defend hands a valid LockedTarget to the Frost Dragon combat component."
+    },
     "CanAggressive": {
       "Value": false,
       "Description": "Whether Defend state behavior is enabled for this role."
@@ -646,7 +654,24 @@
   "KnockbackScale": {
     "Compute": "KnockbackScale"
   },
+  "InitialMotionController": "Walk",
   "MotionControllerList": [
+    {
+      "Type": "Fly",
+      "MaxHorizontalSpeed": {
+        "Compute": "FlightSpeed"
+      },
+      "MaxSinkSpeed": 8,
+      "MaxClimbSpeed": 10,
+      "MinAirSpeed": 0,
+      "Acceleration": 6,
+      "MinHeightOverGround": 8,
+      "MaxHeightOverGround": 25,
+      "MaxRollAngle": 70,
+      "MaxTurnSpeed": 180,
+      "DesiredAltitudeWeight": 0.8,
+      "AutoLevel": true
+    },
     {
       "Type": "Walk",
       "MaxWalkSpeed": {
@@ -1060,6 +1085,11 @@
       ]
     },
     {
+      "$Comment": "Keep the Frost Dragon airborne-mode controller transition global across every order.",
+      "Continue": true,
+      "Reference": "Component_AH_Instruction_Dragon_Frost_Airborne_Mode_Transition"
+    },
+    {
       "$Comment": "",
       "Instructions": [
         {
@@ -1213,6 +1243,15 @@
           },
           "Instructions": [
             {
+              "Sensor": {
+                "Type": "And",
+                "Sensors": [
+                  { "Type": "Flag", "Name": "AirborneMode", "Set": false },
+                  { "Type": "MotionController", "MotionController": "Walk" }
+                ]
+              },
+              "Instructions": [
+            {
               "$Comment": "Keep flock followers near their leader before regular idle wander.",
               "Reference": "Component_Tamework_Instruction_Flock_Follow_Wander",
               "Modify": {
@@ -1298,6 +1337,22 @@
                 }
               }
             }
+              ]
+            },
+            {
+              "Sensor": {
+                "Type": "And",
+                "Sensors": [
+                  { "Type": "Flag", "Name": "AirborneMode" },
+                  { "Type": "MotionController", "MotionController": "Fly" }
+                ]
+              },
+              "BodyMotion": {
+                "Type": "WanderInCircle",
+                "Radius": { "Compute": "WanderRadius + 2" },
+                "RelativeSpeed": 0.3
+              }
+            }
           ]
         },
         {
@@ -1322,6 +1377,15 @@
           },
           "Instructions": [
             {
+              "Sensor": {
+                "Type": "And",
+                "Sensors": [
+                  { "Type": "Flag", "Name": "AirborneMode", "Set": false },
+                  { "Type": "MotionController", "MotionController": "Walk" }
+                ]
+              },
+              "Instructions": [
+                {
               "Reference": "Component_Tamework_Instruction_Follow_Advanced",
               "Modify": {
                 "MasterTargetSlot": "MasterTarget",
@@ -1335,6 +1399,32 @@
                   9
                 ]
               }
+                }
+              ]
+            },
+            {
+              "Sensor": {
+                "Type": "And",
+                "Sensors": [
+                  { "Type": "Flag", "Name": "AirborneMode" },
+                  { "Type": "MotionController", "MotionController": "Fly" }
+                ]
+              },
+              "Instructions": [
+                {
+                  "Reference": "Component_Tamework_Instruction_Follow_Flying",
+                  "Modify": {
+                    "MasterTargetSlot": "MasterTarget",
+                    "FollowDesiredAltitudeRange": [4, 8],
+                    "FollowTeleportThresholdRange": 32,
+                    "FollowSeekSlowDownDistance": 10,
+                    "FollowSeekStopDistance": 6,
+                    "FollowSeekRelativeSpeed": 0.9,
+                    "FollowHoverRadius": 1.75,
+                    "FollowHoverRelativeSpeed": 0.12
+                  }
+                }
+              ]
             }
           ]
         },
@@ -1346,6 +1436,35 @@
           },
           "Instructions": [
             {
+              "Enabled": { "Compute": "UseFrostDragonTamedCombat" },
+              "Sensor": {
+                "Type": "Target",
+                "TargetSlot": "LockedTarget"
+              },
+              "Instructions": [
+                {
+                  "Reference": "Component_AH_Instruction_Dragon_Frost_Tamed_Combat",
+                  "Modify": {
+                    "HardLeashDistance": { "Compute": "HardLeashDistance" },
+                    "AlertedRange": { "Compute": "AlertedRange" },
+                    "ViewRange": { "Compute": "ViewRange" },
+                    "ViewSector": { "Compute": "ViewSector" },
+                    "HearingRange": { "Compute": "HearingRange" },
+                    "AbsoluteDetectionRange": { "Compute": "AbsoluteDetectionRange" }
+                  }
+                }
+              ]
+            },
+            {
+              "Sensor": {
+                "Type": "And",
+                "Sensors": [
+                  { "Type": "Flag", "Name": "AirborneMode", "Set": false },
+                  { "Type": "MotionController", "MotionController": "Walk" }
+                ]
+              },
+              "Instructions": [
+                {
               "Reference": "Component_Tamework_Instruction_Defend",
               "Modify": {
                 "HardLeashDistance": {
@@ -1427,6 +1546,51 @@
                   "Compute": "AdditionalCombatBehaviorMacroElement"
                 }
               }
+                }
+              ]
+            },
+            {
+              "Sensor": {
+                "Type": "And",
+                "Sensors": [
+                  { "Type": "Flag", "Name": "AirborneMode" },
+                  { "Type": "MotionController", "MotionController": "Fly" }
+                ]
+              },
+              "Instructions": [
+                {
+                  "Reference": "Component_Tamework_Instruction_Defend",
+                  "Modify": {
+                    "HardLeashDistance": { "Compute": "HardLeashDistance" },
+                    "AlertedRange": { "Compute": "AlertedRange" },
+                    "ViewSector": { "Compute": "ViewSector" },
+                    "HearingRange": { "Compute": "HearingRange" },
+                    "AbsoluteDetectionRange": { "Compute": "AbsoluteDetectionRange" },
+                    "ViewRange": { "Compute": "ViewRange" },
+                    "Attack": { "Compute": "Attack" },
+                    "AttackDistance": { "Compute": "AttackDistance" },
+                    "AttackPauseRange": { "Compute": "AttackPauseRange" },
+                    "CombatAttackPreDelay": { "Compute": "CombatAttackPreDelay" },
+                    "CombatAttackPostDelay": { "Compute": "CombatAttackPostDelay" },
+                    "CombatBackOffAfterAttack": { "Compute": "CombatBackOffAfterAttack" },
+                    "CombatBackOffDistanceRange": { "Compute": "CombatBackOffDistanceRange" },
+                    "CombatBackOffDurationRange": { "Compute": "CombatBackOffDurationRange" },
+                    "BlockAbility": { "Compute": "BlockAbility" },
+                    "BlockProbability": { "Compute": "BlockProbability" },
+                    "CombatStrafingDurationRange": { "Compute": "CombatStrafingDurationRange" },
+                    "CombatStrafingFrequencyRange": { "Compute": "CombatStrafingFrequencyRange" },
+                    "CombatBehaviorDistance": { "Compute": "CombatBehaviorDistance" },
+                    "CombatMovingRelativeSpeed": { "Compute": "CombatMovingRelativeSpeed" },
+                    "CombatStrafeWeight": { "Compute": "CombatStrafeWeight" },
+                    "CombatDirectWeight": { "Compute": "CombatDirectWeight" },
+                    "CombatAlwaysMovingWeight": { "Compute": "CombatAlwaysMovingWeight" },
+                    "CombatRelativeTurnSpeed": { "Compute": "CombatRelativeTurnSpeed" },
+                    "ChaseRelativeSpeed": { "Compute": "ChaseRelativeSpeed" },
+                    "AdditionalCombatBehaviorMacroElement": { "Compute": "AdditionalCombatBehaviorMacroElement" },
+                    "DefendFollowMacroElement": "Component_Tamework_Instruction_Follow_Flying"
+                  }
+                }
+              ]
             }
           ]
         },
@@ -1530,6 +1694,15 @@
           },
           "Instructions": [
             {
+              "Sensor": {
+                "Type": "And",
+                "Sensors": [
+                  { "Type": "Flag", "Name": "AirborneMode", "Set": false },
+                  { "Type": "MotionController", "MotionController": "Walk" }
+                ]
+              },
+              "Instructions": [
+                {
               "Reference": "Component_Tamework_Instruction_Hold",
               "Modify": {
                 "_ExportStates": [
@@ -1586,6 +1759,20 @@
                 "SleepEnabled": {
                   "Compute": "!isEmpty(SleepAnimation)"
                 }
+              }
+                }
+              ]
+            },
+            {
+              "Sensor": {
+                "Type": "And",
+                "Sensors": [
+                  { "Type": "Flag", "Name": "AirborneMode" },
+                  { "Type": "MotionController", "MotionController": "Fly" }
+                ]
+              },
+              "BodyMotion": {
+                "Type": "Nothing"
               }
             }
           ]

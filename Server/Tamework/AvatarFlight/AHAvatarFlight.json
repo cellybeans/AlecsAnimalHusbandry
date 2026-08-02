@@ -20,6 +20,16 @@
     "LaunchReleaseMidScale": 7.5,
     "LaunchReleaseFullScale": 9.0
   },
+  "CombatAbilities": {
+    "Ability2": {
+      "RootInteraction": "Root_NPC_AH_Dragon_Frost_Avatar_Frost_Bolt",
+      "Glyph": "ICE"
+    },
+    "Ability3": {
+      "RootInteraction": "Root_NPC_AH_Dragon_Frost_Avatar_Freezing_Breath",
+      "Glyph": "FROST"
+    }
+  },
   "Trails": {
     "Enabled": true,
     "LaunchRootInteraction": "Root_AH_Dragon_Frost_AvatarFlight_Trails_Launch",
