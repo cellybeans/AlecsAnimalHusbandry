@@ -892,12 +892,22 @@ AERIAL_SPECIES = (
     "Bat",
     "Bat_Ice",
 )
+
+
+def check_all() -> None:
+    check_wild_shared()
+    check_tamed_shared()
+    check_species(tuple(SPECIES))
+    check_configs()
+
+
 SCOPES = {
     "wild-shared": check_wild_shared,
     "tamed-shared": check_tamed_shared,
     "aerial-species": lambda: check_species(AERIAL_SPECIES),
     "fowl-raptor-species": lambda: check_species(("Pigeon", "Duck", "Archaeopteryx", "Hawk", "Pterodactyl", "Vulture")),
     "configs": check_configs,
+    "all": check_all,
 }
 
 
