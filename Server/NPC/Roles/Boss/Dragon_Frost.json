@@ -4,6 +4,9 @@
   "Modify": {
     "Appearance": "AH_Dragon_Frost",
     "MaxHealth": 400,
+    "AttractiveItemSet": [
+      "Ingredient_Ice_Essence"
+    ],
     "IsMemory": true,
     "MemoriesCategory": "Mythic",
     "NameTranslationKey": {
