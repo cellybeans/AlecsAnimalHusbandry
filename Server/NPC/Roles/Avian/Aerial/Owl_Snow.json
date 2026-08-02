@@ -2,33 +2,32 @@
   "Type": "Variant",
   "Reference": "AH_Template_Aerial_Neutral",
   "Modify": {
-    "Appearance": "Bluebird",
+    "Appearance": "Owl_Snow",
     "FlockArray": [
-      "Bluebird"
+      "Owl_Snow"
     ],
-    "DropList": "Drop_Bluebird",
-    "MaxHealth": 15,
-    "WanderRadius": 15,
+    "DropList": "Drop_Owl_Snow",
+    "MaxHealth": 12,
+    "WanderRadius": 29,
     "IsMemory": true,
     "MemoriesCategory": "Avian",
     "NameTranslationKey": {
       "Compute": "NameTranslationKey"
     },
     "AttractiveItemSet": [
-      "Plant_Crop_Corn_Item"
+      "Food_Wildmeat_Raw"
     ],
-    "AttractiveItemSetParticles": "Want_Food_Corn",
+    "AttractiveItemSetParticles": "",
     "IsTameable": {
       "Compute": "IsTameable"
     },
     "TameRoleChange": {
       "Compute": "TameRoleChange"
-    },
-    "MemoriesNameOverride": "Bluebird"
+    }
   },
   "Parameters": {
     "NameTranslationKey": {
-      "Value": "server.npcRoles.Bluebird.name",
+      "Value": "server.npcRoles.Owl_Snow.name",
       "Description": "Translation key for NPC name display"
     },
     "IsTameable": {
@@ -36,7 +35,7 @@
       "Description": "Whether this NPC can be tamed."
     },
     "TameRoleChange": {
-      "Value": "Tamed_Bluebird",
+      "Value": "Tamed_Owl_Snow",
       "Description": "The role the NPC will change into when it's tamed."
     }
   }

@@ -2,13 +2,13 @@
   "Type": "Variant",
   "Reference": "AH_Template_Aerial_Tamed",
   "Modify": {
-    "Appearance": "Bluebird",
+    "Appearance": "Raven",
     "FlockArray": [
-      "Tamed_Bluebird"
+      "Tamed_Raven"
     ],
-    "DropList": "Drop_Bluebird",
+    "DropList": "Drop_Raven",
     "MaxHealth": 15,
-    "WanderRadius": 15,
+    "WanderRadius": 49,
     "IsMemory": false,
     "MemoriesCategory": "Avian",
     "NameTranslationKey": {
@@ -22,7 +22,8 @@
       "Plant_Crop_Corn_Item"
     ],
     "FoodGeneric": [
-      "Tw_Feed_Herbivore"
+      "Tw_Feed_Herbivore",
+      "Tw_Feed_Carnivore"
     ],
     "AttitudeGroup": "AH_Livestock_Tamed",
     "CanFollow": true,
@@ -37,7 +38,7 @@
   },
   "Parameters": {
     "NameTranslationKey": {
-      "Value": "server.npcRoles.Bluebird.name",
+      "Value": "server.npcRoles.Raven.name",
       "Description": "Translation key for NPC name display"
     }
   }

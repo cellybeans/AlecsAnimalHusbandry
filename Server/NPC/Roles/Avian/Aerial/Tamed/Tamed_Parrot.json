@@ -2,24 +2,24 @@
   "Type": "Variant",
   "Reference": "AH_Template_Aerial_Tamed",
   "Modify": {
-    "Appearance": "Bluebird",
+    "Appearance": "Parrot",
     "FlockArray": [
-      "Tamed_Bluebird"
+      "Tamed_Parrot"
     ],
-    "DropList": "Drop_Bluebird",
-    "MaxHealth": 15,
-    "WanderRadius": 15,
+    "DropList": "Drop_Parrot",
+    "MaxHealth": 12,
+    "WanderRadius": 29,
     "IsMemory": false,
     "MemoriesCategory": "Avian",
     "NameTranslationKey": {
       "Compute": "NameTranslationKey"
     },
     "AttractiveItemSet": [
-      "Plant_Crop_Corn_Item"
+      "Plant_Fruit_Apple"
     ],
-    "AttractiveItemSetParticles": "Want_Food_Corn",
+    "AttractiveItemSetParticles": "Want_Food_Apple",
     "FoodFavorite": [
-      "Plant_Crop_Corn_Item"
+      "Plant_Fruit_Apple"
     ],
     "FoodGeneric": [
       "Tw_Feed_Herbivore"
@@ -37,7 +37,7 @@
   },
   "Parameters": {
     "NameTranslationKey": {
-      "Value": "server.npcRoles.Bluebird.name",
+      "Value": "server.npcRoles.Parrot.name",
       "Description": "Translation key for NPC name display"
     }
   }

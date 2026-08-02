@@ -2,13 +2,13 @@
   "Type": "Variant",
   "Reference": "AH_Template_Aerial_Neutral",
   "Modify": {
-    "Appearance": "Bluebird",
+    "Appearance": "Crow",
     "FlockArray": [
-      "Bluebird"
+      "Crow"
     ],
-    "DropList": "Drop_Bluebird",
+    "DropList": "Drop_Crow",
     "MaxHealth": 15,
-    "WanderRadius": 15,
+    "WanderRadius": 20,
     "IsMemory": true,
     "MemoriesCategory": "Avian",
     "NameTranslationKey": {
@@ -23,12 +23,11 @@
     },
     "TameRoleChange": {
       "Compute": "TameRoleChange"
-    },
-    "MemoriesNameOverride": "Bluebird"
+    }
   },
   "Parameters": {
     "NameTranslationKey": {
-      "Value": "server.npcRoles.Bluebird.name",
+      "Value": "server.npcRoles.Crow.name",
       "Description": "Translation key for NPC name display"
     },
     "IsTameable": {
@@ -36,7 +35,7 @@
       "Description": "Whether this NPC can be tamed."
     },
     "TameRoleChange": {
-      "Value": "Tamed_Bluebird",
+      "Value": "Tamed_Crow",
       "Description": "The role the NPC will change into when it's tamed."
     }
   }

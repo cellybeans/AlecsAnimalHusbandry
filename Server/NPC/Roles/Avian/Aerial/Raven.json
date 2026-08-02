@@ -2,13 +2,13 @@
   "Type": "Variant",
   "Reference": "AH_Template_Aerial_Neutral",
   "Modify": {
-    "Appearance": "Bluebird",
+    "Appearance": "Raven",
     "FlockArray": [
-      "Bluebird"
+      "Raven"
     ],
-    "DropList": "Drop_Bluebird",
+    "DropList": "Drop_Raven",
     "MaxHealth": 15,
-    "WanderRadius": 15,
+    "WanderRadius": 49,
     "IsMemory": true,
     "MemoriesCategory": "Avian",
     "NameTranslationKey": {
@@ -23,12 +23,11 @@
     },
     "TameRoleChange": {
       "Compute": "TameRoleChange"
-    },
-    "MemoriesNameOverride": "Bluebird"
+    }
   },
   "Parameters": {
     "NameTranslationKey": {
-      "Value": "server.npcRoles.Bluebird.name",
+      "Value": "server.npcRoles.Raven.name",
       "Description": "Translation key for NPC name display"
     },
     "IsTameable": {
@@ -36,7 +35,7 @@
       "Description": "Whether this NPC can be tamed."
     },
     "TameRoleChange": {
-      "Value": "Tamed_Bluebird",
+      "Value": "Tamed_Raven",
       "Description": "The role the NPC will change into when it's tamed."
     }
   }

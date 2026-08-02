@@ -2,27 +2,27 @@
   "Type": "Variant",
   "Reference": "AH_Template_Aerial_Tamed",
   "Modify": {
-    "Appearance": "Bluebird",
+    "Appearance": "Owl_Brown",
     "FlockArray": [
-      "Tamed_Bluebird"
+      "Tamed_Owl_Brown"
     ],
-    "DropList": "Drop_Bluebird",
-    "MaxHealth": 15,
-    "WanderRadius": 15,
+    "DropList": "Drop_Owl_Brown",
+    "MaxHealth": 12,
+    "WanderRadius": 29,
     "IsMemory": false,
     "MemoriesCategory": "Avian",
     "NameTranslationKey": {
       "Compute": "NameTranslationKey"
     },
     "AttractiveItemSet": [
-      "Plant_Crop_Corn_Item"
+      "Food_Wildmeat_Raw"
     ],
-    "AttractiveItemSetParticles": "Want_Food_Corn",
+    "AttractiveItemSetParticles": "",
     "FoodFavorite": [
-      "Plant_Crop_Corn_Item"
+      "Food_Wildmeat_Raw"
     ],
     "FoodGeneric": [
-      "Tw_Feed_Herbivore"
+      "Tw_Feed_Carnivore"
     ],
     "AttitudeGroup": "AH_Livestock_Tamed",
     "CanFollow": true,
@@ -37,7 +37,7 @@
   },
   "Parameters": {
     "NameTranslationKey": {
-      "Value": "server.npcRoles.Bluebird.name",
+      "Value": "server.npcRoles.Owl_Brown.name",
       "Description": "Translation key for NPC name display"
     }
   }

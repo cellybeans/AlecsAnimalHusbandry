@@ -2,11 +2,11 @@
   "Type": "Variant",
   "Reference": "AH_Template_Aerial_Tamed",
   "Modify": {
-    "Appearance": "Bluebird",
+    "Appearance": "Sparrow",
     "FlockArray": [
-      "Tamed_Bluebird"
+      "Tamed_Sparrow"
     ],
-    "DropList": "Drop_Bluebird",
+    "DropList": "Drop_Sparrow",
     "MaxHealth": 15,
     "WanderRadius": 15,
     "IsMemory": false,
@@ -37,7 +37,7 @@
   },
   "Parameters": {
     "NameTranslationKey": {
-      "Value": "server.npcRoles.Bluebird.name",
+      "Value": "server.npcRoles.Sparrow.name",
       "Description": "Translation key for NPC name display"
     }
   }

@@ -12,6 +12,20 @@ WILD_TEMPLATE = ROOT / "Server/NPC/Roles/_Core/Templates/AH_Template_Aerial_Neut
 TAMED_TEMPLATE = ROOT / "Server/NPC/Roles/_Core/Templates/AH_Template_Aerial_Tamed.json"
 TAMED_VARIANT_ROOT = ROOT / "Server/NPC/Roles/Avian/Aerial/Tamed"
 
+SPECIES = {
+    "Bluebird": ("Avian/Aerial", "Drop_Bluebird", 15, 15, "Bluebird", "Plant_Crop_Corn_Item", "Want_Food_Corn", ("Tw_Feed_Herbivore",)),
+    "Sparrow": ("Avian/Aerial", "Drop_Sparrow", 15, 15, None, "Plant_Crop_Corn_Item", "Want_Food_Corn", ("Tw_Feed_Herbivore",)),
+    "Parrot": ("Avian/Aerial", "Drop_Parrot", 12, 29, None, "Plant_Fruit_Apple", "Want_Food_Apple", ("Tw_Feed_Herbivore",)),
+    "Raven": ("Avian/Aerial", "Drop_Raven", 15, 49, None, "Plant_Crop_Corn_Item", "Want_Food_Corn", ("Tw_Feed_Herbivore", "Tw_Feed_Carnivore")),
+    "Crow": ("Avian/Aerial", "Drop_Crow", 15, 20, None, "Plant_Crop_Corn_Item", "Want_Food_Corn", ("Tw_Feed_Herbivore", "Tw_Feed_Carnivore")),
+    "Finch_Green": ("Avian/Aerial", "Drop_Finch_Green", 15, 15, "Finch_Green", "Plant_Crop_Corn_Item", "Want_Food_Corn", ("Tw_Feed_Herbivore",)),
+    "Woodpecker": ("Avian/Aerial", "Drop_Woodpecker", 15, 15, None, "Plant_Crop_Corn_Item", "Want_Food_Corn", ("Tw_Feed_Herbivore", "Tw_Feed_Carnivore")),
+    "Owl_Brown": ("Avian/Aerial", "Drop_Owl_Brown", 12, 29, "Owl_Brown", "Food_Wildmeat_Raw", "", ("Tw_Feed_Carnivore",)),
+    "Owl_Snow": ("Avian/Aerial", "Drop_Owl_Snow", 12, 29, None, "Food_Wildmeat_Raw", "", ("Tw_Feed_Carnivore",)),
+    "Bat": ("Avian/Aerial", "Drop_Bat", 15, 15, None, "Plant_Fruit_Apple", "Want_Food_Apple", ("Tw_Feed_Herbivore",)),
+    "Bat_Ice": ("Avian/Aerial", "Drop_Bat_Ice", 15, 25, None, "Plant_Fruit_Apple", "Want_Food_Apple", ("Tw_Feed_Herbivore",)),
+}
+
 
 def load(path: Path) -> dict:
     with path.open(encoding="utf-8-sig") as handle:
@@ -595,7 +609,93 @@ def check_tamed_shared() -> None:
             require(modify.get("CanAttackTarget") is False, f"{variant.name} enables CanAttackTarget")
 
 
-SCOPES = {"wild-shared": check_wild_shared, "tamed-shared": check_tamed_shared}
+def check_species(names: tuple[str, ...]) -> None:
+    for name in names:
+        directory, drop, health, radius, memories_override, favorite, particles, generic = SPECIES[name]
+        wild_path = ROOT / "Server/NPC/Roles" / directory / f"{name}.json"
+        tamed_path = ROOT / "Server/NPC/Roles" / directory / "Tamed" / f"Tamed_{name}.json"
+        require(wild_path.exists(), f"missing {wild_path.relative_to(ROOT)}")
+        require(tamed_path.exists(), f"missing {tamed_path.relative_to(ROOT)}")
+
+        wild = load(wild_path)
+        wild_modify = wild.get("Modify", {})
+        require(wild.get("Type") == "Variant", f"{name} wild role must be a Variant")
+        require(wild.get("Reference") == "AH_Template_Aerial_Neutral", f"{name} wild role uses wrong template")
+        require(wild_modify.get("Appearance") == name, f"{name} wild appearance mismatch")
+        require(wild_modify.get("FlockArray") == [name], f"{name} wild flock mismatch")
+        require(wild_modify.get("DropList") == drop, f"{name} wild drop mismatch")
+        require(wild_modify.get("MaxHealth") == health, f"{name} wild health mismatch")
+        require(wild_modify.get("WanderRadius") == radius, f"{name} wild radius mismatch")
+        require(wild_modify.get("IsMemory") is True, f"{name} wild role must be a memory")
+        require(wild_modify.get("MemoriesCategory") == "Avian", f"{name} wild memory category mismatch")
+        if memories_override is None:
+            require("MemoriesNameOverride" not in wild_modify, f"{name} wild role has an unexpected memory name override")
+        else:
+            require(wild_modify.get("MemoriesNameOverride") == memories_override, f"{name} wild memory name override mismatch")
+        require(wild_modify.get("NameTranslationKey") == {"Compute": "NameTranslationKey"}, f"{name} wild name key must be computed")
+        require(wild_modify.get("AttractiveItemSet") == [favorite], f"{name} wild favorite item mismatch")
+        require(wild_modify.get("AttractiveItemSetParticles") == particles, f"{name} wild food particle mismatch")
+        require(wild_modify.get("IsTameable") == {"Compute": "IsTameable"}, f"{name} wild tameability must be computed")
+        require(wild_modify.get("TameRoleChange") == {"Compute": "TameRoleChange"}, f"{name} wild role change must be computed")
+        wild_parameters = wild.get("Parameters", {})
+        require(
+            wild_parameters.get("NameTranslationKey") == {
+                "Value": f"server.npcRoles.{name}.name",
+                "Description": "Translation key for NPC name display",
+            },
+            f"{name} wild translation key mismatch",
+        )
+        require(
+            wild_parameters.get("IsTameable") == {
+                "Value": True,
+                "Description": "Whether this NPC can be tamed.",
+            },
+            f"{name} wild tameability parameter mismatch",
+        )
+        require(
+            wild_parameters.get("TameRoleChange") == {
+                "Value": f"Tamed_{name}",
+                "Description": "The role the NPC will change into when it's tamed.",
+            },
+            f"{name} wild role-change parameter mismatch",
+        )
+
+        tamed = load(tamed_path)
+        tamed_modify = tamed.get("Modify", {})
+        require(tamed.get("Type") == "Variant", f"Tamed_{name} role must be a Variant")
+        require(tamed.get("Reference") == "AH_Template_Aerial_Tamed", f"Tamed_{name} uses wrong template")
+        require(tamed_modify.get("Appearance") == name, f"Tamed_{name} appearance mismatch")
+        require(tamed_modify.get("FlockArray") == [f"Tamed_{name}"], f"Tamed_{name} flock mismatch")
+        require(tamed_modify.get("DropList") == drop, f"Tamed_{name} drop mismatch")
+        require(tamed_modify.get("MaxHealth") == health, f"Tamed_{name} health mismatch")
+        require(tamed_modify.get("WanderRadius") == radius, f"Tamed_{name} radius mismatch")
+        require(tamed_modify.get("IsMemory") is False, f"Tamed_{name} role must not be a memory")
+        require(tamed_modify.get("MemoriesCategory") == "Avian", f"Tamed_{name} memory category mismatch")
+        require(tamed_modify.get("NameTranslationKey") == {"Compute": "NameTranslationKey"}, f"Tamed_{name} name key must be computed")
+        require(tamed_modify.get("AttractiveItemSet") == [favorite], f"Tamed_{name} favorite item mismatch")
+        require(tamed_modify.get("AttractiveItemSetParticles") == particles, f"Tamed_{name} food particle mismatch")
+        require(tamed_modify.get("FoodFavorite") == [favorite], f"Tamed_{name} food favorite mismatch")
+        require(tamed_modify.get("FoodGeneric") == list(generic), f"Tamed_{name} generic food mismatch")
+        require(tamed_modify.get("AttitudeGroup") == "AH_Livestock_Tamed", f"Tamed_{name} attitude group mismatch")
+        for flag in ("CanFollow", "CanHold", "CanMoveToLocation", "CanReturnHome", "CanRecall", "CanSetHome", "CanBreedPair"):
+            require(tamed_modify.get(flag) is True, f"Tamed_{name} must enable {flag}")
+        for flag in ("CanDefend", "CanAttackTarget"):
+            require(tamed_modify.get(flag) is False, f"Tamed_{name} must disable {flag}")
+        require(
+            tamed.get("Parameters", {}).get("NameTranslationKey") == {
+                "Value": f"server.npcRoles.{name}.name",
+                "Description": "Translation key for NPC name display",
+            },
+            f"Tamed_{name} translation key mismatch",
+        )
+
+
+AERIAL_SPECIES = tuple(SPECIES)
+SCOPES = {
+    "wild-shared": check_wild_shared,
+    "tamed-shared": check_tamed_shared,
+    "aerial-species": lambda: check_species(AERIAL_SPECIES),
+}
 
 
 if __name__ == "__main__":
