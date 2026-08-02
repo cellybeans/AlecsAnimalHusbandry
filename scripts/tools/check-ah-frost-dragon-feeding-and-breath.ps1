@@ -112,6 +112,34 @@ function Get-JsonScalarEntries($Value, [string] $Path = "root") {
     return $entries
 }
 
+function Get-JsonObjectEntries($Value, [string] $Path = "root") {
+    $entries = @()
+    if ($null -eq $Value) {
+        return $entries
+    }
+
+    if ($Value -is [System.Collections.IEnumerable] -and $Value -isnot [string]) {
+        $index = 0
+        foreach ($item in $Value) {
+            $entries += @(Get-JsonObjectEntries $item "$Path[$index]")
+            $index++
+        }
+        return $entries
+    }
+
+    if ($Value -is [pscustomobject]) {
+        $entries += [pscustomobject]@{
+            Path = $Path
+            Value = $Value
+        }
+        foreach ($property in @($Value.PSObject.Properties)) {
+            $entries += @(Get-JsonObjectEntries $property.Value "$Path.$($property.Name)")
+        }
+    }
+
+    return $entries
+}
+
 function Convert-ToNumber($Value) {
     if ($null -eq $Value) {
         return $null
@@ -293,36 +321,32 @@ foreach ($path in $breathPaths) {
         continue
     }
 
-    $systemIds = @(Get-JsonPropertyEntries $interaction "SystemId")
-    if ($systemIds.Count -eq 0) {
-        Add-Failure "$path must use the dedicated $breathSystemId particle system"
-    } elseif (@($systemIds | Where-Object { $_.Value -ne $breathSystemId }).Count -gt 0) {
-        Add-Failure "$path must not use Ice_Staff; every particle SystemId must be $breathSystemId"
+    $particleObjects = @(Get-JsonObjectEntries $interaction | Where-Object {
+        [string](Get-PropertyValue $_.Value "SystemId") -eq $breathSystemId
+    })
+    if ($particleObjects.Count -ne 1) {
+        Add-Failure "$path must contain exactly one dedicated $breathSystemId particle (actual: $($particleObjects.Count))"
     }
-
-    $targetNodes = @(Get-JsonPropertyEntries $interaction "TargetNodeName")
-    if ($targetNodes.Count -eq 0 -or @($targetNodes | Where-Object { $_.Value -ne "Top Jaw" }).Count -gt 0) {
-        Add-Failure "$path must attach every breath particle to Top Jaw"
-    }
-
-    $detached = @(Get-JsonPropertyEntries $interaction "DetachedFromModel")
-    if ($detached.Count -eq 0 -or @($detached | Where-Object { $_.Value -ne $false }).Count -gt 0) {
-        Add-Failure "$path must keep breath particles attached (DetachedFromModel false)"
-    }
-
-    $positionOffsets = @(Get-JsonPropertyEntries $interaction "PositionOffset")
-    $positiveForwardOffset = $false
-    foreach ($entry in $positionOffsets) {
-        $z = Convert-ToNumber (Get-PropertyValue $entry.Value "Z")
-        if ($null -ne $z -and $z -gt 0) {
-            $positiveForwardOffset = $true
+    foreach ($particle in $particleObjects) {
+        $targetNode = Get-PropertyValue $particle.Value "TargetNodeName"
+        if ([string]$targetNode -ne "Top Jaw") {
+            Add-Failure "$path dedicated breath particle must target Top Jaw (actual: $targetNode)"
+        }
+        $detached = Get-PropertyValue $particle.Value "DetachedFromModel"
+        if ([string]$detached -ne "False") {
+            Add-Failure "$path dedicated breath particle must keep DetachedFromModel false (actual: $detached)"
+        }
+        $offset = Get-PropertyValue $particle.Value "PositionOffset"
+        $z = Convert-ToNumber (Get-PropertyValue $offset "Z")
+        if ($null -eq $z -or $z -le 0) {
+            Add-Failure "$path dedicated breath particle must use a positive local-Z mouth offset (actual: $z)"
         }
     }
-    if (-not $positiveForwardOffset) {
-        Add-Failure "$path must use a positive local-Z mouth offset"
-    }
 
-    $sourceReferences = @(Get-JsonScalarEntries $interaction | Where-Object { [string] $_.Value -eq $sourceEffectId })
+    $sourceReferences = @(Get-JsonObjectEntries $interaction | Where-Object {
+        [string](Get-PropertyValue $_.Value "Type") -eq "ApplyEffect" -and
+            [string](Get-PropertyValue $_.Value "EffectId") -eq $sourceEffectId
+    })
     if ($sourceReferences.Count -lt 3) {
         Add-Failure "$path must refresh $sourceEffectId at least three times (actual: $($sourceReferences.Count))"
     }
@@ -393,6 +417,13 @@ if ($null -ne $sourceEffect) {
     }
     if ((Get-PropertyValue $sourceEffect "OverlapBehavior") -ne "Overwrite") {
         Add-Failure "$sourceEffectPath OverlapBehavior must be Overwrite"
+    }
+    $applicationEffects = Get-PropertyValue $sourceEffect "ApplicationEffects"
+    if ([string](Get-PropertyValue $applicationEffects "WorldSoundEventId") -ne "SFX_AH_Dragon_Frost_Freezing_Breath") {
+        Add-Failure "$sourceEffectPath ApplicationEffects.WorldSoundEventId must be SFX_AH_Dragon_Frost_Freezing_Breath"
+    }
+    if ([string](Get-PropertyValue $sourceEffect "WorldRemovalSoundEventId") -ne "SFX_AH_Dragon_Frost_Freezing_Breath_End") {
+        Add-Failure "$sourceEffectPath WorldRemovalSoundEventId must be SFX_AH_Dragon_Frost_Freezing_Breath_End"
     }
 }
 
