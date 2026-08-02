@@ -1,0 +1,404 @@
+param(
+    [string] $Root = (Get-Location).Path
+)
+
+$ErrorActionPreference = "Stop"
+$failures = New-Object System.Collections.Generic.List[string]
+
+function Add-Failure([string] $Message) {
+    $failures.Add($Message)
+}
+
+function Get-PropertyValue($Object, [string] $Name) {
+    if ($null -eq $Object) {
+        return $null
+    }
+
+    $property = $Object.PSObject.Properties[$Name]
+    if ($null -eq $property) {
+        return $null
+    }
+
+    return $property.Value
+}
+
+function Read-JsonAsset([string] $RelativePath) {
+    $path = Join-Path $Root $RelativePath
+    if (-not (Test-Path -LiteralPath $path -PathType Leaf)) {
+        Add-Failure "missing required asset: $RelativePath"
+        return $null
+    }
+
+    try {
+        return Get-Content -LiteralPath $path -Raw | ConvertFrom-Json
+    } catch {
+        Add-Failure "invalid JSON asset ${RelativePath}: $($_.Exception.Message)"
+        return $null
+    }
+}
+
+function Read-JsonCandidate([string] $Label, [string[]] $RelativePaths) {
+    foreach ($relativePath in $RelativePaths) {
+        $path = Join-Path $Root $relativePath
+        if (Test-Path -LiteralPath $path -PathType Leaf) {
+            return Read-JsonAsset $relativePath
+        }
+    }
+
+    Add-Failure "missing required $Label (checked: $($RelativePaths -join ', '))"
+    return $null
+}
+
+# Walk every object and array while retaining a useful JSON-like path.  The
+# contract checks below deliberately use this instead of regexes so malformed
+# or misplaced values are reported rather than silently skipped.
+function Get-JsonPropertyEntries($Value, [string] $PropertyName, [string] $Path = "root") {
+    $entries = @()
+    if ($null -eq $Value) {
+        return $entries
+    }
+
+    if ($Value -is [System.Collections.IEnumerable] -and $Value -isnot [string]) {
+        $index = 0
+        foreach ($item in $Value) {
+            $entries += @(Get-JsonPropertyEntries $item $PropertyName "$Path[$index]")
+            $index++
+        }
+        return $entries
+    }
+
+    if ($Value -is [pscustomobject]) {
+        foreach ($property in @($Value.PSObject.Properties)) {
+            $propertyPath = "$Path.$($property.Name)"
+            if ($property.Name -eq $PropertyName) {
+                $entries += [pscustomobject]@{
+                    Path = $propertyPath
+                    Value = $property.Value
+                }
+            }
+            $entries += @(Get-JsonPropertyEntries $property.Value $PropertyName $propertyPath)
+        }
+    }
+
+    return $entries
+}
+
+function Get-JsonScalarEntries($Value, [string] $Path = "root") {
+    $entries = @()
+    if ($null -eq $Value) {
+        return $entries
+    }
+
+    if ($Value -is [System.Collections.IEnumerable] -and $Value -isnot [string]) {
+        $index = 0
+        foreach ($item in $Value) {
+            $entries += @(Get-JsonScalarEntries $item "$Path[$index]")
+            $index++
+        }
+        return $entries
+    }
+
+    if ($Value -is [pscustomobject]) {
+        foreach ($property in @($Value.PSObject.Properties)) {
+            $entries += @(Get-JsonScalarEntries $property.Value "$Path.$($property.Name)")
+        }
+        return $entries
+    }
+
+    $entries += [pscustomobject]@{
+        Path = $Path
+        Value = $Value
+    }
+    return $entries
+}
+
+function Convert-ToNumber($Value) {
+    if ($null -eq $Value) {
+        return $null
+    }
+
+    try {
+        return [double] $Value
+    } catch {
+        return $null
+    }
+}
+
+function Test-PositiveRange($Value) {
+    if ($null -eq $Value) {
+        return $false
+    }
+
+    $min = Get-PropertyValue $Value "Min"
+    $max = Get-PropertyValue $Value "Max"
+    if ($null -ne $min -or $null -ne $max) {
+        $minNumber = Convert-ToNumber $min
+        $maxNumber = Convert-ToNumber $max
+        return $null -ne $minNumber -and $null -ne $maxNumber -and $minNumber -gt 0 -and $maxNumber -gt 0
+    }
+
+    $number = Convert-ToNumber $Value
+    return $null -ne $number -and $number -gt 0
+}
+
+function Assert-Contains([object] $Value, [string] $Expected, [string] $Path) {
+    $actual = @()
+    if ($null -ne $Value) {
+        $actual = @($Value)
+    }
+    if ($actual -notcontains $Expected) {
+        Add-Failure "$Path must contain '$Expected' (actual: $($actual -join ', '))"
+    }
+}
+
+function Assert-ExactSingle([object] $Value, [string] $Expected, [string] $Path) {
+    $actual = @()
+    if ($null -ne $Value) {
+        $actual = @($Value)
+    }
+    if ($actual.Count -ne 1 -or $actual[0] -ne $Expected) {
+        Add-Failure "$Path must be ['$Expected'] (actual: $($actual -join ', '))"
+    }
+}
+
+$wildRolePath = "Server/NPC/Roles/Boss/Dragon_Frost.json"
+$tamedRolePath = "Server/NPC/Roles/Creature/Mythic/Tamed/Tamed_Dragon_Frost.json"
+$foodPath = "Server/Tamework/Food/AHFoodBeast.json"
+$boltPaths = @(
+    "Server/Item/Interactions/NPCs/AnimalHusbandry/Dragon_Frost/AH_Dragon_Frost_Frost_Bolt.json",
+    "Server/Item/Interactions/NPCs/AnimalHusbandry/Dragon_Frost/AH_Dragon_Frost_Avatar_Frost_Bolt.json"
+)
+$breathPaths = @(
+    "Server/Item/Interactions/NPCs/AnimalHusbandry/Dragon_Frost/AH_Dragon_Frost_Freezing_Breath.json",
+    "Server/Item/Interactions/NPCs/AnimalHusbandry/Dragon_Frost/AH_Dragon_Frost_Flying_Freezing_Breath.json",
+    "Server/Item/Interactions/NPCs/AnimalHusbandry/Dragon_Frost/AH_Dragon_Frost_Avatar_Freezing_Breath.json"
+)
+$particleSystemPath = "Server/Particles/AnimalHusbandry/Dragon_Frost/AH_Dragon_Frost_Freezing_Breath.particlesystem"
+$spawnerPaths = @(
+    "Server/Particles/AnimalHusbandry/Dragon_Frost/Spawners/AH_Dragon_Frost_Freezing_Breath_Mist.particlespawner",
+    "Server/Particles/AnimalHusbandry/Dragon_Frost/Spawners/AH_Dragon_Frost_Freezing_Breath_Crystals.particlespawner"
+)
+$startSoundPath = "Server/Audio/SoundEvents/SFX/NPC/Mythic/Dragon_Frost/SFX_AH_Dragon_Frost_Freezing_Breath.json"
+$endSoundPath = "Server/Audio/SoundEvents/SFX/NPC/Mythic/Dragon_Frost/SFX_AH_Dragon_Frost_Freezing_Breath_End.json"
+$sourceEffectPath = "Server/Entity/Effects/Status/AnimalHusbandry/AH_Dragon_Frost_Freezing_Breath_Source.json"
+
+$wildRole = Read-JsonAsset $wildRolePath
+$tamedRole = Read-JsonAsset $tamedRolePath
+$food = Read-JsonAsset $foodPath
+$boltInteractions = @{}
+foreach ($path in $boltPaths) {
+    $boltInteractions[$path] = Read-JsonAsset $path
+}
+$breathInteractions = @{}
+foreach ($path in $breathPaths) {
+    $breathInteractions[$path] = Read-JsonAsset $path
+}
+$particleSystem = Read-JsonAsset $particleSystemPath
+$spawners = @{}
+foreach ($path in $spawnerPaths) {
+    $spawners[$path] = Read-JsonAsset $path
+}
+$startSound = Read-JsonAsset $startSoundPath
+$endSound = Read-JsonAsset $endSoundPath
+$sourceEffect = Read-JsonAsset $sourceEffectPath
+
+$standardModel = Read-JsonCandidate "standard Frost Dragon model" @(
+    "Server/Models/AnimalHusbandry/AH_Dragon_Frost.blockymodel",
+    "Common/NPC/AnimalHusbandry/Dragon_Frost/Models/Model.blockymodel"
+)
+$avatarModel = Read-JsonCandidate "AvatarFlight Frost Dragon model" @(
+    "Server/Models/AnimalHusbandry/AH_Dragon_Frost_AvatarFlight.blockymodel",
+    "Common/NPC/AnimalHusbandry/Dragon_Frost/Models/Model_AvatarFlight.blockymodel"
+)
+
+if ($null -ne $wildRole) {
+    Assert-ExactSingle (Get-PropertyValue $wildRole.Modify "AttractiveItemSet") "Ingredient_Ice_Essence" "$wildRolePath Modify.AttractiveItemSet"
+}
+if ($null -ne $tamedRole) {
+    Assert-ExactSingle (Get-PropertyValue $tamedRole.Modify "AttractiveItemSet") "Ingredient_Ice_Essence" "$tamedRolePath Modify.AttractiveItemSet"
+}
+if ($null -ne $food) {
+    Assert-Contains (Get-PropertyValue $food.Foods "Compatible") "Tw_Feed_Carnivore" "$foodPath Foods.Compatible"
+
+    $preferredHappiness = Convert-ToNumber (Get-PropertyValue $food.Happiness "Preferred")
+    if ($preferredHappiness -ne 5) {
+        Add-Failure "$foodPath Happiness.Preferred must be 5 (actual: $preferredHappiness)"
+    }
+    $compatibleHappiness = Convert-ToNumber (Get-PropertyValue $food.Happiness "Compatible")
+    if ($compatibleHappiness -ne -8) {
+        Add-Failure "$foodPath Happiness.Compatible must be -8 (actual: $compatibleHappiness)"
+    }
+
+    $override = Get-PropertyValue $food.RoleOverrides "Tamed_Dragon_Frost"
+    if ($null -eq $override) {
+        Add-Failure "$foodPath RoleOverrides.Tamed_Dragon_Frost is missing"
+    } else {
+        $overrideFoods = Get-PropertyValue $override "Foods"
+        Assert-ExactSingle (Get-PropertyValue $overrideFoods "Preferred") "Ingredient_Ice_Essence" "$foodPath RoleOverrides.Tamed_Dragon_Frost Foods.Preferred"
+    }
+}
+
+foreach ($model in @(
+    [pscustomobject]@{ Label = "standard"; Value = $standardModel },
+    [pscustomobject]@{ Label = "AvatarFlight"; Value = $avatarModel }
+)) {
+    if ($null -eq $model.Value) {
+        continue
+    }
+    $nodeNames = @(Get-JsonPropertyEntries $model.Value "name")
+    if (-not (@($nodeNames | Where-Object { $_.Value -eq "Top Jaw" }).Count -gt 0)) {
+        Add-Failure "$($model.Label) Frost Dragon model must expose a 'Top Jaw' node"
+    }
+}
+
+foreach ($path in $boltPaths) {
+    $interaction = $boltInteractions[$path]
+    if ($null -eq $interaction) {
+        continue
+    }
+
+    $targetNodes = @(Get-JsonPropertyEntries $interaction "TargetNodeName")
+    if ($targetNodes.Count -eq 0) {
+        Add-Failure "$path must attach its charging particle to Top Jaw"
+    } elseif (@($targetNodes | Where-Object { $_.Value -ne "Top Jaw" }).Count -gt 0) {
+        Add-Failure "$path must use Top Jaw for every TargetNodeName (actual: $(@($targetNodes | ForEach-Object { $_.Value }) -join ', '))"
+    }
+
+    $launchOffsets = @(Get-JsonPropertyEntries $interaction "LaunchPositionOffset")
+    if ($launchOffsets.Count -ne 1) {
+        Add-Failure "$path must have exactly one LaunchPositionOffset"
+        continue
+    }
+
+    $offset = $launchOffsets[0].Value
+    $x = Convert-ToNumber (Get-PropertyValue $offset "X")
+    $y = Convert-ToNumber (Get-PropertyValue $offset "Y")
+    $z = Convert-ToNumber (Get-PropertyValue $offset "Z")
+    if ($x -ne 0 -or $y -ne 1.5 -or $z -ne 3.0) {
+        Add-Failure "$path LaunchPositionOffset must be X 0, Y 1.5, Z 3.0 (actual: X $x, Y $y, Z $z)"
+    }
+    if ($y -ge 2.25) {
+        Add-Failure "$path LaunchPositionOffset.Y must be lower than the old 2.25 origin (actual: $y)"
+    }
+    if ($z -le 0) {
+        Add-Failure "$path LaunchPositionOffset.Z must be positive/forward (actual: $z)"
+    }
+}
+
+$breathSystemId = "AH_Dragon_Frost_Freezing_Breath"
+$sourceEffectId = "AH_Dragon_Frost_Freezing_Breath_Source"
+foreach ($path in $breathPaths) {
+    $interaction = $breathInteractions[$path]
+    if ($null -eq $interaction) {
+        continue
+    }
+
+    $systemIds = @(Get-JsonPropertyEntries $interaction "SystemId")
+    if ($systemIds.Count -eq 0) {
+        Add-Failure "$path must use the dedicated $breathSystemId particle system"
+    } elseif (@($systemIds | Where-Object { $_.Value -ne $breathSystemId }).Count -gt 0) {
+        Add-Failure "$path must not use Ice_Staff; every particle SystemId must be $breathSystemId"
+    }
+
+    $targetNodes = @(Get-JsonPropertyEntries $interaction "TargetNodeName")
+    if ($targetNodes.Count -eq 0 -or @($targetNodes | Where-Object { $_.Value -ne "Top Jaw" }).Count -gt 0) {
+        Add-Failure "$path must attach every breath particle to Top Jaw"
+    }
+
+    $detached = @(Get-JsonPropertyEntries $interaction "DetachedFromModel")
+    if ($detached.Count -eq 0 -or @($detached | Where-Object { $_.Value -ne $false }).Count -gt 0) {
+        Add-Failure "$path must keep breath particles attached (DetachedFromModel false)"
+    }
+
+    $positionOffsets = @(Get-JsonPropertyEntries $interaction "PositionOffset")
+    $positiveForwardOffset = $false
+    foreach ($entry in $positionOffsets) {
+        $z = Convert-ToNumber (Get-PropertyValue $entry.Value "Z")
+        if ($null -ne $z -and $z -gt 0) {
+            $positiveForwardOffset = $true
+        }
+    }
+    if (-not $positiveForwardOffset) {
+        Add-Failure "$path must use a positive local-Z mouth offset"
+    }
+
+    $sourceReferences = @(Get-JsonScalarEntries $interaction | Where-Object { [string] $_.Value -eq $sourceEffectId })
+    if ($sourceReferences.Count -lt 3) {
+        Add-Failure "$path must refresh $sourceEffectId at least three times (actual: $($sourceReferences.Count))"
+    }
+
+    $bannedReferences = @(Get-JsonScalarEntries $interaction | Where-Object { [string] $_.Value -eq "Ice_Staff" -or [string] $_.Value -eq "SFX_Staff_Ice_Shoot" })
+    if ($bannedReferences.Count -gt 0) {
+        Add-Failure "$path still references Ice_Staff or SFX_Staff_Ice_Shoot"
+    }
+}
+
+if ($null -ne $particleSystem) {
+    $systemSpawners = @(Get-JsonPropertyEntries $particleSystem "SpawnerId" | ForEach-Object { $_.Value })
+    foreach ($expectedSpawner in @(
+        "AH_Dragon_Frost_Freezing_Breath_Mist",
+        "AH_Dragon_Frost_Freezing_Breath_Crystals"
+    )) {
+        if ($systemSpawners -notcontains $expectedSpawner) {
+            Add-Failure "$particleSystemPath must include spawner $expectedSpawner"
+        }
+    }
+}
+
+foreach ($path in $spawnerPaths) {
+    $spawner = $spawners[$path]
+    if ($null -eq $spawner) {
+        continue
+    }
+
+    $continuous = $false
+    foreach ($entry in @(Get-JsonPropertyEntries $spawner "SpawnRate")) {
+        if (Test-PositiveRange $entry.Value) {
+            $continuous = $true
+        }
+    }
+    if (-not $continuous) {
+        Add-Failure "$path must emit continuously with a positive SpawnRate"
+    }
+
+    $forward = $false
+    foreach ($entry in @(Get-JsonPropertyEntries $spawner "InitialVelocity")) {
+        $speed = Get-PropertyValue $entry.Value "Speed"
+        if (Test-PositiveRange $speed) {
+            $forward = $true
+        }
+    }
+    if (-not $forward) {
+        Add-Failure "$path must use positive forward InitialVelocity.Speed"
+    }
+}
+
+if ($null -ne $startSound) {
+    $loopingLayers = @(Get-JsonPropertyEntries $startSound "Looping" | Where-Object { $_.Value -eq $true })
+    if ($loopingLayers.Count -eq 0) {
+        Add-Failure "$startSoundPath must include a looping breath-audio layer"
+    }
+}
+if ($null -ne $endSound) {
+    $endLayers = @(Get-JsonPropertyEntries $endSound "Layers")
+    if ($endLayers.Count -eq 0) {
+        Add-Failure "$endSoundPath must define an end-audio layer"
+    }
+}
+
+if ($null -ne $sourceEffect) {
+    $duration = Convert-ToNumber (Get-PropertyValue $sourceEffect "Duration")
+    if ($duration -ne 0.5) {
+        Add-Failure "$sourceEffectPath Duration must be 0.5 seconds (actual: $duration)"
+    }
+    if ((Get-PropertyValue $sourceEffect "OverlapBehavior") -ne "Overwrite") {
+        Add-Failure "$sourceEffectPath OverlapBehavior must be Overwrite"
+    }
+}
+
+if ($failures.Count -gt 0) {
+    $failures | ForEach-Object { [Console]::Error.WriteLine($_) }
+    exit 1
+}
+
+Write-Host "Frost Dragon feeding and breath contract checks passed."
