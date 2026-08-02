@@ -1,10 +1,13 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 from pathlib import Path
+import subprocess
 
 ROOT = Path(__file__).resolve().parents[1]
+BASELINE_COMMIT = "0fa7f94"
 HOOK_ID = "AnimalHusbandry.Command.ToggleAirborneMode"
 WILD_COMPONENT = ROOT / "Server/NPC/Roles/_Core/Components/AH_Component_Tamework_Instruction_Aerial_Follow_Item.json"
 MODE_COMPONENT = ROOT / "Server/NPC/Roles/_Core/Components/AH_Component_Tamework_Instruction_Aerial_Mode_Transition.json"
@@ -61,15 +64,68 @@ def require(condition: bool, message: str) -> None:
         raise AssertionError(message)
 
 
-def members(relative: str, *keys: str) -> set[str]:
-    value = load(ROOT / relative)
+def nested(document: dict, keys: tuple[str, ...]) -> object:
+    value: object = document
     for key in keys:
+        require(isinstance(value, dict) and key in value, f"missing {key} while reading config membership")
         value = value[key]
-    return set(value)
+    return value
 
 
-def role_ids(relative: str) -> set[str]:
-    return members(relative, "RoleIds")
+def members(relative: str, *keys: str) -> list[str]:
+    value = nested(load(ROOT / relative), keys)
+    require(isinstance(value, list) and all(isinstance(item, str) for item in value), f"invalid membership list in {relative}")
+    return value
+
+
+def baseline_load(relative: str) -> dict:
+    try:
+        payload = subprocess.check_output(
+            ["git", "show", f"{BASELINE_COMMIT}:{relative}"],
+            cwd=ROOT,
+        )
+    except (OSError, subprocess.CalledProcessError) as error:
+        raise AssertionError(f"cannot load baseline {BASELINE_COMMIT}:{relative}: {error}") from error
+    return json.loads(payload.decode("utf-8-sig"))
+
+
+def canonical_sha(value: object) -> str:
+    encoded = json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    return hashlib.sha256(encoded).hexdigest()
+
+
+def baseline_members(relative: str, *keys: str) -> list[str]:
+    value = nested(baseline_load(relative), keys)
+    require(isinstance(value, list) and all(isinstance(item, str) for item in value), f"invalid baseline membership list in {relative}")
+    return value
+
+
+def check_membership(
+    relative: str,
+    keys: tuple[str, ...],
+    feature_ids: set[str],
+    expected_feature_ids: set[str],
+    label: str,
+) -> None:
+    current = members(relative, *keys)
+    require(len(current) == len(set(current)), f"{label} contains duplicate IDs")
+    require(set(current) & feature_ids == expected_feature_ids, f"{label} feature-ID intersection drift")
+    baseline = baseline_members(relative, *keys)
+    current_unrelated = [item for item in current if item not in feature_ids]
+    baseline_unrelated = [item for item in baseline if item not in feature_ids]
+    require(
+        len(current_unrelated) == len(baseline_unrelated)
+        and canonical_sha(current_unrelated) == canonical_sha(baseline_unrelated),
+        f"{label} unrelated baseline drift",
+    )
+
+
+def check_non_role_content(relative: str) -> None:
+    current = load(ROOT / relative)
+    baseline = baseline_load(relative)
+    current.pop("RoleIds", None)
+    baseline.pop("RoleIds", None)
+    require(canonical_sha(current) == canonical_sha(baseline), f"{relative} non-RoleIds content drift")
 
 
 def has_item_target_loss_sensor(sensor: dict) -> bool:
@@ -735,12 +791,20 @@ def check_species(names: tuple[str, ...]) -> None:
 def check_configs() -> None:
     aerial = load(ROOT / "Server/Tamework/Companion/AHCompAerial.json")
     require(aerial.get("Parent") == "TwCompanionConfig_Default", "wrong aerial companion parent")
+    require(aerial.get("Enabled") is True, "aerial companion must be enabled")
     require(aerial.get("Priority") == 10, "wrong aerial companion priority")
-    require(set(aerial.get("RoleIds", [])) == set(TAMED_IDS), "flight toggle role set drift")
+    aerial_role_ids = aerial.get("RoleIds")
+    require(isinstance(aerial_role_ids, list), "aerial companion RoleIds must be a list")
+    require(all(isinstance(item, str) for item in aerial_role_ids), "aerial companion RoleIds must contain strings")
+    require(len(aerial_role_ids) == len(TAMED_IDS), "flight toggle role count drift")
+    require(len(aerial_role_ids) == len(set(aerial_role_ids)), "flight toggle RoleIds contain duplicates")
+    require(aerial_role_ids == list(TAMED_IDS), "flight toggle role order drift")
     require(
         aerial["Command"]["FlightToggle"] == {"Enabled": True, "HookId": HOOK_ID},
         "flight toggle contract drift",
     )
+    tamed_ids = set(TAMED_IDS)
+    wild_and_tamed = set(SPECIES) | tamed_ids
     for relative in (
         "Server/Tamework/Companion/AHCompNeutral.json",
         "Server/Tamework/CompanionMovement/AHCompanionMovement.json",
@@ -749,25 +813,70 @@ def check_configs() -> None:
         "Server/Tamework/Leveling/AHLevelNeutral.json",
         "Server/Tamework/Talents/AHTalentNeutral.json",
     ):
-        require(set(TAMED_IDS) <= role_ids(relative), f"missing tamed flyer membership in {relative}")
-    wild_and_tamed = set(SPECIES) | set(TAMED_IDS)
+        check_membership(relative, ("RoleIds",), tamed_ids, tamed_ids, relative)
     for relative in (
         "Server/Tamework/Interactions/AHIntNeutral.json",
         "Server/Tamework/Breeding/AHBreedNeutral.json",
         "Server/Tamework/Traits/AHTraitNeutral.json",
     ):
-        require(wild_and_tamed <= role_ids(relative), f"missing wild/tamed flyer membership in {relative}")
-    require(OMNIVORE_IDS <= role_ids("Server/Tamework/Needs/AHNeedsOmnivore.json"), "omnivore needs membership drift")
-    require(CARNIVORE_IDS <= role_ids("Server/Tamework/Needs/AHNeedsCarnivore.json"), "carnivore needs membership drift")
-    group_ids = members("Server/NPC/Groups/AH_Livestock_Tamed.json", "IncludeRoles")
-    require({f"{role_id}*" for role_id in TAMED_IDS} <= group_ids, "livestock group membership drift")
-    command_ids = members("Server/Tamework/Items/Commands/AHCommLivestock.json", "AllowedRoles", "Allowlist")
-    require(set(TAMED_IDS) <= command_ids, "livestock command membership drift")
-    lantern_ids = members("Server/Tamework/Items/Spawners/AHSpawnSoulLantern.json", "AllowedRoles", "Allowlist")
-    require(wild_and_tamed <= lantern_ids, "Soul Lantern membership drift")
-    food_overrides = load(ROOT / "Server/Tamework/Food/AHFoodNeutral.json")["RoleOverrides"]
-    for role_id in wild_and_tamed:
-        require(role_id in food_overrides, f"missing food override for {role_id}")
+        check_membership(relative, ("RoleIds",), wild_and_tamed, wild_and_tamed, relative)
+        check_non_role_content(relative)
+    check_membership(
+        "Server/Tamework/Needs/AHNeedsOmnivore.json",
+        ("RoleIds",),
+        tamed_ids,
+        OMNIVORE_IDS,
+        "omnivore needs",
+    )
+    check_membership(
+        "Server/Tamework/Needs/AHNeedsCarnivore.json",
+        ("RoleIds",),
+        tamed_ids,
+        CARNIVORE_IDS,
+        "carnivore needs",
+    )
+    group_ids = {f"{role_id}*" for role_id in TAMED_IDS}
+    check_membership(
+        "Server/NPC/Groups/AH_Livestock_Tamed.json",
+        ("IncludeRoles",),
+        group_ids,
+        group_ids,
+        "livestock group",
+    )
+    check_membership(
+        "Server/Tamework/Items/Commands/AHCommLivestock.json",
+        ("AllowedRoles", "Allowlist"),
+        tamed_ids,
+        tamed_ids,
+        "livestock command",
+    )
+    check_membership(
+        "Server/Tamework/Items/Spawners/AHSpawnSoulLantern.json",
+        ("AllowedRoles", "Allowlist"),
+        wild_and_tamed,
+        wild_and_tamed,
+        "Soul Lantern",
+    )
+    food_path = "Server/Tamework/Food/AHFoodNeutral.json"
+    food_overrides = load(ROOT / food_path)["RoleOverrides"]
+    baseline_food = baseline_load(food_path)["RoleOverrides"]
+    food_feature_keys = set(SPECIES) | tamed_ids
+    require(set(food_overrides) & food_feature_keys == food_feature_keys, "food feature key set drift")
+    current_unrelated = {key: value for key, value in food_overrides.items() if key not in food_feature_keys}
+    baseline_unrelated = {key: value for key, value in baseline_food.items() if key not in food_feature_keys}
+    require(
+        len(current_unrelated) == len(baseline_unrelated)
+        and canonical_sha(current_unrelated) == canonical_sha(baseline_unrelated),
+        "food unrelated RoleOverrides baseline drift",
+    )
+    for name, (_, _, _, _, _, favorite, _, generic) in SPECIES.items():
+        wild_foods = food_overrides[name].get("Foods")
+        tamed_foods = food_overrides[f"Tamed_{name}"].get("Foods")
+        require(wild_foods == {"Preferred": [favorite]}, f"wild food payload drift for {name}")
+        require(
+            tamed_foods == {"Preferred": [favorite], "Compatible": list(generic)},
+            f"tamed food payload drift for Tamed_{name}",
+        )
 
 
 AERIAL_SPECIES = (
