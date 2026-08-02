@@ -127,14 +127,6 @@
           "Type": "And",
           "Sensors": [
             {
-              "Type": "State",
-              "State": "FollowItem"
-            },
-            {
-              "Type": "MotionController",
-              "MotionController": "Fly"
-            },
-            {
               "Type": "Target",
               "TargetSlot": {
                 "Compute": "InteractionTargetSlot"
@@ -157,6 +149,14 @@
                   }
                 }
               ]
+            },
+            {
+              "Type": "State",
+              "State": "FollowItem"
+            },
+            {
+              "Type": "MotionController",
+              "MotionController": "Fly"
             },
             {
               "Type": "Not",
@@ -203,10 +203,6 @@
           "Type": "And",
           "Sensors": [
             {
-              "Type": "State",
-              "State": "FollowItem"
-            },
-            {
               "Type": "Target",
               "TargetSlot": {
                 "Compute": "InteractionTargetSlot"
@@ -232,6 +228,10 @@
                   }
                 }
               ]
+            },
+            {
+              "Type": "State",
+              "State": "FollowItem"
             }
           ]
         },
@@ -255,19 +255,19 @@
           "Type": "And",
           "Sensors": [
             {
+              "Type": "ReadPosition",
+              "Slot": {
+                "Compute": "LandingPositionSlot"
+              },
+              "Range": 64
+            },
+            {
               "Type": "State",
               "State": "FollowItemLanding"
             },
             {
               "Type": "MotionController",
               "MotionController": "Fly"
-            },
-            {
-              "Type": "ReadPosition",
-              "Slot": {
-                "Compute": "LandingPositionSlot"
-              },
-              "Range": 64
             }
           ]
         },
@@ -332,14 +332,6 @@
           "Type": "And",
           "Sensors": [
             {
-              "Type": "State",
-              "State": "FollowItemGrounded"
-            },
-            {
-              "Type": "MotionController",
-              "MotionController": "Walk"
-            },
-            {
               "Type": "Target",
               "TargetSlot": {
                 "Compute": "InteractionTargetSlot"
@@ -362,6 +354,14 @@
                   }
                 }
               ]
+            },
+            {
+              "Type": "State",
+              "State": "FollowItemGrounded"
+            },
+            {
+              "Type": "MotionController",
+              "MotionController": "Walk"
             }
           ]
         },

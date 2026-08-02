@@ -1415,27 +1415,6 @@
               ]
             },
             {
-              "Reference": "AH_Component_Tamework_Instruction_Aerial_Follow_Item",
-              "Modify": {
-                "AttractiveItemSet": {
-                  "Compute": "AttractiveItemSet"
-                },
-                "InteractionTargetSlot": "InteractionTarget",
-                "LandingPositionSlot": "AH_Aerial_Favorite_Landing",
-                "FlightSeekStopDistance": 5.0,
-                "GroundApproachDistanceRange": [
-                  1.5,
-                  2.0
-                ],
-                "_ExportStates": [
-                  "Idle",
-                  "FollowItem",
-                  "FollowItemLanding",
-                  "FollowItemGrounded"
-                ]
-              }
-            },
-            {
               "$Comment": "After the alerted timeout, make a decision",
               "Sensor": {
                 "Type": "Timer",
@@ -2040,6 +2019,27 @@
               }
             }
           ]
+        },
+        {
+          "Reference": "AH_Component_Tamework_Instruction_Aerial_Follow_Item",
+          "Modify": {
+            "AttractiveItemSet": {
+              "Compute": "AttractiveItemSet"
+            },
+            "InteractionTargetSlot": "InteractionTarget",
+            "LandingPositionSlot": "AH_Aerial_Favorite_Landing",
+            "FlightSeekStopDistance": 5.0,
+            "GroundApproachDistanceRange": [
+              1.5,
+              2.0
+            ],
+            "_ExportStates": [
+              "Idle",
+              "FollowItem",
+              "FollowItemLanding",
+              "FollowItemGrounded"
+            ]
+          }
         }
       ]
     }

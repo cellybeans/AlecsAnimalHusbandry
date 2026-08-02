@@ -132,15 +132,29 @@ def has_item_target_loss_sensor(sensor: dict) -> bool:
     if sensor.get("Type") != "Not":
         return False
     target = sensor.get("Sensor", {})
-    return target.get("Type") == "Target" and any(
-        filter_entry.get("Type") == "ItemInHand"
-        for filter_entry in target.get("Filters", [])
+    if target.get("Type") != "Target":
+        return False
+    target_slot = target.get("TargetSlot")
+    if not isinstance(target_slot, dict) or target_slot.get("Compute") != "InteractionTargetSlot":
+        return False
+    filters = target.get("Filters")
+    if not isinstance(filters, list):
+        return False
+    return any(
+        isinstance(filter_entry, dict)
+        and filter_entry.get("Type") == "ItemInHand"
+        and isinstance(filter_entry.get("Items"), dict)
+        and filter_entry["Items"].get("Compute") == "AttractiveItemSet"
+        for filter_entry in filters
     )
 
 
 def has_target_loss_branch(instructions: list[dict], state: str, controller: str, action_types: list[str]) -> bool:
     for instruction in instructions:
-        sensors = instruction.get("Sensor", {}).get("Sensors", [])
+        outer_sensor = instruction.get("Sensor", {})
+        if outer_sensor.get("Type") != "And":
+            continue
+        sensors = outer_sensor.get("Sensors", [])
         if not any(sensor.get("Type") == "State" and sensor.get("State") == state for sensor in sensors):
             continue
         if not any(
@@ -181,6 +195,87 @@ def state_branches(template: dict, state: str) -> list[dict]:
         if instruction.get("Sensor", {}).get("Type") == "State"
         and instruction.get("Sensor", {}).get("State") == state
     ]
+
+
+def reference_state_ancestors(document: object, reference: str, ancestors: tuple[str, ...] = ()) -> list[tuple[str, ...]]:
+    """Return state-sensor ancestry for every matching instruction reference."""
+    matches: list[tuple[str, ...]] = []
+    if isinstance(document, dict):
+        sensor = document.get("Sensor")
+        current = ancestors
+        if isinstance(sensor, dict) and sensor.get("Type") == "State":
+            state = sensor.get("State")
+            if isinstance(state, str):
+                current = ancestors + (state,)
+        if document.get("Reference") == reference:
+            matches.append(current)
+        for key, value in document.items():
+            if key == "Sensor":
+                continue
+            matches.extend(reference_state_ancestors(value, reference, current))
+    elif isinstance(document, list):
+        for value in document:
+            matches.extend(reference_state_ancestors(value, reference, ancestors))
+    return matches
+
+
+def reference_nodes(document: object, reference: str) -> list[dict]:
+    """Return matching instruction dictionaries without relying on source text."""
+    matches: list[dict] = []
+    if isinstance(document, dict):
+        if document.get("Reference") == reference:
+            matches.append(document)
+        for key, value in document.items():
+            if key == "Sensor":
+                continue
+            matches.extend(reference_nodes(value, reference))
+    elif isinstance(document, list):
+        for value in document:
+            matches.extend(reference_nodes(value, reference))
+    return matches
+
+
+def has_favorite_target_sensor(sensor: object) -> bool:
+    if not isinstance(sensor, dict) or sensor.get("Type") != "Target":
+        return False
+    target_slot = sensor.get("TargetSlot")
+    if not isinstance(target_slot, dict) or target_slot.get("Compute") != "InteractionTargetSlot":
+        return False
+    filters = sensor.get("Filters")
+    if not isinstance(filters, list):
+        return False
+    return any(
+        isinstance(filter_entry, dict)
+        and filter_entry.get("Type") == "ItemInHand"
+        and isinstance(filter_entry.get("Items"), dict)
+        and filter_entry["Items"].get("Compute") == "AttractiveItemSet"
+        for filter_entry in filters
+    )
+
+
+def has_first_sensor_branch(
+    instructions: list[dict],
+    predicate: object,
+    sensor_type: str,
+    slot_key: str,
+    slot_compute: str,
+    favorite_target: bool = False,
+) -> bool:
+    for instruction in descendants(instructions):
+        if not predicate(instruction):
+            continue
+        outer_sensor = instruction.get("Sensor", {})
+        if outer_sensor.get("Type") != "And":
+            continue
+        sensors = outer_sensor.get("Sensors", [])
+        if not sensors or sensors[0].get("Type") != sensor_type:
+            continue
+        if sensors[0].get(slot_key, {}).get("Compute") != slot_compute:
+            continue
+        if favorite_target and not has_favorite_target_sensor(sensors[0]):
+            continue
+        return True
+    return False
 
 
 def has_flag(sensors: list[dict], name: str, value: bool | None = None) -> bool:
@@ -477,10 +572,53 @@ def check_wild_shared() -> None:
     require(WILD_COMPONENT.exists(), f"missing {WILD_COMPONENT.relative_to(ROOT)}")
     component = load(WILD_COMPONENT)
     require(component.get("Interface") == "AnimalHusbandry.Instruction.AerialFollowItem", "wrong wild interface")
-    component_text = text(WILD_COMPONENT)
-    for token in ("ItemInHand", "TakeOff", "Land", "MaintainDistance"):
-        require(token in component_text, f"wild component missing {token}")
     instructions = component.get("Content", {}).get("Instructions", [])
+    require(
+        has_first_sensor_branch(
+            instructions,
+            lambda instruction: instruction.get("BodyMotion", {}).get("Type") == "Seek",
+            "Target",
+            "TargetSlot",
+            "InteractionTargetSlot",
+            favorite_target=True,
+        ),
+        "wild component flying Seek must begin with favorite-filtered InteractionTarget",
+    )
+    require(
+        has_first_sensor_branch(
+            instructions,
+            lambda instruction: any(
+                action.get("Type") == "StorePosition"
+                for action in instruction.get("Actions", [])
+            ),
+            "Target",
+            "TargetSlot",
+            "InteractionTargetSlot",
+            favorite_target=True,
+        ),
+        "wild component StorePosition handoff must begin with favorite-filtered InteractionTarget",
+    )
+    require(
+        has_first_sensor_branch(
+            instructions,
+            lambda instruction: instruction.get("BodyMotion", {}).get("Type") == "Land",
+            "ReadPosition",
+            "Slot",
+            "LandingPositionSlot",
+        ),
+        "wild component Land must begin with ReadPosition LandingPositionSlot",
+    )
+    require(
+        has_first_sensor_branch(
+            instructions,
+            lambda instruction: instruction.get("BodyMotion", {}).get("Type") == "MaintainDistance",
+            "Target",
+            "TargetSlot",
+            "InteractionTargetSlot",
+            favorite_target=True,
+        ),
+        "wild component MaintainDistance must begin with favorite-filtered InteractionTarget",
+    )
     require(
         any(
             action.get("Type") == "State" and action.get("State") == "FollowItemGrounded"
@@ -505,10 +643,18 @@ def check_wild_shared() -> None:
         has_target_loss_branch(instructions, "FollowItemGrounded", "Walk", ["ReleaseTarget", "TakeOff", "State"]),
         "wild component has no FollowItemGrounded + Walk target-loss release/takeoff/Idle branch",
     )
-    template_text = text(WILD_TEMPLATE)
-    require("AH_Component_Tamework_Instruction_Aerial_Follow_Item" in template_text, "wild template does not consume attraction component")
-    for state in ("FollowItem", "FollowItemLanding", "FollowItemGrounded"):
-        require(state in template_text, f"wild template missing state {state}")
+    template = load(WILD_TEMPLATE)
+    reference = "AH_Component_Tamework_Instruction_Aerial_Follow_Item"
+    matches = reference_nodes(template, reference)
+    ancestors = reference_state_ancestors(template, reference)
+    require(len(matches) == 1, "wild template must consume attraction component exactly once")
+    require(ancestors == [()], "wild attraction component reference must have no State ancestor")
+    exported_states = matches[0].get("Modify", {}).get("_ExportStates", [])
+    require(
+        isinstance(exported_states, list)
+        and all(state in exported_states for state in ("FollowItem", "FollowItemLanding", "FollowItemGrounded")),
+        "wild attraction component must export FollowItem, FollowItemLanding, and FollowItemGrounded",
+    )
 
 
 def check_tamed_shared() -> None:
