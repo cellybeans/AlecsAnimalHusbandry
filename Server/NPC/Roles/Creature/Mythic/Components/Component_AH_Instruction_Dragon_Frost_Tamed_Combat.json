@@ -127,7 +127,14 @@
       {
         "Continue": true,
         "Sensor": { "Type": "And", "Sensors": [ { "Type": "Or", "Sensors": [ { "Type": "State", "State": ".Default" }, { "Type": "State", "State": ".GroundCombat" } ] }, { "Type": "Target", "TargetSlot": "LockedTarget" }, { "Type": "Flag", "Name": "AirborneMode", "Set": true }, { "Type": "MotionController", "MotionController": "Fly" } ] },
-        "Actions": [ { "Type": "State", "State": ".AirRanged" }, { "Type": "ResetInstructions" } ]
+        "Actions": [
+          { "Type": "TimerStart", "Name": "AH_Dragon_Frost_Air_Volley", "StartValueRange": { "Compute": "AirVolleyCooldownRange" }, "RestartValueRange": { "Compute": "AirVolleyCooldownRange" } },
+          { "Type": "TimerRestart", "Name": "AH_Dragon_Frost_Air_Volley" },
+          { "Type": "TimerStart", "Name": "AH_Dragon_Frost_Air_Breath", "StartValueRange": { "Compute": "AirBreathCooldownRange" }, "RestartValueRange": { "Compute": "AirBreathCooldownRange" } },
+          { "Type": "TimerRestart", "Name": "AH_Dragon_Frost_Air_Breath" },
+          { "Type": "State", "State": ".AirRanged" },
+          { "Type": "ResetInstructions" }
+        ]
       },
       {
         "Continue": true,
