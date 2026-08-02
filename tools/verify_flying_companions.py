@@ -628,6 +628,9 @@ def check_species(names: tuple[str, ...]) -> None:
         require(wild_modify.get("WanderRadius") == radius, f"{name} wild radius mismatch")
         require(wild_modify.get("IsMemory") is True, f"{name} wild role must be a memory")
         require(wild_modify.get("MemoriesCategory") == "Avian", f"{name} wild memory category mismatch")
+        if name == "Bluebird":
+            require(wild_modify.get("MaxSpeed") == 20, "Bluebird wild MaxSpeed override must remain 20")
+            require(wild_modify.get("ParticleOffset") == [0, 0.4, 0], "Bluebird wild ParticleOffset override must remain [0, 0.4, 0]")
         if memories_override is None:
             require("MemoriesNameOverride" not in wild_modify, f"{name} wild role has an unexpected memory name override")
         else:
@@ -671,6 +674,13 @@ def check_species(names: tuple[str, ...]) -> None:
         require(tamed_modify.get("WanderRadius") == radius, f"Tamed_{name} radius mismatch")
         require(tamed_modify.get("IsMemory") is False, f"Tamed_{name} role must not be a memory")
         require(tamed_modify.get("MemoriesCategory") == "Avian", f"Tamed_{name} memory category mismatch")
+        if name == "Bluebird":
+            require(tamed_modify.get("MaxSpeed") == 20, "Tamed_Bluebird MaxSpeed override must remain 20")
+            require(tamed_modify.get("ParticleOffset") == [0, 0.4, 0], "Tamed_Bluebird ParticleOffset override must remain [0, 0.4, 0]")
+            require(tamed_modify.get("NeedsSeekConsumeStartDistance") == 1.5, "Tamed_Bluebird NeedsSeekConsumeStartDistance override must remain 1.5")
+            require(tamed_modify.get("NeedsSeekConsumeMaintainMaxDistance") == 1.25, "Tamed_Bluebird NeedsSeekConsumeMaintainMaxDistance override must remain 1.25")
+            require(tamed_modify.get("NeedsSeekConsumeMaintainDistanceRange") == [1, 1.25], "Tamed_Bluebird NeedsSeekConsumeMaintainDistanceRange override must remain [1, 1.25]")
+            require(tamed_modify.get("MemoriesNameOverride") == "Bluebird", "Tamed_Bluebird MemoriesNameOverride must remain Bluebird")
         require(tamed_modify.get("NameTranslationKey") == {"Compute": "NameTranslationKey"}, f"Tamed_{name} name key must be computed")
         require(tamed_modify.get("AttractiveItemSet") == [favorite], f"Tamed_{name} favorite item mismatch")
         require(tamed_modify.get("AttractiveItemSetParticles") == particles, f"Tamed_{name} food particle mismatch")
