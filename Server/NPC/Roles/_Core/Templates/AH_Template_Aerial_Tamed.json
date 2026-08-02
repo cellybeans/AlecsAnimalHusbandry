@@ -767,14 +767,6 @@
       ]
     },
     {
-      "$Comment": "Mark Sleep as a grounded husbandry activity and hand landing to Tamework before sleep behavior runs.",
-      "Continue": true,
-      "Sensor": {
-        "Type": "State",
-        "State": "Sleep"
-      },
-      "Instructions": [
-        {
           "$Comment": "Block Sleep activity while airborne and hand landing to Tamework.",
           "Continue": false,
           "Sensor": {
@@ -831,18 +823,8 @@
               "SetTo": true
             }
           ]
-        }
-      ]
     },
     {
-      "$Comment": "Mark BreedPair as a grounded husbandry activity and land before pair movement runs.",
-      "Continue": true,
-      "Sensor": {
-        "Type": "State",
-        "State": "BreedPair"
-      },
-      "Instructions": [
-        {
           "$Comment": "Block BreedPair activity while airborne and hand landing to Tamework.",
           "Continue": false,
           "Sensor": {
@@ -899,8 +881,6 @@
               "SetTo": true
             }
           ]
-        }
-      ]
     },
     {
       "$Comment": "Keep needs-seek water grounded until the resource activity completes.",
