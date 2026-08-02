@@ -298,6 +298,83 @@ def has_activity_wrapper(template: dict, state: str) -> bool:
     return False
 
 
+def is_state_controller_conjunction(sensor: dict, state: str, controller: str) -> bool:
+    if sensor.get("Type") != "And":
+        return False
+    sensors = sensor.get("Sensors", [])
+    return any(
+        entry.get("Type") == "State" and entry.get("State") == state
+        for entry in sensors
+    ) and has_controller(sensors, controller)
+
+
+def has_activity_controller_boundary(template: dict, state: str) -> bool:
+    """Require a Fly blocker and a Walk release around grounded activity."""
+    for branch in state_branches(template, state):
+        children = instruction_children(branch)
+        if not any(
+            has_action(
+                [child],
+                "TameworkSetFlyingCompanionMode",
+                Mode="Hold",
+                LandingState=state,
+                GroundedState=state,
+            )
+            for child in children
+        ):
+            continue
+        fly = next(
+            (
+                child
+                for child in children
+                if is_state_controller_conjunction(
+                    child.get("Sensor", {}), state, "Fly"
+                )
+            ),
+            None,
+        )
+        walk = next(
+            (
+                child
+                for child in children
+                if is_state_controller_conjunction(
+                    child.get("Sensor", {}), state, "Walk"
+                )
+            ),
+            None,
+        )
+        if fly is None or fly.get("Continue") is not False:
+            continue
+        if not has_action(
+            [fly],
+            "TameworkSetFlyingCompanionMode",
+            Mode="Hold",
+            LandingState=state,
+            GroundedState=state,
+        ):
+            continue
+        if walk is None or walk.get("Continue") is not True:
+            continue
+        if not has_action(
+            [walk],
+            "SetFlag",
+            Name="AerialGroundedActivity",
+            SetTo=True,
+        ):
+            continue
+        return True
+    return False
+
+
+def has_state_controller_instruction(template: dict, state: str, controller: str) -> bool:
+    return any(
+        is_state_controller_conjunction(
+            instruction.get("Sensor", {}), state, controller
+        )
+        for instruction in descendants(template.get("Instructions", []))
+    )
+
+
 def check_wild_shared() -> None:
     require(WILD_COMPONENT.exists(), f"missing {WILD_COMPONENT.relative_to(ROOT)}")
     component = load(WILD_COMPONENT)
@@ -471,6 +548,15 @@ def check_tamed_shared() -> None:
     )
     for state in ("Sleep", "BreedPair", "NeedsSeekWater", "NeedsSeekFood"):
         require(has_activity_wrapper(template, state), f"{state} missing grounded activity wrapper")
+    for state in ("Sleep", "BreedPair"):
+        require(
+            has_activity_controller_boundary(template, state),
+            f"{state} activity must block Fly and release only on Walk",
+        )
+    require(
+        has_state_controller_instruction(template, "Sleep", "Walk"),
+        "Sleep body must be gated by the Walk motion controller",
+    )
     require(has_grounded_activity_release(template), "grounded activity flag must clear after husbandry state exits")
     needs = {
         instruction.get("Modify", {}).get("NeedsSeekResourceType"): instruction.get("Modify", {})

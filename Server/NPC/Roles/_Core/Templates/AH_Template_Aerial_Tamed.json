@@ -775,10 +775,20 @@
       },
       "Instructions": [
         {
-          "Continue": true,
+          "$Comment": "Block Sleep activity while airborne and hand landing to Tamework.",
+          "Continue": false,
           "Sensor": {
-            "Type": "Any",
-            "Once": true
+            "Type": "And",
+            "Sensors": [
+              {
+                "Type": "State",
+                "State": "Sleep"
+              },
+              {
+                "Type": "MotionController",
+                "MotionController": "Fly"
+              }
+            ]
           },
           "Actions": [
             {
@@ -797,6 +807,30 @@
               "VerticalMovementEpsilon": 0.15
             }
           ]
+        },
+        {
+          "$Comment": "Release Sleep activity only after the companion is walking.",
+          "Continue": true,
+          "Sensor": {
+            "Type": "And",
+            "Sensors": [
+              {
+                "Type": "State",
+                "State": "Sleep"
+              },
+              {
+                "Type": "MotionController",
+                "MotionController": "Walk"
+              }
+            ]
+          },
+          "Actions": [
+            {
+              "Type": "SetFlag",
+              "Name": "AerialGroundedActivity",
+              "SetTo": true
+            }
+          ]
         }
       ]
     },
@@ -809,10 +843,20 @@
       },
       "Instructions": [
         {
-          "Continue": true,
+          "$Comment": "Block BreedPair activity while airborne and hand landing to Tamework.",
+          "Continue": false,
           "Sensor": {
-            "Type": "Any",
-            "Once": true
+            "Type": "And",
+            "Sensors": [
+              {
+                "Type": "State",
+                "State": "BreedPair"
+              },
+              {
+                "Type": "MotionController",
+                "MotionController": "Fly"
+              }
+            ]
           },
           "Actions": [
             {
@@ -829,6 +873,30 @@
               "ReissueDelayMs": 50,
               "GroundedStableTicks": 3,
               "VerticalMovementEpsilon": 0.15
+            }
+          ]
+        },
+        {
+          "$Comment": "Release BreedPair activity only after the companion is walking.",
+          "Continue": true,
+          "Sensor": {
+            "Type": "And",
+            "Sensors": [
+              {
+                "Type": "State",
+                "State": "BreedPair"
+              },
+              {
+                "Type": "MotionController",
+                "MotionController": "Walk"
+              }
+            ]
+          },
+          "Actions": [
+            {
+              "Type": "SetFlag",
+              "Name": "AerialGroundedActivity",
+              "SetTo": true
             }
           ]
         }
@@ -2301,8 +2369,17 @@
         },
         {
           "Sensor": {
-            "Type": "State",
-            "State": "Sleep"
+            "Type": "And",
+            "Sensors": [
+              {
+                "Type": "State",
+                "State": "Sleep"
+              },
+              {
+                "Type": "MotionController",
+                "MotionController": "Walk"
+              }
+            ]
           },
           "Instructions": [
             {
