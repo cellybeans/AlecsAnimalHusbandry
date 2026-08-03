@@ -1,8 +1,10 @@
 {
   "ApplicationEffects": {
-    "WorldSoundEventId": "SFX_AH_Dragon_Frost_Freezing_Breath"
+    "WorldSoundEventId": "SFX_Staff_Flame_Flamethrower",
+    "LocalSoundEventId": "SFX_Staff_Flame_Flamethrower_Local"
   },
-  "WorldRemovalSoundEventId": "SFX_AH_Dragon_Frost_Freezing_Breath_End",
+  "WorldRemovalSoundEventId": "SFX_Staff_Flame_Flamethrower_End",
+  "LocalRemovalSoundEventId": "SFX_Staff_Flame_Flamethrower_End_Local",
   "OverlapBehavior": "Overwrite",
   "Infinite": false,
   "Duration": 0.5

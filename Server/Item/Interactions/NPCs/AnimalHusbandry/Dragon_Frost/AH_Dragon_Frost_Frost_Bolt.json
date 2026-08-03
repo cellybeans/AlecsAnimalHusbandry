@@ -40,8 +40,7 @@
         "ExcludeSource": true
       },
       "Effects": {
-        "WorldSoundEventId": "SFX_Staff_Ice_Shoot",
-        "LocalSoundEventId": "SFX_Staff_Ice_Shoot"
+        "WorldSoundEventId": "SFX_AH_Dragon_Frost_Frost_Bolt_Launch"
       },
       "Tags": {}
     },

@@ -13,6 +13,7 @@
           "Effects": {
             "ItemPlayerAnimationsId": "AH_Dragon_Frost_Default",
             "ItemAnimationId": "FreezingBreathMoving",
+            "WorldSoundEventId": "SFX_AH_Dragon_Frost_Breath_Roar",
             "Particles": [
               {
                 "TargetEntityPart": "Entity",

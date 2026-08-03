@@ -206,8 +206,10 @@ $spawnerPaths = @(
     "Server/Particles/AnimalHusbandry/Dragon_Frost/Spawners/AH_Dragon_Frost_Freezing_Breath_Mist.particlespawner",
     "Server/Particles/AnimalHusbandry/Dragon_Frost/Spawners/AH_Dragon_Frost_Freezing_Breath_Crystals.particlespawner"
 )
-$startSoundPath = "Server/Audio/SoundEvents/SFX/NPC/Mythic/Dragon_Frost/SFX_AH_Dragon_Frost_Freezing_Breath.json"
-$endSoundPath = "Server/Audio/SoundEvents/SFX/NPC/Mythic/Dragon_Frost/SFX_AH_Dragon_Frost_Freezing_Breath_End.json"
+$breathRoarSoundPath = "Server/Audio/SoundEvents/SFX/NPC/Mythic/Dragon_Frost/SFX_AH_Dragon_Frost_Breath_Roar.json"
+$boltLaunchSoundPath = "Server/Audio/SoundEvents/SFX/NPC/Mythic/Dragon_Frost/SFX_AH_Dragon_Frost_Frost_Bolt_Launch.json"
+$breathRoarAudioPath = "Common/Sounds/AnimalHusbandry/Dragon_Frost/Avatar_Flame_Breath_Roar.ogg"
+$boltLaunchAudioPath = "Common/Sounds/AnimalHusbandry/Dragon_Frost/Avatar_Fireball_Launch.ogg"
 $sourceEffectPath = "Server/Entity/Effects/Status/AnimalHusbandry/AH_Dragon_Frost_Freezing_Breath_Source.json"
 
 $wildRole = Read-JsonAsset $wildRolePath
@@ -226,9 +228,15 @@ $spawners = @{}
 foreach ($path in $spawnerPaths) {
     $spawners[$path] = Read-JsonAsset $path
 }
-$startSound = Read-JsonAsset $startSoundPath
-$endSound = Read-JsonAsset $endSoundPath
+$breathRoarSound = Read-JsonAsset $breathRoarSoundPath
+$boltLaunchSound = Read-JsonAsset $boltLaunchSoundPath
 $sourceEffect = Read-JsonAsset $sourceEffectPath
+
+foreach ($audioPath in @($breathRoarAudioPath, $boltLaunchAudioPath)) {
+    if (-not (Test-Path -LiteralPath (Join-Path $Root $audioPath) -PathType Leaf)) {
+        Add-Failure "missing required audio asset: $audioPath"
+    }
+}
 
 $standardModel = Read-JsonCandidate "standard Frost Dragon model" @(
     "Server/Models/AnimalHusbandry/AH_Dragon_Frost.blockymodel",
@@ -311,6 +319,13 @@ foreach ($path in $boltPaths) {
     if ($z -le 0) {
         Add-Failure "$path LaunchPositionOffset.Z must be positive/forward (actual: $z)"
     }
+
+    $worldSounds = @(Get-JsonPropertyEntries $interaction "WorldSoundEventId" | ForEach-Object { $_.Value })
+    Assert-ExactSingle $worldSounds "SFX_AH_Dragon_Frost_Frost_Bolt_Launch" "$path WorldSoundEventId"
+    $localSounds = @(Get-JsonPropertyEntries $interaction "LocalSoundEventId")
+    if ($localSounds.Count -ne 0) {
+        Add-Failure "$path must use the Nordic Drake-style world-only projectile launch sound"
+    }
 }
 
 $breathSystemId = "AH_Dragon_Frost_Freezing_Breath"
@@ -349,6 +364,13 @@ foreach ($path in $breathPaths) {
     })
     if ($sourceReferences.Count -lt 3) {
         Add-Failure "$path must refresh $sourceEffectId at least three times (actual: $($sourceReferences.Count))"
+    }
+
+    $breathRoars = @(Get-JsonPropertyEntries $interaction "WorldSoundEventId" | Where-Object {
+        [string]$_.Value -eq "SFX_AH_Dragon_Frost_Breath_Roar"
+    })
+    if ($breathRoars.Count -ne 1) {
+        Add-Failure "$path must play the Nordic Drake breath roar exactly once (actual: $($breathRoars.Count))"
     }
 
     if ($path -eq $breathPaths[2]) {
@@ -428,19 +450,29 @@ foreach ($path in $spawnerPaths) {
     if (-not $forward) {
         Add-Failure "$path must use positive forward InitialVelocity.Speed"
     }
+
+    $lifeMax = Convert-ToNumber (Get-PropertyValue (Get-PropertyValue $spawner "ParticleLifeSpan") "Max")
+    $speedMax = Convert-ToNumber (Get-PropertyValue (Get-PropertyValue (Get-PropertyValue $spawner "InitialVelocity") "Speed") "Max")
+    $maxTravel = if ($null -ne $lifeMax -and $null -ne $speedMax) { $lifeMax * $speedMax } else { 0 }
+    if ($maxTravel -lt 7.5) {
+        Add-Failure "$path must project at least 7.5 blocks before scaling (actual: $maxTravel)"
+    }
+
+    foreach ($axis in @("Yaw", "Pitch")) {
+        $spread = Get-PropertyValue (Get-PropertyValue $spawner "InitialVelocity") $axis
+        $spreadMin = Convert-ToNumber (Get-PropertyValue $spread "Min")
+        $spreadMax = Convert-ToNumber (Get-PropertyValue $spread "Max")
+        if ($null -eq $spreadMin -or $null -eq $spreadMax -or $spreadMin -lt -8 -or $spreadMax -gt 8) {
+            Add-Failure "$path InitialVelocity.$axis must stay within -8..8 degrees for a focused long-range stream"
+        }
+    }
 }
 
-if ($null -ne $startSound) {
-    $loopingLayers = @(Get-JsonPropertyEntries $startSound "Looping" | Where-Object { $_.Value -eq $true })
-    if ($loopingLayers.Count -eq 0) {
-        Add-Failure "$startSoundPath must include a looping breath-audio layer"
-    }
+if ($null -ne $breathRoarSound) {
+    Assert-ExactSingle (Get-PropertyValue $breathRoarSound.Layers[0] "Files") "Sounds/AnimalHusbandry/Dragon_Frost/Avatar_Flame_Breath_Roar.ogg" "$breathRoarSoundPath Layers[0].Files"
 }
-if ($null -ne $endSound) {
-    $endLayers = @(Get-JsonPropertyEntries $endSound "Layers")
-    if ($endLayers.Count -eq 0) {
-        Add-Failure "$endSoundPath must define an end-audio layer"
-    }
+if ($null -ne $boltLaunchSound) {
+    Assert-ExactSingle (Get-PropertyValue $boltLaunchSound.Layers[0] "Files") "Sounds/AnimalHusbandry/Dragon_Frost/Avatar_Fireball_Launch.ogg" "$boltLaunchSoundPath Layers[0].Files"
 }
 
 if ($null -ne $sourceEffect) {
@@ -452,11 +484,17 @@ if ($null -ne $sourceEffect) {
         Add-Failure "$sourceEffectPath OverlapBehavior must be Overwrite"
     }
     $applicationEffects = Get-PropertyValue $sourceEffect "ApplicationEffects"
-    if ([string](Get-PropertyValue $applicationEffects "WorldSoundEventId") -ne "SFX_AH_Dragon_Frost_Freezing_Breath") {
-        Add-Failure "$sourceEffectPath ApplicationEffects.WorldSoundEventId must be SFX_AH_Dragon_Frost_Freezing_Breath"
+    if ([string](Get-PropertyValue $applicationEffects "WorldSoundEventId") -ne "SFX_Staff_Flame_Flamethrower") {
+        Add-Failure "$sourceEffectPath ApplicationEffects.WorldSoundEventId must match FlamethrowerSource"
     }
-    if ([string](Get-PropertyValue $sourceEffect "WorldRemovalSoundEventId") -ne "SFX_AH_Dragon_Frost_Freezing_Breath_End") {
-        Add-Failure "$sourceEffectPath WorldRemovalSoundEventId must be SFX_AH_Dragon_Frost_Freezing_Breath_End"
+    if ([string](Get-PropertyValue $applicationEffects "LocalSoundEventId") -ne "SFX_Staff_Flame_Flamethrower_Local") {
+        Add-Failure "$sourceEffectPath ApplicationEffects.LocalSoundEventId must match FlamethrowerSource"
+    }
+    if ([string](Get-PropertyValue $sourceEffect "WorldRemovalSoundEventId") -ne "SFX_Staff_Flame_Flamethrower_End") {
+        Add-Failure "$sourceEffectPath WorldRemovalSoundEventId must match FlamethrowerSource"
+    }
+    if ([string](Get-PropertyValue $sourceEffect "LocalRemovalSoundEventId") -ne "SFX_Staff_Flame_Flamethrower_End_Local") {
+        Add-Failure "$sourceEffectPath LocalRemovalSoundEventId must match FlamethrowerSource"
     }
 }
 
