@@ -236,7 +236,11 @@
     },
     "MaxSpeed": {
       "Value": 4,
-      "Description": "The maximum walking speed of the NPC."
+      "Description": "The maximum flight speed of the NPC."
+    },
+    "GroundSpeed": {
+      "Value": 2,
+      "Description": "The maximum landed walking speed of the NPC."
     },
     "MaxHealth": {
       "Value": 100,
@@ -340,7 +344,7 @@
     {
       "Type": "Walk",
       "MaxWalkSpeed": {
-        "Compute": "MaxSpeed"
+        "Compute": "GroundSpeed"
       },
       "Gravity": 15,
       "MaxFallSpeed": 15,
@@ -1349,6 +1353,92 @@
               }
             },
             {
+              "Enabled": {
+                "Compute": "!isEmptyStringArray(AttractiveItemSet)"
+              },
+              "$Comment": "Favorite food takes priority over passive proximity avoidance.",
+              "Sensor": {
+                "Type": "Target",
+                "Range": {
+                  "Compute": "AlertedActionRange"
+                },
+                "Filters": [
+                  {
+                    "Type": "LineOfSight"
+                  },
+                  {
+                    "Type": "ItemInHand",
+                    "Items": {
+                      "Compute": "AttractiveItemSet"
+                    }
+                  },
+                  {
+                    "Type": "Not",
+                    "Filter": {
+                      "Type": "Attitude",
+                      "Attitudes": [
+                        "Hostile",
+                        "Ignore"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "Type": "Random",
+              "ExecuteFor": [
+                15,
+                20
+              ],
+              "Instructions": [
+                {
+                  "Weight": {
+                    "Compute": "WeightFollowItem"
+                  },
+                  "Sensor": {
+                    "Type": "Target"
+                  },
+                  "ActionsBlocking": true,
+                  "Actions": [
+                    {
+                      "Type": "SpawnParticles",
+                      "ParticleSystem": "Hearts_Subtle",
+                      "Offset": {
+                        "Compute": "ParticleOffset"
+                      },
+                      "TargetNodeName": "Head"
+                    },
+                    {
+                      "Type": "Timeout",
+                      "Delay": {
+                        "Compute": "FollowItemPreDelay"
+                      }
+                    },
+                    {
+                      "Type": "State",
+                      "State": "FollowItem"
+                    }
+                  ]
+                },
+                {
+                  "Enabled": {
+                    "Compute": "WeightFollowItem < 100"
+                  },
+                  "Weight": {
+                    "Compute": "100 - WeightFollowItem"
+                  },
+                  "Sensor": {
+                    "Type": "Target"
+                  },
+                  "ActionsBlocking": true,
+                  "Actions": [
+                    {
+                      "Type": "Nothing"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
               "$Comment": "Watching a target always, if we have any",
               "Continue": true,
               "Sensor": {
@@ -1529,86 +1619,6 @@
                     {
                       "Type": "State",
                       "State": "Flee.Switch"
-                    }
-                  ]
-                },
-                {
-                  "Enabled": {
-                    "Compute": "!isEmptyStringArray(AttractiveItemSet)"
-                  },
-                  "$Comment": "If the target is holding a liked item, follow it",
-                  "Sensor": {
-                    "Type": "Target",
-                    "Filters": [
-                      {
-                        "Type": "ItemInHand",
-                        "Items": {
-                          "Compute": "AttractiveItemSet"
-                        }
-                      },
-                      {
-                        "Type": "Not",
-                        "Filter": {
-                          "Type": "Attitude",
-                          "Attitudes": [
-                            "Hostile",
-                            "Ignore"
-                          ]
-                        }
-                      }
-                    ]
-                  },
-                  "Type": "Random",
-                  "ExecuteFor": [
-                    15,
-                    20
-                  ],
-                  "Instructions": [
-                    {
-                      "Weight": {
-                        "Compute": "WeightFollowItem"
-                      },
-                      "Sensor": {
-                        "Type": "Target"
-                      },
-                      "ActionsBlocking": true,
-                      "Actions": [
-                        {
-                          "Type": "SpawnParticles",
-                          "ParticleSystem": "Hearts_Subtle",
-                          "Offset": {
-                            "Compute": "ParticleOffset"
-                          },
-                          "TargetNodeName": "Head"
-                        },
-                        {
-                          "Type": "Timeout",
-                          "Delay": {
-                            "Compute": "FollowItemPreDelay"
-                          }
-                        },
-                        {
-                          "Type": "State",
-                          "State": "FollowItem"
-                        }
-                      ]
-                    },
-                    {
-                      "Enabled": {
-                        "Compute": "WeightFollowItem < 100"
-                      },
-                      "Weight": {
-                        "Compute": "100 - WeightFollowItem"
-                      },
-                      "Sensor": {
-                        "Type": "Target"
-                      },
-                      "ActionsBlocking": true,
-                      "Actions": [
-                        {
-                          "Type": "Nothing"
-                        }
-                      ]
                     }
                   ]
                 }
@@ -2033,7 +2043,7 @@
                 "AttractiveItemSet": {
                   "Compute": "AttractiveItemSet"
                 },
-                "InteractionTargetSlot": "InteractionTarget",
+                "FollowTargetSlot": "LockedTarget",
                 "LandingPositionSlot": "AH_Aerial_Favorite_Landing",
                 "FlightSeekStopDistance": 5.0,
                 "GroundApproachDistanceRange": [

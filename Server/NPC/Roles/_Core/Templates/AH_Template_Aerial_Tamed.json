@@ -404,7 +404,11 @@
     },
     "MaxSpeed": {
       "Value": 4,
-      "Description": "The maximum walking speed of the NPC."
+      "Description": "The maximum flight speed of the NPC."
+    },
+    "GroundSpeed": {
+      "Value": 2,
+      "Description": "The maximum landed walking speed of the NPC."
     },
     "MaxHealth": {
       "Value": 100,
@@ -532,7 +536,7 @@
     {
       "Type": "Walk",
       "MaxWalkSpeed": {
-        "Compute": "MaxSpeed"
+        "Compute": "GroundSpeed"
       },
       "Gravity": 15,
       "MaxFallSpeed": 15,

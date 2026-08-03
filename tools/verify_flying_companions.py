@@ -136,7 +136,7 @@ def has_item_target_loss_sensor(sensor: dict) -> bool:
     if target.get("Type") != "Target":
         return False
     target_slot = target.get("TargetSlot")
-    if not isinstance(target_slot, dict) or target_slot.get("Compute") != "InteractionTargetSlot":
+    if not isinstance(target_slot, dict) or target_slot.get("Compute") != "FollowTargetSlot":
         return False
     filters = target.get("Filters")
     if not isinstance(filters, list):
@@ -174,7 +174,7 @@ def has_target_loss_branch(
         actions = instruction.get("Actions", [])
         if [action.get("Type") for action in actions] != action_types:
             continue
-        if not actions or actions[0].get("TargetSlot", {}).get("Compute") != "InteractionTargetSlot":
+        if not actions or actions[0].get("TargetSlot", {}).get("Compute") != "FollowTargetSlot":
             continue
         if actions[-1].get("Type") != "ParentState" or actions[-1].get("State") != "Idle":
             continue
@@ -210,6 +210,50 @@ def descendants(instructions: list[dict]) -> list[dict]:
         result.append(instruction)
         result.extend(descendants(instruction_children(instruction)))
     return result
+
+
+def has_favorite_item_filter(value: object) -> bool:
+    return any(
+        node.get("Type") == "ItemInHand"
+        and node.get("Items", {}).get("Compute") == "AttractiveItemSet"
+        for node in object_nodes(value)
+    )
+
+
+def has_slow_ground_controller(template: dict) -> bool:
+    parameters = template.get("Parameters", {})
+    ground_speed = parameters.get("GroundSpeed", {}).get("Value")
+    controllers = template.get("MotionControllerList", [])
+    fly = next((controller for controller in controllers if controller.get("Type") == "Fly"), {})
+    walk = next((controller for controller in controllers if controller.get("Type") == "Walk"), {})
+    return (
+        isinstance(ground_speed, (int, float))
+        and 0 < ground_speed <= 3
+        and fly.get("MaxHorizontalSpeed", {}).get("Compute") == "MaxSpeed"
+        and walk.get("MaxWalkSpeed", {}).get("Compute") == "GroundSpeed"
+    )
+
+
+def favorite_item_preempts_proximity_flee(template: dict) -> bool:
+    alerted = state_branches(template, "Alerted")
+    if len(alerted) != 1:
+        return False
+    instructions = instruction_children(alerted[0])
+    favorite_indices = [
+        index
+        for index, instruction in enumerate(instructions)
+        if has_favorite_item_filter(instruction.get("Sensor", {}))
+    ]
+    proximity_flee_indices = [
+        index
+        for index, instruction in enumerate(instructions)
+        if instruction.get("BodyMotion", {}).get("Type") == "Flee"
+    ]
+    return (
+        len(favorite_indices) == 1
+        and bool(proximity_flee_indices)
+        and favorite_indices[0] < min(proximity_flee_indices)
+    )
 
 
 def state_branches(template: dict, state: str) -> list[dict]:
@@ -263,7 +307,7 @@ def has_favorite_target_sensor(sensor: object) -> bool:
     if not isinstance(sensor, dict) or sensor.get("Type") != "Target":
         return False
     target_slot = sensor.get("TargetSlot")
-    if not isinstance(target_slot, dict) or target_slot.get("Compute") != "InteractionTargetSlot":
+    if not isinstance(target_slot, dict) or target_slot.get("Compute") != "FollowTargetSlot":
         return False
     filters = sensor.get("Filters")
     if not isinstance(filters, list):
@@ -630,10 +674,20 @@ def check_wild_shared() -> None:
             lambda instruction: instruction.get("BodyMotion", {}).get("Type") == "Seek",
             "Target",
             "TargetSlot",
-            "InteractionTargetSlot",
+            "FollowTargetSlot",
             favorite_target=True,
         ),
-        "wild component flying Seek must begin with favorite-filtered InteractionTarget",
+        "wild component flying Seek must begin with favorite-filtered LockedTarget",
+    )
+    require(
+        any(
+            action.get("Type") == "IgnoreForAvoidance"
+            and action.get("TargetSlot", {}).get("Compute") == "FollowTargetSlot"
+            for instruction in instructions
+            if has_favorite_item_filter(instruction.get("Sensor", {}))
+            for action in instruction.get("Actions", [])
+        ),
+        "wild attraction must exempt its favorite-item target from global avoidance",
     )
     require(
         has_first_sensor_branch(
@@ -644,10 +698,10 @@ def check_wild_shared() -> None:
             ),
             "Target",
             "TargetSlot",
-            "InteractionTargetSlot",
+            "FollowTargetSlot",
             favorite_target=True,
         ),
-        "wild component StorePosition handoff must begin with favorite-filtered InteractionTarget",
+        "wild component StorePosition handoff must begin with favorite-filtered LockedTarget",
     )
     require(
         has_first_sensor_branch(
@@ -665,10 +719,10 @@ def check_wild_shared() -> None:
             lambda instruction: instruction.get("BodyMotion", {}).get("Type") == "MaintainDistance",
             "Target",
             "TargetSlot",
-            "InteractionTargetSlot",
+            "FollowTargetSlot",
             favorite_target=True,
         ),
-        "wild component MaintainDistance must begin with favorite-filtered InteractionTarget",
+        "wild component MaintainDistance must begin with favorite-filtered LockedTarget",
     )
     require(
         any(
@@ -707,12 +761,28 @@ def check_wild_shared() -> None:
         "wild component has no FollowItemGrounded + Walk target-loss release/takeoff/Idle branch",
     )
     template = load(WILD_TEMPLATE)
+    require(
+        component.get("Parameters", {}).get("FollowTargetSlot", {}).get("Value") == "LockedTarget",
+        "wild attraction must use the Alerted state's LockedTarget slot",
+    )
+    require(
+        has_slow_ground_controller(template),
+        "wild Walk controller must use a dedicated GroundSpeed no faster than 3",
+    )
+    require(
+        favorite_item_preempts_proximity_flee(template),
+        "wild favorite-item acquisition must precede the Alerted proximity-flee branch",
+    )
     reference = "AH_Component_Tamework_Instruction_Aerial_Follow_Item"
     matches = reference_nodes(template, reference)
     ancestors = reference_state_ancestors(template, reference)
     require(len(matches) == 1, "wild template must consume attraction component exactly once")
     require(ancestors == [("FollowItem",)], "wild attraction component reference must be scoped to FollowItem")
     exported_states = matches[0].get("Modify", {}).get("_ExportStates", [])
+    require(
+        matches[0].get("Modify", {}).get("FollowTargetSlot") == "LockedTarget",
+        "wild template must pass LockedTarget to the attraction component",
+    )
     require(
         exported_states == ["Idle"],
         "wild attraction component must export only the imported parent Idle state",
@@ -814,6 +884,10 @@ def check_tamed_shared() -> None:
         "mode component missing Walk touchdown ray reset",
     )
     template = load(TAMED_TEMPLATE)
+    require(
+        has_slow_ground_controller(template),
+        "tamed Walk controller must use a dedicated GroundSpeed no faster than 3",
+    )
     require(template.get("StartState") == "Idle", "tamed template must start Idle")
     require(template.get("InitialMotionController") == "Walk", "tamed template must start Walk")
     require(has_initial_flag(template, "AirborneMode", False), "tamed template must initialize AirborneMode=false")

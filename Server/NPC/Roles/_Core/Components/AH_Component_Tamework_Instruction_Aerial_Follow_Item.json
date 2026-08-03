@@ -12,8 +12,8 @@
       "Value": [],
       "TypeHint": "String"
     },
-    "InteractionTargetSlot": {
-      "Value": "InteractionTarget"
+    "FollowTargetSlot": {
+      "Value": "LockedTarget"
     },
     "LandingPositionSlot": {
       "Value": "AH_Aerial_Favorite_Landing"
@@ -36,6 +36,42 @@
     },
     "Instructions": [
       {
+        "$Comment": "Do not let Hytale's post-behavior avoidance pass push the NPC away from its favorite-item target.",
+        "Continue": true,
+        "Sensor": {
+          "Type": "Target",
+          "TargetSlot": {
+            "Compute": "FollowTargetSlot"
+          },
+          "Filters": [
+            {
+              "Type": "ItemInHand",
+              "Items": {
+                "Compute": "AttractiveItemSet"
+              }
+            },
+            {
+              "Type": "Not",
+              "Filter": {
+                "Type": "Attitude",
+                "Attitudes": [
+                  "Hostile",
+                  "Ignore"
+                ]
+              }
+            }
+          ]
+        },
+        "Actions": [
+          {
+            "Type": "IgnoreForAvoidance",
+            "TargetSlot": {
+              "Compute": "FollowTargetSlot"
+            }
+          }
+        ]
+      },
+      {
         "$Comment": "Take off before pursuing a favorite item from the ground.",
         "Continue": true,
         "Sensor": {
@@ -52,7 +88,7 @@
             {
               "Type": "Target",
               "TargetSlot": {
-                "Compute": "InteractionTargetSlot"
+                "Compute": "FollowTargetSlot"
               },
               "Filters": [
                 {
@@ -98,7 +134,7 @@
               "Sensor": {
                 "Type": "Target",
                 "TargetSlot": {
-                  "Compute": "InteractionTargetSlot"
+                  "Compute": "FollowTargetSlot"
                 },
                 "Filters": [
                   {
@@ -116,7 +152,7 @@
           {
             "Type": "ReleaseTarget",
             "TargetSlot": {
-              "Compute": "InteractionTargetSlot"
+              "Compute": "FollowTargetSlot"
             }
           },
           {
@@ -134,7 +170,7 @@
             {
               "Type": "Target",
               "TargetSlot": {
-                "Compute": "InteractionTargetSlot"
+                "Compute": "FollowTargetSlot"
               },
               "Filters": [
                 {
@@ -168,7 +204,7 @@
               "Sensor": {
                 "Type": "Target",
                 "TargetSlot": {
-                  "Compute": "InteractionTargetSlot"
+                  "Compute": "FollowTargetSlot"
                 },
                 "Range": {
                   "Compute": "FlightSeekStopDistance"
@@ -210,7 +246,7 @@
             {
               "Type": "Target",
               "TargetSlot": {
-                "Compute": "InteractionTargetSlot"
+                "Compute": "FollowTargetSlot"
               },
               "Range": {
                 "Compute": "FlightSeekStopDistance"
@@ -300,7 +336,7 @@
             {
               "Type": "Target",
               "TargetSlot": {
-                "Compute": "InteractionTargetSlot"
+                "Compute": "FollowTargetSlot"
               },
               "Filters": [
                 {
@@ -339,7 +375,7 @@
             {
               "Type": "Target",
               "TargetSlot": {
-                "Compute": "InteractionTargetSlot"
+                "Compute": "FollowTargetSlot"
               },
               "Filters": [
                 {
@@ -397,7 +433,7 @@
               "Sensor": {
                 "Type": "Target",
                 "TargetSlot": {
-                  "Compute": "InteractionTargetSlot"
+                  "Compute": "FollowTargetSlot"
                 },
                 "Filters": [
                   {
@@ -415,7 +451,7 @@
           {
             "Type": "ReleaseTarget",
             "TargetSlot": {
-              "Compute": "InteractionTargetSlot"
+              "Compute": "FollowTargetSlot"
             }
           },
           {
@@ -443,7 +479,7 @@
               "Sensor": {
                 "Type": "Target",
                 "TargetSlot": {
-                  "Compute": "InteractionTargetSlot"
+                  "Compute": "FollowTargetSlot"
                 },
                 "Filters": [
                   {
@@ -461,7 +497,7 @@
           {
             "Type": "ReleaseTarget",
             "TargetSlot": {
-              "Compute": "InteractionTargetSlot"
+              "Compute": "FollowTargetSlot"
             }
           },
           {
@@ -493,7 +529,7 @@
               "Sensor": {
                 "Type": "Target",
                 "TargetSlot": {
-                  "Compute": "InteractionTargetSlot"
+                  "Compute": "FollowTargetSlot"
                 },
                 "Filters": [
                   {
@@ -511,7 +547,7 @@
           {
             "Type": "ReleaseTarget",
             "TargetSlot": {
-              "Compute": "InteractionTargetSlot"
+              "Compute": "FollowTargetSlot"
             }
           },
           {
