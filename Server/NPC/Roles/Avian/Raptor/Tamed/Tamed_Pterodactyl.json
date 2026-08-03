@@ -25,6 +25,7 @@
     "FoodGeneric": [
       "Tw_Feed_Carnivore"
     ],
+    "GroundSpeed": 4,
     "IsMemory": false,
     "MaxHealth": 60,
     "MemoriesCategory": "Avian",

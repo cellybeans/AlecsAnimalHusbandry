@@ -462,29 +462,6 @@ def has_state_mode_reference(
     return False
 
 
-def has_state_mode_action(
-    template: dict,
-    state: str,
-    flags: dict[str, bool | None],
-    controller: str,
-    action_type: str,
-    **fields: object,
-) -> bool:
-    for branch in state_branches(template, state):
-        for instruction in descendants(instruction_children(branch)):
-            sensor = instruction.get("Sensor", {})
-            if sensor.get("Type") != "And":
-                continue
-            sensors = sensor.get("Sensors", [])
-            if any(not has_flag(sensors, name, value) for name, value in flags.items()):
-                continue
-            if not has_controller(sensors, controller):
-                continue
-            if has_action([instruction], action_type, **fields):
-                return True
-    return False
-
-
 def has_state_action(template: dict, state: str, action_type: str, **fields: object) -> bool:
     for branch in state_branches(template, state):
         if has_action(instruction_children(branch), action_type, **fields):
@@ -825,12 +802,19 @@ def check_tamed_shared() -> None:
     require(content.get("Sensor", {}).get("Type") == "Any", "mode component content must use Any")
     mode_instructions = content.get("Instructions", [])
     require(mode_instructions, "mode component has no instructions")
-    hook = mode_instructions[0]
+    hook = next(
+        (
+            instruction
+            for instruction in mode_instructions
+            if instruction.get("Sensor", {}).get("Type") == "TameworkHook"
+        ),
+        {},
+    )
     require(
         hook.get("Sensor", {}).get("Type") == "TameworkHook"
         and hook.get("Sensor", {}).get("HookId") == HOOK_ID
         and hook.get("Sensor", {}).get("Consume") is True,
-        "mode component must first consume ToggleAirborneMode",
+        "mode component must consume ToggleAirborneMode",
     )
     require(
         any(
@@ -908,6 +892,23 @@ def check_tamed_shared() -> None:
         and has_action(mode_instructions, "ResetSearchRays"),
         "mode component missing Walk touchdown ray reset",
     )
+    neutralizer_wrappers = [
+        instruction
+        for instruction in mode_instructions
+        if instruction.get("Sensor", {}).get("Type") == "Flag"
+        and instruction.get("Sensor", {}).get("Name") == "AerialGroundedActivity"
+        and instruction.get("Sensor", {}).get("Set") is False
+        and sum(
+            child.get("Sensor", {}).get("Type") == "Any"
+            and child.get("Sensor", {}).get("Once") is True
+            and has_action([child], "TameworkSetFlyingCompanionMode", Mode="Follow")
+            for child in instruction_children(instruction)
+        ) == 1
+    ]
+    require(
+        len(neutralizer_wrappers) == 1,
+        "mode component must neutralize stale landing state only when no grounded activity owns the companion",
+    )
     template = load(TAMED_TEMPLATE)
     require(
         has_slow_ground_controller(template),
@@ -915,7 +916,10 @@ def check_tamed_shared() -> None:
     )
     require(template.get("StartState") == "Idle", "tamed template must start Idle")
     require(template.get("InitialMotionController") == "Walk", "tamed template must start Walk")
-    require(has_initial_flag(template, "AirborneMode", False), "tamed template must initialize AirborneMode=false")
+    require(
+        not has_initial_flag(template, "AirborneMode", False),
+        "AirborneMode must use its default false value so state changes cannot reset the selected flight mode",
+    )
     template_text = text(TAMED_TEMPLATE)
     require("AH_Component_Tamework_Instruction_Aerial_Mode_Transition" in template_text, "tamed template missing mode transition")
     mode_reference = next(
@@ -927,7 +931,11 @@ def check_tamed_shared() -> None:
         None,
     )
     require(mode_reference is not None and mode_reference.get("Continue") is True, "mode transition must be global Continue")
-    require(has_state_action(template, "Idle", "TameworkSetFlyingCompanionMode", Mode="Follow"), "Idle entry must clear landing mode")
+    for state in ("Idle", "Follow", "Hold"):
+        require(
+            not has_state_action(template, state, "TameworkSetFlyingCompanionMode"),
+            f"{state} must preserve the selected airborne mode instead of resetting Tamework flight state",
+        )
     require(
         has_body_motion_branch(template.get("Instructions", []), {"AirborneMode": False}, "Walk", "WanderInCircle")
         and has_body_motion_branch(template.get("Instructions", []), {"AirborneMode": None}, "Fly", "WanderInCircle"),
@@ -961,7 +969,6 @@ def check_tamed_shared() -> None:
     )
     require(
         has_body_motion_branch(template.get("Instructions", []), {"AirborneMode": False}, "Walk", "Nothing")
-        and has_state_mode_action(template, "Hold", {"AirborneMode": None}, "Fly", "TameworkSetFlyingCompanionMode", Mode="Follow")
         and has_body_motion_branch(template.get("Instructions", []), {"AirborneMode": None}, "Fly", "Nothing"),
         "Hold must provide grounded and airborne stationary modes",
     )
@@ -1042,6 +1049,8 @@ def check_species(names: tuple[str, ...]) -> None:
         require(wild_modify.get("DropList") == drop, f"{name} wild drop mismatch")
         require(wild_modify.get("MaxHealth") == health, f"{name} wild health mismatch")
         require(wild_modify.get("WanderRadius") == radius, f"{name} wild radius mismatch")
+        if name == "Pterodactyl":
+            require(wild_modify.get("GroundSpeed") == 4, "Pterodactyl wild GroundSpeed override must be 4")
         require(wild_modify.get("IsMemory") is True, f"{name} wild role must be a memory")
         require(wild_modify.get("MemoriesCategory") == "Avian", f"{name} wild memory category mismatch")
         if name == "Bluebird":
@@ -1088,6 +1097,8 @@ def check_species(names: tuple[str, ...]) -> None:
         require(tamed_modify.get("DropList") == drop, f"Tamed_{name} drop mismatch")
         require(tamed_modify.get("MaxHealth") == health, f"Tamed_{name} health mismatch")
         require(tamed_modify.get("WanderRadius") == radius, f"Tamed_{name} radius mismatch")
+        if name == "Pterodactyl":
+            require(tamed_modify.get("GroundSpeed") == 4, "Tamed_Pterodactyl GroundSpeed override must be 4")
         require(tamed_modify.get("IsMemory") is False, f"Tamed_{name} role must not be a memory")
         require(tamed_modify.get("MemoriesCategory") == "Avian", f"Tamed_{name} memory category mismatch")
         if name == "Bluebird":

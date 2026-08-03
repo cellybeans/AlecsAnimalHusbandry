@@ -9,6 +9,7 @@
     "FlockArray": [
       "Pterodactyl"
     ],
+    "GroundSpeed": 4,
     "IsMemory": true,
     "IsTameable": {
       "Compute": "IsTameable"

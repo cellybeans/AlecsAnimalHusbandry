@@ -10,6 +10,30 @@
     },
     "Instructions": [
       {
+        "$Comment": "Neutralize stale Tamework landing state from one global path after grounded husbandry releases the companion.",
+        "Continue": true,
+        "Sensor": {
+          "Type": "Flag",
+          "Name": "AerialGroundedActivity",
+          "Set": false
+        },
+        "Instructions": [
+          {
+            "Continue": true,
+            "Sensor": {
+              "Type": "Any",
+              "Once": true
+            },
+            "Actions": [
+              {
+                "Type": "TameworkSetFlyingCompanionMode",
+                "Mode": "Follow"
+              }
+            ]
+          }
+        ]
+      },
+      {
         "$Comment": "Consume the tamed companion airborne-mode command and flip the selected mode.",
         "Continue": true,
         "Sensor": {

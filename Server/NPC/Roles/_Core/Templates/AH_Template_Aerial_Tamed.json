@@ -751,26 +751,6 @@
   },
   "Instructions": [
     {
-      "$Comment": "Start every tamed aerial companion grounded until the owner explicitly toggles airborne mode.",
-      "Continue": true,
-      "Sensor": {
-        "Type": "Any",
-        "Once": true
-      },
-      "Actions": [
-        {
-          "Type": "SetFlag",
-          "Name": "AirborneMode",
-          "SetTo": false
-        },
-        {
-          "Type": "SetFlag",
-          "Name": "AerialGroundedActivity",
-          "SetTo": false
-        }
-      ]
-    },
-    {
           "$Comment": "Block Sleep activity while airborne and hand landing to Tamework.",
           "Continue": false,
           "Sensor": {
@@ -1619,20 +1599,6 @@
                 {
                   "Type": "SetLeashPosition",
                   "ToCurrent": true
-                }
-              ]
-            },
-            {
-              "$Comment": "Neutralize stale landing state whenever Idle is entered.",
-              "Continue": true,
-              "Sensor": {
-                "Type": "Any",
-                "Once": true
-              },
-              "Actions": [
-                {
-                  "Type": "TameworkSetFlyingCompanionMode",
-                  "Mode": "Follow"
                 }
               ]
             },
@@ -2524,20 +2490,6 @@
           },
           "Instructions": [
             {
-              "$Comment": "Clear stale landing state whenever command follow is entered.",
-              "Continue": true,
-              "Sensor": {
-                "Type": "Any",
-                "Once": true
-              },
-              "Actions": [
-                {
-                  "Type": "TameworkSetFlyingCompanionMode",
-                  "Mode": "Follow"
-                }
-              ]
-            },
-            {
               "$Comment": "Grounded follow uses the advanced land-follow behavior.",
               "Sensor": {
                 "Type": "And",
@@ -2629,7 +2581,7 @@
               ]
             },
             {
-              "$Comment": "Airborne hold neutralizes stale landing state and hovers in place.",
+              "$Comment": "Airborne hold preserves flight mode and hovers in place.",
               "Sensor": {
                 "Type": "And",
                 "Sensors": [
@@ -2643,26 +2595,9 @@
                   }
                 ]
               },
-              "Instructions": [
-                {
-                  "Continue": true,
-                  "Sensor": {
-                    "Type": "Any",
-                    "Once": true
-                  },
-                  "Actions": [
-                    {
-                      "Type": "TameworkSetFlyingCompanionMode",
-                      "Mode": "Follow"
-                    }
-                  ]
-                },
-                {
-                  "BodyMotion": {
-                    "Type": "Nothing"
-                  }
-                }
-              ]
+              "BodyMotion": {
+                "Type": "Nothing"
+              }
             },
             {
               "$Comment": "Grounded hold remains stationary without the landing-oriented flying-hold component.",
