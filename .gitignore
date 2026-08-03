@@ -11,9 +11,11 @@ Common/Items/AnimalHusbandry/*.py
 docs/superpowers/
 .worktrees/
 .asset-tools/
+*.json.bak
 
 # OS noise
 Thumbs.db
 Desktop.ini
 .DS_Store
 Common/NPC/Beast/Hyena/Models/Empty.png
+

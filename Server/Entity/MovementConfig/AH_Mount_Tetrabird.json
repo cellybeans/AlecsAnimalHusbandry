@@ -1,10 +1,9 @@
 {
-  "Parent": "Mount",
-  "BaseSpeed": 8.0,
-  "Acceleration": 0.15,
-  "JumpForce": 15.5,
-  "AirDragMin": 0.985,
-  "AirDragMax": 0.998,
-  "AirSpeedMultiplier": 1.05,
-  "VariableJumpFallForce": 8.0
+	"Parent": "Mount",
+	"JumpForce": 15.5,
+	"Acceleration": 0.15,
+	"AirDragMin": 0.985,
+	"AirDragMax": 0.998,
+	"AirSpeedMultiplier": 1.05,
+	"BaseSpeed": 8
 }
