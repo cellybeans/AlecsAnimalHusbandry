@@ -22,8 +22,9 @@
               "StartDistance": 3.12,
               "EndDistance": 4.75,
               "Length": 44.55,
-              "RollOffset": -90,
-              "YawStartOffset": 2.66
+              "RollOffset": 90.0,
+              "YawStartOffset": -23.94,
+              "PitchOffset": 0.0
             },
             "HitEntity": {
               "Interactions": [
