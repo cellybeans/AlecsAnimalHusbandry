@@ -1,0 +1,42 @@
+{
+  "Modify": {
+    "Appearance": "Pterodactyl",
+    "AttractiveItemSet": [
+      "Food_Wildmeat_Raw"
+    ],
+    "AttractiveItemSetParticles": "",
+    "DropList": "Drop_Pterodactyl",
+    "FlockArray": [
+      "Pterodactyl"
+    ],
+    "IsMemory": true,
+    "IsTameable": {
+      "Compute": "IsTameable"
+    },
+    "MaxHealth": 60,
+    "MemoriesCategory": "Avian",
+    "NameTranslationKey": {
+      "Compute": "NameTranslationKey"
+    },
+    "TameRoleChange": {
+      "Compute": "TameRoleChange"
+    },
+    "WanderRadius": 25
+  },
+  "Parameters": {
+    "IsTameable": {
+      "Description": "Whether this NPC can be tamed.",
+      "Value": true
+    },
+    "NameTranslationKey": {
+      "Description": "Translation key for NPC name display",
+      "Value": "server.npcRoles.Pterodactyl.name"
+    },
+    "TameRoleChange": {
+      "Description": "The role the NPC will change into when it's tamed.",
+      "Value": "Tamed_Pterodactyl"
+    }
+  },
+  "Reference": "AH_Template_Aerial_Neutral",
+  "Type": "Variant"
+}

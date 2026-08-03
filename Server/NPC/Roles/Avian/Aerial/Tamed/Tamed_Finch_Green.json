@@ -2,28 +2,15 @@
   "Type": "Variant",
   "Reference": "AH_Template_Aerial_Tamed",
   "Modify": {
-    "NeedsSeekConsumeStartDistance": 1.5,
-    "NeedsSeekConsumeMaintainMaxDistance": 1.25,
-    "NeedsSeekConsumeMaintainDistanceRange": [
-      1,
-      1.25
-    ],
-    "Appearance": "Bluebird",
+    "Appearance": "Finch_Green",
     "FlockArray": [
-      "Tamed_Bluebird"
+      "Tamed_Finch_Green"
     ],
-    "DropList": "Drop_Bluebird",
+    "DropList": "Drop_Finch_Green",
     "MaxHealth": 15,
-    "MaxSpeed": 20,
     "WanderRadius": 15,
-    "ParticleOffset": [
-      0,
-      0.4,
-      0
-    ],
     "IsMemory": false,
     "MemoriesCategory": "Avian",
-    "MemoriesNameOverride": "Bluebird",
     "NameTranslationKey": {
       "Compute": "NameTranslationKey"
     },
@@ -50,7 +37,7 @@
   },
   "Parameters": {
     "NameTranslationKey": {
-      "Value": "server.npcRoles.Bluebird.name",
+      "Value": "server.npcRoles.Finch_Green.name",
       "Description": "Translation key for NPC name display"
     }
   }

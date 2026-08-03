@@ -1,0 +1,42 @@
+{
+  "Modify": {
+    "Appearance": "Parrot",
+    "AttractiveItemSet": [
+      "Plant_Fruit_Apple"
+    ],
+    "AttractiveItemSetParticles": "Want_Food_Apple",
+    "DropList": "Drop_Parrot",
+    "FlockArray": [
+      "Parrot"
+    ],
+    "IsMemory": true,
+    "IsTameable": {
+      "Compute": "IsTameable"
+    },
+    "MaxHealth": 29,
+    "MemoriesCategory": "Avian",
+    "NameTranslationKey": {
+      "Compute": "NameTranslationKey"
+    },
+    "TameRoleChange": {
+      "Compute": "TameRoleChange"
+    },
+    "WanderRadius": 12
+  },
+  "Parameters": {
+    "IsTameable": {
+      "Description": "Whether this NPC can be tamed.",
+      "Value": true
+    },
+    "NameTranslationKey": {
+      "Description": "Translation key for NPC name display",
+      "Value": "server.npcRoles.Parrot.name"
+    },
+    "TameRoleChange": {
+      "Description": "The role the NPC will change into when it's tamed.",
+      "Value": "Tamed_Parrot"
+    }
+  },
+  "Reference": "AH_Template_Aerial_Neutral",
+  "Type": "Variant"
+}

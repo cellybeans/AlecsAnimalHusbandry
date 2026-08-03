@@ -1415,103 +1415,6 @@
               ]
             },
             {
-              "Sensor": {
-                "Type": "State",
-                "State": ".FollowItem"
-              },
-              "Instructions": [
-                {
-                  "$Comment": "If enabled, start a timer to give up on chasing a target",
-                  "Enabled": {
-                    "Compute": "!FollowItemAlways"
-                  },
-                  "Continue": true,
-                  "Sensor": {
-                    "Type": "Target"
-                  },
-                  "ActionsBlocking": true,
-                  "Actions": [
-                    {
-                      "Type": "Timeout",
-                      "Delay": {
-                        "Compute": "FollowItemTimeout"
-                      }
-                    },
-                    {
-                      "Type": "OverrideAttitude",
-                      "Attitude": "Ignore",
-                      "Duration": {
-                        "Compute": "IgnoreOverrideTime"
-                      }
-                    },
-                    {
-                      "Type": "State",
-                      "State": "Idle"
-                    }
-                  ]
-                },
-                {
-                  "Enabled": {
-                    "Compute": "!isEmptyStringArray(AttractiveItemSet)"
-                  },
-                  "$Comment": "If the target is holding a liked item, follow it",
-                  "Sensor": {
-                    "Type": "Target",
-                    "Filters": [
-                      {
-                        "Type": "ItemInHand",
-                        "Items": {
-                          "Compute": "AttractiveItemSet"
-                        }
-                      },
-                      {
-                        "Type": "Not",
-                        "Filter": {
-                          "Type": "Attitude",
-                          "Attitudes": [
-                            "Hostile",
-                            "Ignore"
-                          ]
-                        }
-                      }
-                    ]
-                  },
-                  "BodyMotion": {
-                    "Type": "Seek",
-                    "SlowDownDistance": 3.5,
-                    "StopDistance": 3,
-                    "RelativeSpeed": 0.4,
-                    "RelaxedMoveConstraints": false
-                  },
-                  "Actions": [
-                    {
-                      "Type": "Sequence",
-                      "Enabled": {
-                        "Compute": "!isEmpty(CuriousAnimation)"
-                      },
-                      "Actions": [
-                        {
-                          "Type": "PlayAnimation",
-                          "Slot": "Status",
-                          "Animation": {
-                            "Compute": "CuriousAnimation"
-                          }
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "Actions": [
-                    {
-                      "Type": "State",
-                      "State": ".Default"
-                    }
-                  ]
-                }
-              ]
-            },
-            {
               "$Comment": "After the alerted timeout, make a decision",
               "Sensor": {
                 "Type": "Timer",
@@ -1686,7 +1589,7 @@
                         },
                         {
                           "Type": "State",
-                          "State": ".FollowItem"
+                          "State": "FollowItem"
                         }
                       ]
                     },
@@ -2116,6 +2019,27 @@
               }
             }
           ]
+        },
+        {
+          "Reference": "AH_Component_Tamework_Instruction_Aerial_Follow_Item",
+          "Modify": {
+            "AttractiveItemSet": {
+              "Compute": "AttractiveItemSet"
+            },
+            "InteractionTargetSlot": "InteractionTarget",
+            "LandingPositionSlot": "AH_Aerial_Favorite_Landing",
+            "FlightSeekStopDistance": 5.0,
+            "GroundApproachDistanceRange": [
+              1.5,
+              2.0
+            ],
+            "_ExportStates": [
+              "Idle",
+              "FollowItem",
+              "FollowItemLanding",
+              "FollowItemGrounded"
+            ]
+          }
         }
       ]
     }
@@ -2271,6 +2195,9 @@
                   },
                   {
                     "Type": "SpawnParticles",
+                    "Enabled": {
+                      "Compute": "!isEmpty(AttractiveItemSetParticles)"
+                    },
                     "TargetNodeName": "Head",
                     "ParticleSystem": {
                       "Compute": "AttractiveItemSetParticles"

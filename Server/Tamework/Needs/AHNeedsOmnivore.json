@@ -32,7 +32,11 @@
     "Tamed_Mouse",
     "Tamed_Squirrel",
     "Tamed_Snail_Frost",
-    "Tamed_Snail_Magma"
+    "Tamed_Snail_Magma",
+    "Tamed_Raven",
+    "Tamed_Crow",
+    "Tamed_Woodpecker",
+    "Tamed_Duck"
   ],
   "PassiveRefill": {
     "SweepIntervalSeconds": 15,

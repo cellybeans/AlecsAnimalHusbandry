@@ -2,28 +2,15 @@
   "Type": "Variant",
   "Reference": "AH_Template_Aerial_Tamed",
   "Modify": {
-    "NeedsSeekConsumeStartDistance": 1.5,
-    "NeedsSeekConsumeMaintainMaxDistance": 1.25,
-    "NeedsSeekConsumeMaintainDistanceRange": [
-      1,
-      1.25
-    ],
-    "Appearance": "Bluebird",
+    "Appearance": "Woodpecker",
     "FlockArray": [
-      "Tamed_Bluebird"
+      "Tamed_Woodpecker"
     ],
-    "DropList": "Drop_Bluebird",
+    "DropList": "Drop_Woodpecker",
     "MaxHealth": 15,
-    "MaxSpeed": 20,
     "WanderRadius": 15,
-    "ParticleOffset": [
-      0,
-      0.4,
-      0
-    ],
     "IsMemory": false,
     "MemoriesCategory": "Avian",
-    "MemoriesNameOverride": "Bluebird",
     "NameTranslationKey": {
       "Compute": "NameTranslationKey"
     },
@@ -35,7 +22,8 @@
       "Plant_Crop_Corn_Item"
     ],
     "FoodGeneric": [
-      "Tw_Feed_Herbivore"
+      "Tw_Feed_Herbivore",
+      "Tw_Feed_Carnivore"
     ],
     "AttitudeGroup": "AH_Livestock_Tamed",
     "CanFollow": true,
@@ -50,7 +38,7 @@
   },
   "Parameters": {
     "NameTranslationKey": {
-      "Value": "server.npcRoles.Bluebird.name",
+      "Value": "server.npcRoles.Woodpecker.name",
       "Description": "Translation key for NPC name display"
     }
   }

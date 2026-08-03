@@ -1,0 +1,43 @@
+{
+  "Modify": {
+    "Appearance": "Owl_Brown",
+    "AttractiveItemSet": [
+      "Food_Wildmeat_Raw"
+    ],
+    "AttractiveItemSetParticles": "",
+    "DropList": "Drop_Owl_Brown",
+    "FlockArray": [
+      "Owl_Brown"
+    ],
+    "IsMemory": true,
+    "IsTameable": {
+      "Compute": "IsTameable"
+    },
+    "MaxHealth": 29,
+    "MemoriesCategory": "Avian",
+    "MemoriesNameOverride": "Owl_Brown",
+    "NameTranslationKey": {
+      "Compute": "NameTranslationKey"
+    },
+    "TameRoleChange": {
+      "Compute": "TameRoleChange"
+    },
+    "WanderRadius": 12
+  },
+  "Parameters": {
+    "IsTameable": {
+      "Description": "Whether this NPC can be tamed.",
+      "Value": true
+    },
+    "NameTranslationKey": {
+      "Description": "Translation key for NPC name display",
+      "Value": "server.npcRoles.Owl_Brown.name"
+    },
+    "TameRoleChange": {
+      "Description": "The role the NPC will change into when it's tamed.",
+      "Value": "Tamed_Owl_Brown"
+    }
+  },
+  "Reference": "AH_Template_Aerial_Neutral",
+  "Type": "Variant"
+}

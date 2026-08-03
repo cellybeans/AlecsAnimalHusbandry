@@ -1,0 +1,42 @@
+{
+  "Modify": {
+    "Appearance": "Raven",
+    "AttractiveItemSet": [
+      "Plant_Crop_Corn_Item"
+    ],
+    "AttractiveItemSetParticles": "Want_Food_Corn",
+    "DropList": "Drop_Raven",
+    "FlockArray": [
+      "Raven"
+    ],
+    "IsMemory": true,
+    "IsTameable": {
+      "Compute": "IsTameable"
+    },
+    "MaxHealth": 49,
+    "MemoriesCategory": "Avian",
+    "NameTranslationKey": {
+      "Compute": "NameTranslationKey"
+    },
+    "TameRoleChange": {
+      "Compute": "TameRoleChange"
+    },
+    "WanderRadius": 15
+  },
+  "Parameters": {
+    "IsTameable": {
+      "Description": "Whether this NPC can be tamed.",
+      "Value": true
+    },
+    "NameTranslationKey": {
+      "Description": "Translation key for NPC name display",
+      "Value": "server.npcRoles.Raven.name"
+    },
+    "TameRoleChange": {
+      "Description": "The role the NPC will change into when it's tamed.",
+      "Value": "Tamed_Raven"
+    }
+  },
+  "Reference": "AH_Template_Aerial_Neutral",
+  "Type": "Variant"
+}

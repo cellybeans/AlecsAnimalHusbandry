@@ -1,0 +1,45 @@
+{
+  "Modify": {
+    "Appearance": "Duck",
+    "AttitudeGroup": "AH_Livestock_Tamed",
+    "AttractiveItemSet": [
+      "Plant_Crop_Corn_Item"
+    ],
+    "AttractiveItemSetParticles": "Want_Food_Corn",
+    "CanAttackTarget": false,
+    "CanBreedPair": true,
+    "CanDefend": false,
+    "CanFollow": true,
+    "CanHold": true,
+    "CanMoveToLocation": true,
+    "CanRecall": true,
+    "CanReturnHome": true,
+    "CanSetHome": true,
+    "DropList": "Drop_Duck",
+    "FlockArray": [
+      "Tamed_Duck"
+    ],
+    "FoodFavorite": [
+      "Plant_Crop_Corn_Item"
+    ],
+    "FoodGeneric": [
+      "Tw_Feed_Herbivore",
+      "Tw_Feed_Carnivore"
+    ],
+    "IsMemory": false,
+    "MaxHealth": 25,
+    "MemoriesCategory": "Avian",
+    "NameTranslationKey": {
+      "Compute": "NameTranslationKey"
+    },
+    "WanderRadius": 15
+  },
+  "Parameters": {
+    "NameTranslationKey": {
+      "Description": "Translation key for NPC name display",
+      "Value": "server.npcRoles.Duck.name"
+    }
+  },
+  "Reference": "AH_Template_Aerial_Tamed",
+  "Type": "Variant"
+}

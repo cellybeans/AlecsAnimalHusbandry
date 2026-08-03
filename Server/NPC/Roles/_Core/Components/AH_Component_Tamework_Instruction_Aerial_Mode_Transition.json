@@ -1,0 +1,157 @@
+{
+  "$Comment": "Native walk/fly controller transition for tamed passive aerial companions.",
+  "Type": "Component",
+  "Class": "Instruction",
+  "Interface": "AnimalHusbandry.Instruction.AerialModeTransition",
+  "Content": {
+    "Continue": true,
+    "Sensor": {
+      "Type": "Any"
+    },
+    "Instructions": [
+      {
+        "$Comment": "Consume the tamed companion airborne-mode command and flip the selected mode.",
+        "Continue": true,
+        "Sensor": {
+          "Type": "TameworkHook",
+          "HookId": "AnimalHusbandry.Command.ToggleAirborneMode",
+          "Consume": true
+        },
+        "Instructions": [
+          {
+            "Sensor": {
+              "Type": "Flag",
+              "Name": "AirborneMode"
+            },
+            "Actions": [
+              {
+                "Type": "SetFlag",
+                "Name": "AirborneMode",
+                "SetTo": false
+              }
+            ]
+          },
+          {
+            "Sensor": {
+              "Type": "Flag",
+              "Name": "AirborneMode",
+              "Set": false
+            },
+            "Actions": [
+              {
+                "Type": "SetFlag",
+                "Name": "AirborneMode",
+                "SetTo": true
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "$Comment": "Take off when airborne mode is selected and no grounded husbandry activity owns the companion.",
+        "Continue": true,
+        "Sensor": {
+          "Type": "And",
+          "Sensors": [
+            {
+              "Type": "Flag",
+              "Name": "AirborneMode"
+            },
+            {
+              "Type": "Flag",
+              "Name": "AerialGroundedActivity",
+              "Set": false
+            },
+            {
+              "Type": "MotionController",
+              "MotionController": "Walk"
+            }
+          ]
+        },
+        "Actions": [
+          {
+            "Type": "PlayAnimation",
+            "Slot": "Status"
+          }
+        ],
+        "BodyMotion": {
+          "Type": "TakeOff",
+          "JumpSpeed": 4
+        }
+      },
+      {
+        "$Comment": "Land when airborne mode is cleared, using a safe stone/soil landing ray.",
+        "Continue": true,
+        "Sensor": {
+          "Type": "And",
+          "Sensors": [
+            {
+              "Type": "Flag",
+              "Name": "AirborneMode",
+              "Set": false
+            },
+            {
+              "Type": "MotionController",
+              "MotionController": "Fly"
+            }
+          ]
+        },
+        "Instructions": [
+          {
+            "Sensor": {
+              "Type": "AdjustPosition",
+              "Offset": [
+                0,
+                1,
+                0
+              ],
+              "Sensor": {
+                "Type": "SearchRay",
+                "Name": "AH_Aerial_Mode_LandingRay",
+                "Range": 64,
+                "Angle": 90,
+                "Blocks": "StoneAndSoil"
+              }
+            },
+            "BodyMotion": {
+              "Type": "Land",
+              "UsePathfinder": false,
+              "SkipSteering": false,
+              "SlowDownDistance": 5,
+              "StopDistance": 0.5,
+              "HeightDifference": [
+                -3,
+                2
+              ],
+              "GoalLenience": 3,
+              "DesiredAltitudeWeight": 0
+            }
+          }
+        ]
+      },
+      {
+        "$Comment": "Clear the landing ray after a walk touchdown.",
+        "Continue": true,
+        "Sensor": {
+          "Type": "And",
+          "Sensors": [
+            {
+              "Type": "Flag",
+              "Name": "AirborneMode",
+              "Set": false
+            },
+            {
+              "Type": "MotionController",
+              "MotionController": "Walk"
+            }
+          ]
+        },
+        "Actions": [
+          {
+            "Type": "ResetSearchRays"
+          }
+        ]
+      }
+    ]
+  }
+}

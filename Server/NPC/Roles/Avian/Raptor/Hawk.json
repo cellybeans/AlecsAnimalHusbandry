@@ -1,0 +1,42 @@
+{
+  "Modify": {
+    "Appearance": "Hawk",
+    "AttractiveItemSet": [
+      "Food_Wildmeat_Raw"
+    ],
+    "AttractiveItemSetParticles": "",
+    "DropList": "Drop_Hawk",
+    "FlockArray": [
+      "Hawk"
+    ],
+    "IsMemory": true,
+    "IsTameable": {
+      "Compute": "IsTameable"
+    },
+    "MaxHealth": 38,
+    "MemoriesCategory": "Avian",
+    "NameTranslationKey": {
+      "Compute": "NameTranslationKey"
+    },
+    "TameRoleChange": {
+      "Compute": "TameRoleChange"
+    },
+    "WanderRadius": 15
+  },
+  "Parameters": {
+    "IsTameable": {
+      "Description": "Whether this NPC can be tamed.",
+      "Value": true
+    },
+    "NameTranslationKey": {
+      "Description": "Translation key for NPC name display",
+      "Value": "server.npcRoles.Hawk.name"
+    },
+    "TameRoleChange": {
+      "Description": "The role the NPC will change into when it's tamed.",
+      "Value": "Tamed_Hawk"
+    }
+  },
+  "Reference": "AH_Template_Aerial_Neutral",
+  "Type": "Variant"
+}

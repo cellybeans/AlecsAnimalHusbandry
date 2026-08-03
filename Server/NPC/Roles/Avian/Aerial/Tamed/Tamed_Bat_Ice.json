@@ -1,0 +1,44 @@
+{
+  "Modify": {
+    "Appearance": "Bat_Ice",
+    "AttitudeGroup": "AH_Livestock_Tamed",
+    "AttractiveItemSet": [
+      "Plant_Fruit_Apple"
+    ],
+    "AttractiveItemSetParticles": "Want_Food_Apple",
+    "CanAttackTarget": false,
+    "CanBreedPair": true,
+    "CanDefend": false,
+    "CanFollow": true,
+    "CanHold": true,
+    "CanMoveToLocation": true,
+    "CanRecall": true,
+    "CanReturnHome": true,
+    "CanSetHome": true,
+    "DropList": "Drop_Bat_Ice",
+    "FlockArray": [
+      "Tamed_Bat_Ice"
+    ],
+    "FoodFavorite": [
+      "Plant_Fruit_Apple"
+    ],
+    "FoodGeneric": [
+      "Tw_Feed_Herbivore"
+    ],
+    "IsMemory": false,
+    "MaxHealth": 25,
+    "MemoriesCategory": "Avian",
+    "NameTranslationKey": {
+      "Compute": "NameTranslationKey"
+    },
+    "WanderRadius": 15
+  },
+  "Parameters": {
+    "NameTranslationKey": {
+      "Description": "Translation key for NPC name display",
+      "Value": "server.npcRoles.Bat_Ice.name"
+    }
+  },
+  "Reference": "AH_Template_Aerial_Tamed",
+  "Type": "Variant"
+}

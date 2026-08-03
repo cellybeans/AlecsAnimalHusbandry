@@ -1,0 +1,44 @@
+{
+  "Modify": {
+    "Appearance": "Parrot",
+    "AttitudeGroup": "AH_Livestock_Tamed",
+    "AttractiveItemSet": [
+      "Plant_Fruit_Apple"
+    ],
+    "AttractiveItemSetParticles": "Want_Food_Apple",
+    "CanAttackTarget": false,
+    "CanBreedPair": true,
+    "CanDefend": false,
+    "CanFollow": true,
+    "CanHold": true,
+    "CanMoveToLocation": true,
+    "CanRecall": true,
+    "CanReturnHome": true,
+    "CanSetHome": true,
+    "DropList": "Drop_Parrot",
+    "FlockArray": [
+      "Tamed_Parrot"
+    ],
+    "FoodFavorite": [
+      "Plant_Fruit_Apple"
+    ],
+    "FoodGeneric": [
+      "Tw_Feed_Herbivore"
+    ],
+    "IsMemory": false,
+    "MaxHealth": 29,
+    "MemoriesCategory": "Avian",
+    "NameTranslationKey": {
+      "Compute": "NameTranslationKey"
+    },
+    "WanderRadius": 12
+  },
+  "Parameters": {
+    "NameTranslationKey": {
+      "Description": "Translation key for NPC name display",
+      "Value": "server.npcRoles.Parrot.name"
+    }
+  },
+  "Reference": "AH_Template_Aerial_Tamed",
+  "Type": "Variant"
+}

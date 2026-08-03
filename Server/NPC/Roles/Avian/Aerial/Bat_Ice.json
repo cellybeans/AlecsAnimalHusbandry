@@ -1,0 +1,42 @@
+{
+  "Modify": {
+    "Appearance": "Bat_Ice",
+    "AttractiveItemSet": [
+      "Plant_Fruit_Apple"
+    ],
+    "AttractiveItemSetParticles": "Want_Food_Apple",
+    "DropList": "Drop_Bat_Ice",
+    "FlockArray": [
+      "Bat_Ice"
+    ],
+    "IsMemory": true,
+    "IsTameable": {
+      "Compute": "IsTameable"
+    },
+    "MaxHealth": 25,
+    "MemoriesCategory": "Avian",
+    "NameTranslationKey": {
+      "Compute": "NameTranslationKey"
+    },
+    "TameRoleChange": {
+      "Compute": "TameRoleChange"
+    },
+    "WanderRadius": 15
+  },
+  "Parameters": {
+    "IsTameable": {
+      "Description": "Whether this NPC can be tamed.",
+      "Value": true
+    },
+    "NameTranslationKey": {
+      "Description": "Translation key for NPC name display",
+      "Value": "server.npcRoles.Bat_Ice.name"
+    },
+    "TameRoleChange": {
+      "Description": "The role the NPC will change into when it's tamed.",
+      "Value": "Tamed_Bat_Ice"
+    }
+  },
+  "Reference": "AH_Template_Aerial_Neutral",
+  "Type": "Variant"
+}

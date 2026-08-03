@@ -2,19 +2,13 @@
   "Type": "Variant",
   "Reference": "AH_Template_Aerial_Neutral",
   "Modify": {
-    "Appearance": "Bluebird",
+    "Appearance": "Finch_Green",
     "FlockArray": [
-      "Bluebird"
+      "Finch_Green"
     ],
-    "DropList": "Drop_Bluebird",
+    "DropList": "Drop_Finch_Green",
     "MaxHealth": 15,
-    "MaxSpeed": 20,
     "WanderRadius": 15,
-    "ParticleOffset": [
-      0,
-      0.4,
-      0
-    ],
     "IsMemory": true,
     "MemoriesCategory": "Avian",
     "NameTranslationKey": {
@@ -30,11 +24,11 @@
     "TameRoleChange": {
       "Compute": "TameRoleChange"
     },
-    "MemoriesNameOverride": "Bluebird"
+    "MemoriesNameOverride": "Finch_Green"
   },
   "Parameters": {
     "NameTranslationKey": {
-      "Value": "server.npcRoles.Bluebird.name",
+      "Value": "server.npcRoles.Finch_Green.name",
       "Description": "Translation key for NPC name display"
     },
     "IsTameable": {
@@ -42,7 +36,7 @@
       "Description": "Whether this NPC can be tamed."
     },
     "TameRoleChange": {
-      "Value": "Tamed_Bluebird",
+      "Value": "Tamed_Finch_Green",
       "Description": "The role the NPC will change into when it's tamed."
     }
   }

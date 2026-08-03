@@ -2,39 +2,32 @@
   "Type": "Variant",
   "Reference": "AH_Template_Aerial_Neutral",
   "Modify": {
-    "Appearance": "Bluebird",
+    "Appearance": "Bat",
     "FlockArray": [
-      "Bluebird"
+      "Bat"
     ],
-    "DropList": "Drop_Bluebird",
+    "DropList": "Drop_Bat",
     "MaxHealth": 15,
-    "MaxSpeed": 20,
     "WanderRadius": 15,
-    "ParticleOffset": [
-      0,
-      0.4,
-      0
-    ],
     "IsMemory": true,
     "MemoriesCategory": "Avian",
     "NameTranslationKey": {
       "Compute": "NameTranslationKey"
     },
     "AttractiveItemSet": [
-      "Plant_Crop_Corn_Item"
+      "Plant_Fruit_Apple"
     ],
-    "AttractiveItemSetParticles": "Want_Food_Corn",
+    "AttractiveItemSetParticles": "Want_Food_Apple",
     "IsTameable": {
       "Compute": "IsTameable"
     },
     "TameRoleChange": {
       "Compute": "TameRoleChange"
-    },
-    "MemoriesNameOverride": "Bluebird"
+    }
   },
   "Parameters": {
     "NameTranslationKey": {
-      "Value": "server.npcRoles.Bluebird.name",
+      "Value": "server.npcRoles.Bat.name",
       "Description": "Translation key for NPC name display"
     },
     "IsTameable": {
@@ -42,7 +35,7 @@
       "Description": "Whether this NPC can be tamed."
     },
     "TameRoleChange": {
-      "Value": "Tamed_Bluebird",
+      "Value": "Tamed_Bat",
       "Description": "The role the NPC will change into when it's tamed."
     }
   }
