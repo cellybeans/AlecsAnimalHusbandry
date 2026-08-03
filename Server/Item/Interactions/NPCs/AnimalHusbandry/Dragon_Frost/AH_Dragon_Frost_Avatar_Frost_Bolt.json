@@ -10,12 +10,12 @@
         "Particles": [
           {
             "TargetEntityPart": "Entity",
-            "TargetNodeName": "Head",
+            "TargetNodeName": "Top Jaw",
             "SystemId": "AH_Dragon_Frost_Frost_Bolt_Charging",
             "DetachedFromModel": false,
             "PositionOffset": {
               "Y": 0,
-              "Z": -1.5
+              "Z": 0.35
             },
             "Scale": 0.6
           }
@@ -29,8 +29,8 @@
       "ProjectileId": "AH_Dragon_Frost_Frost_Bolt",
       "LaunchPositionOffset": {
         "X": 0,
-        "Y": 2.25,
-        "Z": -2.5
+        "Y": 1.5,
+        "Z": 3.0
       },
       "TrajectoryMode": "Direct",
       "LookTargetDistance": 48.0,

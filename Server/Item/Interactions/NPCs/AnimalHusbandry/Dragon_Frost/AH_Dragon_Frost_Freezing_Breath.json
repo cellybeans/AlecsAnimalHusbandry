@@ -5,6 +5,10 @@
     {
       "Interactions": [
         {
+          "Type": "ApplyEffect",
+          "EffectId": "AH_Dragon_Frost_Freezing_Breath_Source"
+        },
+        {
           "Type": "Simple",
           "Effects": {
             "ItemPlayerAnimationsId": "AH_Dragon_Frost_Default",
@@ -12,12 +16,12 @@
             "Particles": [
               {
                 "TargetEntityPart": "Entity",
-                "TargetNodeName": "Head",
-                "SystemId": "Ice_Staff",
+                "TargetNodeName": "Top Jaw",
+                "SystemId": "AH_Dragon_Frost_Freezing_Breath",
                 "DetachedFromModel": false,
                 "PositionOffset": {
                   "Y": -0.1,
-                  "Z": -2.5
+                  "Z": 0.35
                 },
                 "RotationOffset": {
                   "Pitch": 0,
@@ -80,6 +84,10 @@
                 }
               },
               {
+                "Type": "ApplyEffect",
+                "EffectId": "AH_Dragon_Frost_Freezing_Breath_Source"
+              },
+              {
                 "Type": "Simple",
                 "RunTime": 0.25
               },
@@ -101,6 +109,10 @@
                     "AH_Dragon_Frost_Freezing_Breath_Damage"
                   ]
                 }
+              },
+              {
+                "Type": "ApplyEffect",
+                "EffectId": "AH_Dragon_Frost_Freezing_Breath_Source"
               },
               {
                 "Type": "Simple",
