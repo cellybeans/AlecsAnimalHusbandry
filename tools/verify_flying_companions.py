@@ -256,6 +256,27 @@ def favorite_item_preempts_proximity_flee(template: dict) -> bool:
     )
 
 
+def favorite_item_uses_full_alerted_range(template: dict) -> bool:
+    alerted = state_branches(template, "Alerted")
+    if len(alerted) != 1:
+        return False
+    favorite = [
+        instruction
+        for instruction in instruction_children(alerted[0])
+        if has_favorite_item_filter(instruction.get("Sensor", {}))
+    ]
+    parameters = template.get("Parameters", {})
+    alerted_range = parameters.get("AlertedRange", {}).get("Value")
+    action_range = parameters.get("AlertedActionRange", {}).get("Value")
+    return (
+        len(favorite) == 1
+        and favorite[0].get("Sensor", {}).get("Range", {}).get("Compute") == "AlertedRange"
+        and isinstance(alerted_range, (int, float))
+        and isinstance(action_range, (int, float))
+        and alerted_range > action_range
+    )
+
+
 def state_branches(template: dict, state: str) -> list[dict]:
     return [
         instruction
@@ -772,6 +793,10 @@ def check_wild_shared() -> None:
     require(
         favorite_item_preempts_proximity_flee(template),
         "wild favorite-item acquisition must precede the Alerted proximity-flee branch",
+    )
+    require(
+        favorite_item_uses_full_alerted_range(template),
+        "wild favorite-item acquisition must use the full AlertedRange",
     )
     reference = "AH_Component_Tamework_Instruction_Aerial_Follow_Item"
     matches = reference_nodes(template, reference)

@@ -1360,7 +1360,7 @@
               "Sensor": {
                 "Type": "Target",
                 "Range": {
-                  "Compute": "AlertedActionRange"
+                  "Compute": "AlertedRange"
                 },
                 "Filters": [
                   {
