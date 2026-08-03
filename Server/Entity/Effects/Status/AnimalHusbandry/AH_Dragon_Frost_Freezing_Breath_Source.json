@@ -1,0 +1,9 @@
+{
+  "ApplicationEffects": {
+    "WorldSoundEventId": "SFX_AH_Dragon_Frost_Freezing_Breath"
+  },
+  "WorldRemovalSoundEventId": "SFX_AH_Dragon_Frost_Freezing_Breath_End",
+  "OverlapBehavior": "Overwrite",
+  "Infinite": false,
+  "Duration": 0.5
+}

@@ -1,0 +1,35 @@
+{
+  "Layers": [
+    {
+      "Files": [
+        "Sounds/Weapons/Staff/IceCrystalStaffShot_1.ogg"
+      ],
+      "RandomSettings": {
+        "MinVolume": -1,
+        "MaxVolume": 1,
+        "MinPitch": -2,
+        "MaxPitch": 2
+      },
+      "StartDelay": 0,
+      "Looping": false
+    },
+    {
+      "Files": [
+        "Sounds/Environments/Global/Wind/Emit_Wind_Gust_01.ogg"
+      ],
+      "Volume": -5,
+      "RandomSettings": {
+        "MinVolume": -2,
+        "MaxVolume": 1,
+        "MinPitch": -2,
+        "MaxPitch": 2
+      },
+      "StartDelay": 0,
+      "Looping": true
+    }
+  ],
+  "Volume": 0,
+  "PreventSoundInterruption": false,
+  "MaxInstance": 3,
+  "Parent": "SFX_Attn_Moderate"
+}

@@ -1,0 +1,106 @@
+{
+  "RenderMode": "BlendAdd",
+  "EmitOffset": {
+    "X": {
+      "Min": -0.3,
+      "Max": 0.3
+    },
+    "Y": {
+      "Min": -0.3,
+      "Max": 0.3
+    },
+    "Z": {
+      "Min": 0,
+      "Max": 0.45
+    }
+  },
+  "ParticleRotationInfluence": "BillboardVelocity",
+  "LinearFiltering": true,
+  "LightInfluence": 1,
+  "ParticleRotateWithSpawner": true,
+  "TrailSpawnerPositionMultiplier": 1,
+  "TrailSpawnerRotationMultiplier": 1,
+  "MaxConcurrentParticles": 64,
+  "ParticleLifeSpan": {
+    "Min": 0.18,
+    "Max": 0.32
+  },
+  "SpawnRate": {
+    "Min": 36,
+    "Max": 60
+  },
+  "InitialVelocity": {
+    "Speed": {
+      "Min": 9,
+      "Max": 14
+    },
+    "Yaw": {
+      "Min": -14,
+      "Max": 14
+    },
+    "Pitch": {
+      "Min": -14,
+      "Max": 14
+    }
+  },
+  "Particle": {
+    "Texture": "Particles/Textures/Ice/Icepart.png",
+    "FrameSize": {
+      "Width": 32,
+      "Height": 32
+    },
+    "ScaleRatioConstraint": "OneToOne",
+    "UVOption": "RandomFlipU",
+    "Animation": {
+      "0": {
+        "Opacity": 0,
+        "Color": "#B8EAFF",
+        "Scale": {
+          "X": {
+            "Min": 0.15,
+            "Max": 0.3
+          }
+        }
+      },
+      "18": {
+        "Opacity": 0.95,
+        "Color": "#D9FAFF"
+      },
+      "70": {
+        "Opacity": 0.9,
+        "Color": "#8FE3FF",
+        "Scale": {
+          "X": {
+            "Min": 0.55,
+            "Max": 0.85
+          }
+        }
+      },
+      "100": {
+        "Opacity": 0,
+        "Scale": {
+          "X": {
+            "Min": 0.2,
+            "Max": 0.4
+          }
+        }
+      }
+    },
+    "InitialAnimationFrame": {
+      "Opacity": 0.85,
+      "Color": "#B8F2FF",
+      "FrameIndex": {
+        "Min": 0,
+        "Max": 0
+      },
+      "Scale": {
+        "X": {
+          "Min": 0.15,
+          "Max": 0.3
+        }
+      }
+    }
+  },
+  "SpawnBurst": false,
+  "UseEmitDirection": false
+}
