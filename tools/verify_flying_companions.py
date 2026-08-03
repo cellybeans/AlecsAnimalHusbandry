@@ -11,6 +11,7 @@ BASELINE_COMMIT = "0fa7f94"
 HOOK_ID = "AnimalHusbandry.Command.ToggleAirborneMode"
 WILD_COMPONENT = ROOT / "Server/NPC/Roles/_Core/Components/AH_Component_Tamework_Instruction_Aerial_Follow_Item.json"
 MODE_COMPONENT = ROOT / "Server/NPC/Roles/_Core/Components/AH_Component_Tamework_Instruction_Aerial_Mode_Transition.json"
+FLYING_FOLLOW_COMPONENT = ROOT / "Server/NPC/Roles/_Core/Components/AH_Component_Tamework_Instruction_Follow_Flying.json"
 WILD_TEMPLATE = ROOT / "Server/NPC/Roles/_Core/Templates/AH_Template_Aerial_Neutral.json"
 TAMED_TEMPLATE = ROOT / "Server/NPC/Roles/_Core/Templates/AH_Template_Aerial_Tamed.json"
 TAMED_VARIANT_ROOT = ROOT / "Server/NPC/Roles/Avian/Aerial/Tamed"
@@ -149,7 +150,13 @@ def has_item_target_loss_sensor(sensor: dict) -> bool:
     )
 
 
-def has_target_loss_branch(instructions: list[dict], state: str, controller: str, action_types: list[str]) -> bool:
+def has_target_loss_branch(
+    instructions: list[dict],
+    state: str,
+    controller: str,
+    action_types: list[str],
+    take_off: bool = False,
+) -> bool:
     for instruction in instructions:
         outer_sensor = instruction.get("Sensor", {})
         if outer_sensor.get("Type") != "And":
@@ -169,10 +176,27 @@ def has_target_loss_branch(instructions: list[dict], state: str, controller: str
             continue
         if not actions or actions[0].get("TargetSlot", {}).get("Compute") != "InteractionTargetSlot":
             continue
-        if actions[-1].get("Type") != "State" or actions[-1].get("State") != "Idle":
+        if actions[-1].get("Type") != "ParentState" or actions[-1].get("State") != "Idle":
+            continue
+        body_motion = instruction.get("BodyMotion", {})
+        if take_off != (body_motion.get("Type") == "TakeOff" and body_motion.get("JumpSpeed") == 4):
+            continue
+        if take_off and actions[-1].get("ClearBodyMotion") is not False:
             continue
         return True
     return False
+
+
+def object_nodes(value: object) -> list[dict]:
+    nodes: list[dict] = []
+    if isinstance(value, dict):
+        nodes.append(value)
+        for child in value.values():
+            nodes.extend(object_nodes(child))
+    elif isinstance(value, list):
+        for child in value:
+            nodes.extend(object_nodes(child))
+    return nodes
 
 
 def instruction_children(instruction: dict) -> list[dict]:
@@ -572,6 +596,33 @@ def check_wild_shared() -> None:
     require(WILD_COMPONENT.exists(), f"missing {WILD_COMPONENT.relative_to(ROOT)}")
     component = load(WILD_COMPONENT)
     require(component.get("Interface") == "AnimalHusbandry.Instruction.AerialFollowItem", "wrong wild interface")
+    require(component.get("DefaultState") == ".FollowItem", "wild component must declare local default state .FollowItem")
+    require(component.get("ResetOnStateChange") is True, "wild component local state must reset with its parent state")
+    require(
+        component.get("Parameters", {}).get("_ImportStates") == ["Idle"],
+        "wild component must import only the parent Idle state",
+    )
+    state_nodes = [node for node in object_nodes(component.get("Content", {})) if node.get("Type") == "State"]
+    require(state_nodes, "wild component has no local state nodes")
+    require(
+        all(isinstance(node.get("State"), str) and node["State"].startswith(".") for node in state_nodes),
+        "wild component State sensors/setters must use dotted local states",
+    )
+    parent_state_nodes = [
+        node for node in object_nodes(component.get("Content", {})) if node.get("Type") == "ParentState"
+    ]
+    require(
+        parent_state_nodes and all(node.get("State") == "Idle" for node in parent_state_nodes),
+        "wild component must return to the imported parent Idle state",
+    )
+    require(
+        not any(
+            action.get("Type") == "TakeOff"
+            for instruction in descendants(component.get("Content", {}).get("Instructions", []))
+            for action in instruction.get("Actions", [])
+        ),
+        "TakeOff is a BodyMotion and must not appear in Actions",
+    )
     instructions = component.get("Content", {}).get("Instructions", [])
     require(
         has_first_sensor_branch(
@@ -621,26 +672,38 @@ def check_wild_shared() -> None:
     )
     require(
         any(
-            action.get("Type") == "State" and action.get("State") == "FollowItemGrounded"
+            action.get("Type") == "State" and action.get("State") == ".FollowItemGrounded"
             for instruction in instructions
             for action in instruction.get("Actions", [])
         ),
         "wild component has no State action targeting FollowItemGrounded",
     )
     require(
-        has_target_loss_branch(instructions, "FollowItem", "Walk", ["ReleaseTarget", "State"]),
+        has_target_loss_branch(instructions, ".FollowItem", "Walk", ["ReleaseTarget", "ParentState"]),
         "wild component has no FollowItem + Walk target-loss ReleaseTarget/Idle branch",
     )
     require(
-        has_target_loss_branch(instructions, "FollowItem", "Fly", ["ReleaseTarget", "State"]),
+        has_target_loss_branch(instructions, ".FollowItem", "Fly", ["ReleaseTarget", "ParentState"]),
         "wild component has no FollowItem + Fly target-loss ReleaseTarget/Idle branch",
     )
     require(
-        has_target_loss_branch(instructions, "FollowItemLanding", "Walk", ["ReleaseTarget", "TakeOff", "State"]),
+        has_target_loss_branch(
+            instructions,
+            ".FollowItemLanding",
+            "Walk",
+            ["ReleaseTarget", "ParentState"],
+            take_off=True,
+        ),
         "wild component has no FollowItemLanding + Walk target-loss release/takeoff/Idle branch",
     )
     require(
-        has_target_loss_branch(instructions, "FollowItemGrounded", "Walk", ["ReleaseTarget", "TakeOff", "State"]),
+        has_target_loss_branch(
+            instructions,
+            ".FollowItemGrounded",
+            "Walk",
+            ["ReleaseTarget", "ParentState"],
+            take_off=True,
+        ),
         "wild component has no FollowItemGrounded + Walk target-loss release/takeoff/Idle branch",
     )
     template = load(WILD_TEMPLATE)
@@ -648,12 +711,11 @@ def check_wild_shared() -> None:
     matches = reference_nodes(template, reference)
     ancestors = reference_state_ancestors(template, reference)
     require(len(matches) == 1, "wild template must consume attraction component exactly once")
-    require(ancestors == [()], "wild attraction component reference must have no State ancestor")
+    require(ancestors == [("FollowItem",)], "wild attraction component reference must be scoped to FollowItem")
     exported_states = matches[0].get("Modify", {}).get("_ExportStates", [])
     require(
-        isinstance(exported_states, list)
-        and all(state in exported_states for state in ("FollowItem", "FollowItemLanding", "FollowItemGrounded")),
-        "wild attraction component must export FollowItem, FollowItemLanding, and FollowItemGrounded",
+        exported_states == ["Idle"],
+        "wild attraction component must export only the imported parent Idle state",
     )
 
 
@@ -776,6 +838,27 @@ def check_tamed_shared() -> None:
         has_state_mode_reference(template, "Follow", {"AirborneMode": False}, "Walk", "Component_Tamework_Instruction_Follow_Advanced")
         and has_state_mode_reference(template, "Follow", {"AirborneMode": None}, "Fly", "AH_Component_Tamework_Instruction_Follow_Flying"),
         "Follow must provide Walk and Fly mode references",
+    )
+    flying_follow_parameters = set(load(FLYING_FOLLOW_COMPONENT).get("Parameters", {}))
+    flying_follow_references = reference_nodes(template, "AH_Component_Tamework_Instruction_Follow_Flying")
+    require(len(flying_follow_references) == 1, "tamed template must consume flying follow exactly once")
+    require(
+        set(flying_follow_references[0].get("Modify", {})) <= flying_follow_parameters,
+        "flying follow Modify contains undeclared component parameters",
+    )
+    favorite_particle_actions = [
+        node
+        for node in object_nodes(template.get("Instructions", []))
+        if node.get("Type") == "SpawnParticles"
+        and node.get("ParticleSystem") == {"Compute": "AttractiveItemSetParticles"}
+    ]
+    require(favorite_particle_actions, "tamed template has no favorite-item particle action")
+    require(
+        all(
+            action.get("Enabled", {}).get("Compute") == "!isEmpty(AttractiveItemSetParticles)"
+            for action in favorite_particle_actions
+        ),
+        "favorite-item particle actions must be disabled when the particle ID is empty",
     )
     require(
         has_body_motion_branch(template.get("Instructions", []), {"AirborneMode": False}, "Walk", "Nothing")

@@ -2,7 +2,12 @@
   "Type": "Component",
   "Class": "Instruction",
   "Interface": "AnimalHusbandry.Instruction.AerialFollowItem",
+  "DefaultState": ".FollowItem",
+  "ResetOnStateChange": true,
   "Parameters": {
+    "_ImportStates": [
+      "Idle"
+    ],
     "AttractiveItemSet": {
       "Value": [],
       "TypeHint": "String"
@@ -38,7 +43,7 @@
           "Sensors": [
             {
               "Type": "State",
-              "State": "FollowItem"
+              "State": ".FollowItem"
             },
             {
               "Type": "MotionController",
@@ -82,7 +87,7 @@
           "Sensors": [
             {
               "Type": "State",
-              "State": "FollowItem"
+              "State": ".FollowItem"
             },
             {
               "Type": "MotionController",
@@ -115,7 +120,7 @@
             }
           },
           {
-            "Type": "State",
+            "Type": "ParentState",
             "State": "Idle"
           }
         ]
@@ -152,7 +157,7 @@
             },
             {
               "Type": "State",
-              "State": "FollowItem"
+              "State": ".FollowItem"
             },
             {
               "Type": "MotionController",
@@ -231,7 +236,7 @@
             },
             {
               "Type": "State",
-              "State": "FollowItem"
+              "State": ".FollowItem"
             }
           ]
         },
@@ -244,7 +249,7 @@
           },
           {
             "Type": "State",
-            "State": "FollowItemLanding"
+            "State": ".FollowItemLanding"
           }
         ]
       },
@@ -263,7 +268,7 @@
             },
             {
               "Type": "State",
-              "State": "FollowItemLanding"
+              "State": ".FollowItemLanding"
             },
             {
               "Type": "MotionController",
@@ -286,7 +291,7 @@
           "Sensors": [
             {
               "Type": "State",
-              "State": "FollowItemLanding"
+              "State": ".FollowItemLanding"
             },
             {
               "Type": "MotionController",
@@ -321,7 +326,7 @@
         "Actions": [
           {
             "Type": "State",
-            "State": "FollowItemGrounded"
+            "State": ".FollowItemGrounded"
           }
         ]
       },
@@ -357,7 +362,7 @@
             },
             {
               "Type": "State",
-              "State": "FollowItemGrounded"
+              "State": ".FollowItemGrounded"
             },
             {
               "Type": "MotionController",
@@ -381,7 +386,7 @@
           "Sensors": [
             {
               "Type": "State",
-              "State": "FollowItem"
+              "State": ".FollowItem"
             },
             {
               "Type": "MotionController",
@@ -414,7 +419,7 @@
             }
           },
           {
-            "Type": "State",
+            "Type": "ParentState",
             "State": "Idle"
           }
         ]
@@ -427,7 +432,7 @@
           "Sensors": [
             {
               "Type": "State",
-              "State": "FollowItemLanding"
+              "State": ".FollowItemLanding"
             },
             {
               "Type": "MotionController",
@@ -460,14 +465,15 @@
             }
           },
           {
-            "Type": "TakeOff",
-            "JumpSpeed": 4
-          },
-          {
-            "Type": "State",
-            "State": "Idle"
+            "Type": "ParentState",
+            "State": "Idle",
+            "ClearBodyMotion": false
           }
-        ]
+        ],
+        "BodyMotion": {
+          "Type": "TakeOff",
+          "JumpSpeed": 4
+        }
       },
       {
         "$Comment": "Grounded target loss uses the same safe release and vanilla return path.",
@@ -476,7 +482,7 @@
           "Sensors": [
             {
               "Type": "State",
-              "State": "FollowItemGrounded"
+              "State": ".FollowItemGrounded"
             },
             {
               "Type": "MotionController",
@@ -509,14 +515,15 @@
             }
           },
           {
-            "Type": "TakeOff",
-            "JumpSpeed": 4
-          },
-          {
-            "Type": "State",
-            "State": "Idle"
+            "Type": "ParentState",
+            "State": "Idle",
+            "ClearBodyMotion": false
           }
-        ]
+        ],
+        "BodyMotion": {
+          "Type": "TakeOff",
+          "JumpSpeed": 4
+        }
       }
     ]
   }

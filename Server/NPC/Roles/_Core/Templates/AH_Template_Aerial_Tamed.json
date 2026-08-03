@@ -1051,6 +1051,9 @@
       "Actions": [
         {
           "Type": "SpawnParticles",
+          "Enabled": {
+            "Compute": "!isEmpty(AttractiveItemSetParticles)"
+          },
           "ParticleSystem": {
             "Compute": "AttractiveItemSetParticles"
           },
@@ -2589,9 +2592,6 @@
                       10
                     ],
                     "FollowTeleportThresholdRange": 32,
-                    "FollowSeekSlowDownDistance": 10,
-                    "FollowSeekStopDistance": 6,
-                    "FollowSeekRelativeSpeed": 0.9,
                     "FollowHoverRadius": 1.75,
                     "FollowHoverRelativeSpeed": 0.12
                   }
