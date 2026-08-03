@@ -3,6 +3,7 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
+$PatchworkRoot = Join-Path (Split-Path -Parent $Root) "Patchwork\standalone\src\main\resources"
 
 function Require-Condition {
     param([bool]$Condition, [string]$Message)
@@ -11,7 +12,7 @@ function Require-Condition {
     }
 }
 
-$interactionPatchPath = Join-Path $Root "Server/Tamework/Patches/AH_Equipment_Interactions.json"
+$interactionPatchPath = Join-Path $PatchworkRoot "Server/Patchwork/Patches/AnimalHusbandry/AH_Equipment_Interactions.json"
 $interactionPatch = Get-Content -Raw -LiteralPath $interactionPatchPath | ConvertFrom-Json
 Require-Condition ($interactionPatch.Targets.Count -eq 4) "Equipment interaction patch must target all four interaction families."
 Require-Condition ($interactionPatch.Operations.Count -eq 2) "Equipment interaction patch must contain saddle and blanket operations."
@@ -53,7 +54,7 @@ $mappedValues = @($blanketMappings | ForEach-Object { ($_ -split '=', 2)[1] } | 
 Require-Condition (@(Compare-Object ($blanketItems | Sort-Object) $mappedItems).Count -eq 0) "Blanket requirement items and effect mapping keys must match."
 Require-Condition (-not ($mappedValues -contains "Canada")) "The appearance-only Canada blanket must not be mapped to a fabricated refund item."
 
-$removalPatchPath = Join-Path $Root "Server/Tamework/Patches/AH_Equipment_Removal_Interactions.json"
+$removalPatchPath = Join-Path $PatchworkRoot "Server/Patchwork/Patches/AnimalHusbandry/AH_Equipment_Removal_Interactions.json"
 $removalPatch = Get-Content -Raw -LiteralPath $removalPatchPath | ConvertFrom-Json
 $expectedRemovalTargets = @(
     "Server/Tamework/Interactions/AHIntLivestock.json",
@@ -196,7 +197,7 @@ $expectedBlanketTextures = @{
     LightYellow = "Blanket_Yellow_Light.png"
 }
 
-$modelPatchPaths = @(Get-ChildItem -LiteralPath (Join-Path $Root "Server/Tamework/Patches") -Filter "AH_Saddle_*.json")
+$modelPatchPaths = @(Get-ChildItem -LiteralPath (Join-Path $PatchworkRoot "Server/Patchwork/Patches/AnimalHusbandry") -Filter "AH_Saddle_*.json")
 Require-Condition ($modelPatchPaths.Count -eq 21) "Expected 21 saddle model patches, found $($modelPatchPaths.Count)."
 
 $actualModelTargets = @()
