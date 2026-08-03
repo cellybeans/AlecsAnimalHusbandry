@@ -351,6 +351,39 @@ foreach ($path in $breathPaths) {
         Add-Failure "$path must refresh $sourceEffectId at least three times (actual: $($sourceReferences.Count))"
     }
 
+    if ($path -eq $breathPaths[2]) {
+        $parallelBranches = @()
+        $rootInteractions = @(Get-PropertyValue $interaction "Interactions")
+        if ($rootInteractions.Count -gt 0) {
+            $parallelBranches = @(Get-PropertyValue $rootInteractions[0] "Interactions")
+        }
+
+        $damageInteractions = @()
+        if ($parallelBranches.Count -gt 1) {
+            $damageInteractions = @(Get-PropertyValue $parallelBranches[1] "Interactions")
+        }
+
+        $openingDelay = if ($damageInteractions.Count -gt 0) { $damageInteractions[0] } else { $null }
+        $openingRefresh = if ($damageInteractions.Count -gt 1) { $damageInteractions[1] } else { $null }
+        $firstSelectorIndex = -1
+        for ($index = 0; $index -lt $damageInteractions.Count; $index++) {
+            if ([string](Get-PropertyValue $damageInteractions[$index] "Type") -eq "Selector") {
+                $firstSelectorIndex = $index
+                break
+            }
+        }
+
+        $openingRunTime = if ($null -ne $openingDelay) { Convert-ToNumber (Get-PropertyValue $openingDelay "RunTime") } else { $null }
+        $openingType = if ($null -ne $openingDelay) { [string](Get-PropertyValue $openingDelay "Type") } else { $null }
+        $refreshType = if ($null -ne $openingRefresh) { [string](Get-PropertyValue $openingRefresh "Type") } else { $null }
+        $refreshEffectId = if ($null -ne $openingRefresh) { [string](Get-PropertyValue $openingRefresh "EffectId") } else { $null }
+        if ($openingType -ne "Simple" -or $openingRunTime -ne 0.5 -or
+            $refreshType -ne "ApplyEffect" -or $refreshEffectId -ne $sourceEffectId -or
+            $firstSelectorIndex -lt 2) {
+            Add-Failure "$path Avatar damage branch must apply $sourceEffectId immediately after the opening 0.5-second delay before the first Selector"
+        }
+    }
+
     $bannedReferences = @(Get-JsonScalarEntries $interaction | Where-Object { [string] $_.Value -eq "Ice_Staff" -or [string] $_.Value -eq "SFX_Staff_Ice_Shoot" })
     if ($bannedReferences.Count -gt 0) {
         Add-Failure "$path still references Ice_Staff or SFX_Staff_Ice_Shoot"

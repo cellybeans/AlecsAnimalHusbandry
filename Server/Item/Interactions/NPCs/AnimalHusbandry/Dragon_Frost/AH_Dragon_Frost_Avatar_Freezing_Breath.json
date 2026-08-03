@@ -47,6 +47,10 @@
               "RunTime": 0.5
             },
             {
+              "Type": "ApplyEffect",
+              "EffectId": "AH_Dragon_Frost_Freezing_Breath_Source"
+            },
+            {
               "Type": "Selector",
               "RunTime": 0.05,
               "Selector": {
