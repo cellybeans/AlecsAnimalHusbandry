@@ -29,6 +29,11 @@ These values add up quickly on larger farms or mixed Beast/livestock setups.
 3. Keep pathing clear so companions can actually reach food/water.
 4. Avoid overcrowding in one pen.
 
+Flying companion note:
+- Tamed flying companions automatically land before eating or drinking.
+- Leave enough open ground near food, troughs, and water for a safe landing and short grounded approach.
+- If Flight mode is still selected, they take off again after the care activity finishes.
+
 Feed trough note:
 - Feed trough water charges can be consumed for hydration and refilled with water buckets.
 - Troughs are useful in enclosed pens where natural water access is awkward.
@@ -55,4 +60,3 @@ See breeding timings and cooldown behavior:
 
 > [Screenshot Placeholder: Companion panel with stable hunger, thirst, and happiness]
 > [Screenshot Placeholder: Food chest + water source layout that supports continuous care]
-

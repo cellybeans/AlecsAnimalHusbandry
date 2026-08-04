@@ -15,6 +15,7 @@ Back to: [Items Index](/mod/alecs-animal-husbandry/items-index)
 - Open command selection.
 - Issue commands to linked members.
 - Provide per-companion panel actions (`Recall`, `Set Home`, `Return Home`, `Unlink`, `Revive` when available).
+- Toggle supported flying companions between Ground and Flight modes from their linked companion cards.
 - Provide nearby-only safety actions (`Release`, `Cull`) through confirm flow.
 
 ## Recipe

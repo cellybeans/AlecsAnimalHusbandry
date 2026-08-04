@@ -46,8 +46,21 @@ Item page: [Combat Beast Flute](/mod/alecs-animal-husbandry/combat-beast-flute)
 - If a companion is nearby and owned by you, the panel can also show `Release` and `Cull`.
 - If a companion shows `LOST`, use respawn/recovery instead of recall/return-home.
 
+## Flying Companions
+
+Supported flying companions have a Ground/Flight button on their linked companion card.
+
+- **Ground mode:** the companion lands and uses its slower grounded movement.
+- **Flight mode:** `Idle` uses aerial wandering, `Follow` flies around its owner, and `Hold` hovers in place.
+- Changing between `Idle`, `Follow`, `Hold`, `Move To Ping`, and home/recall orders does not change the selected Ground/Flight mode.
+- Food, water, sleep, and breeding require a safe landing. These activities temporarily take control, and the companion takes off again afterward if Flight mode remains selected.
+- These passive vanilla flyers do not receive combat commands.
+
+Supported species and favorite foods: [Flying Companions Taming and Food Preference Table](/mod/alecs-animal-husbandry/animal-taming-reference#flying-companions-taming-and-food-preference-table)
+
 ## Related Pages
 - [Items Index](/mod/alecs-animal-husbandry/items-index)
+- [Animal Taming Reference](/mod/alecs-animal-husbandry/animal-taming-reference)
 - [Beast Taming Reference](/mod/alecs-animal-husbandry/beast-taming-reference)
 - [Mountable Mobs Reference](/mod/alecs-animal-husbandry/mountable-mobs-reference)
 

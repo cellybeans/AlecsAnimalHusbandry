@@ -61,11 +61,13 @@ Parent: [Gameplay Guides Index](/mod/alecs-animal-husbandry/gameplay-guides-inde
 - Home management and recall.
 - Optional combat command behavior on supported roles.
 - Linked panel includes per-companion `Revive` plus nearby-only `Release`/`Cull` actions with safety gating.
+- Supported passive flying companions have a separate Ground/Flight toggle and airborne versions of idle, follow, hold, and movement behavior. They still land automatically for needs, sleep, and breeding. See [Commands and Controls](/mod/alecs-animal-husbandry/commands-and-controls#flying-companions).
 
 ## Species Coverage Snapshot
 Animal Husbandry fully supports all vanilla:
 - Livestock
 - Neutral Animals (including passive critters/cactee variants)
+- Passive flying animals (17 tameable flying companion species)
 - Beasts (Predators)
 
 All of these animal groups are integrated into the same taming, companion, needs/happiness, breeding, leveling, talent, and command systems, with dedicated Beast combat/taming flow where applicable.

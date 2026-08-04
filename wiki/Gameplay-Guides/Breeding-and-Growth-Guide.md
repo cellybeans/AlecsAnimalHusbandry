@@ -35,6 +35,8 @@ Your breeding pair must pass all of these checks:
 Manual breeding still respects these gates.
 If crouch-feeding does not start breeding, the animal is usually blocked by one of the checks above.
 
+Flying companions use the same breeding gates. They land before pairing and return to Flight mode after breeding if it remains selected. Keep clear ground near the pair so both companions can complete the landing and approach.
+
 ## Litter Size, Capacity, and Pending Births
 
 Fertility intentionally rolls a litter from **zero through four offspring**. Zero is a normal biological result, not necessarily an error or a duplicated callback.

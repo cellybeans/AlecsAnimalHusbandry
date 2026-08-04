@@ -22,7 +22,7 @@ This page is a practical quick-reference for animal taming.
 
 ## Animal Taming Steps
 1. Find a supported animal species.
-2. Hold its preferred food (see table below)
+2. Hold its preferred food (see table below).
 3. Complete the tame interaction (default key is `F`).
 4. You can press `F` on a tamed animal to quick-toggle simple modes (`Follow`, `Hold`, `Idle`).
 5. Left-click with your [Animal Control Flute](/mod/alecs-animal-husbandry/animal-control-flute) to link it.
@@ -78,6 +78,32 @@ Once tamed, animals can be fed their preferred food or one of the [crafted food]
 | Tetrabird | <img src="https://wiki.hytalemodding.dev/storage/mods/019ce94e-972f-717d-8881-7a3d542de0c3/files/32d7cb0b-df68-47eb-a5eb-1b658e9944d0.png" alt="Wild Berries" /> | Wild Berries | [![Herbivore Feed](https://wiki.hytalemodding.dev/storage/mods/019ce94e-972f-717d-8881-7a3d542de0c3/files/9f9b7eeb-ff3c-4ec9-80da-9513bbd601d6.png)](/mod/alecs-animal-husbandry/feed-items#herbivore-feed)  
 | Tortoise | <img src="https://wiki.hytalemodding.dev/storage/mods/019ce94e-972f-717d-8881-7a3d542de0c3/files/e08a27a3-e01b-4107-9228-8c650b4bf2d0.png" alt="Lettuce" /> | Lettuce | [![Herbivore Feed](https://wiki.hytalemodding.dev/storage/mods/019ce94e-972f-717d-8881-7a3d542de0c3/files/9f9b7eeb-ff3c-4ec9-80da-9513bbd601d6.png)](/mod/alecs-animal-husbandry/feed-items#herbivore-feed)  
 | Trillodon | ![Cauliflower](https://wiki.hytalemodding.dev/storage/mods/019ce94e-972f-717d-8881-7a3d542de0c3/files/9d9bd68c-697a-44ce-9dee-740434007260.png) | Cauliflower | [![Herbivore Feed](https://wiki.hytalemodding.dev/storage/mods/019ce94e-972f-717d-8881-7a3d542de0c3/files/9f9b7eeb-ff3c-4ec9-80da-9513bbd601d6.png)](/mod/alecs-animal-husbandry/feed-items#herbivore-feed)  
+
+## Flying Companions Taming and Food Preference Table
+
+These passive vanilla flyers use the normal feed-to-tame interaction after they approach and land. Once tamed, they use the same needs, happiness, breeding, growth, and non-combat command systems as other Animal Husbandry companions.
+
+| Flying Companion | Preferred Food | Compatible Crafted Feed |
+|---|---|---|
+| Bluebird | Corn | [Herbivore Feed](/mod/alecs-animal-husbandry/feed-items#herbivore-feed) |
+| Sparrow | Corn | [Herbivore Feed](/mod/alecs-animal-husbandry/feed-items#herbivore-feed) |
+| Parrot | Apple | [Herbivore Feed](/mod/alecs-animal-husbandry/feed-items#herbivore-feed) |
+| Raven | Corn | [Herbivore Feed](/mod/alecs-animal-husbandry/feed-items#herbivore-feed), [Carnivore Kibble](/mod/alecs-animal-husbandry/feed-items#carnivore-kibble) |
+| Crow | Corn | [Herbivore Feed](/mod/alecs-animal-husbandry/feed-items#herbivore-feed), [Carnivore Kibble](/mod/alecs-animal-husbandry/feed-items#carnivore-kibble) |
+| Green Finch | Corn | [Herbivore Feed](/mod/alecs-animal-husbandry/feed-items#herbivore-feed) |
+| Woodpecker | Corn | [Herbivore Feed](/mod/alecs-animal-husbandry/feed-items#herbivore-feed), [Carnivore Kibble](/mod/alecs-animal-husbandry/feed-items#carnivore-kibble) |
+| Brown Owl | Raw Wildmeat | [Carnivore Kibble](/mod/alecs-animal-husbandry/feed-items#carnivore-kibble) |
+| Snow Owl | Raw Wildmeat | [Carnivore Kibble](/mod/alecs-animal-husbandry/feed-items#carnivore-kibble) |
+| Bat | Apple | [Herbivore Feed](/mod/alecs-animal-husbandry/feed-items#herbivore-feed) |
+| Ice Bat | Apple | [Herbivore Feed](/mod/alecs-animal-husbandry/feed-items#herbivore-feed) |
+| Pigeon | Corn | [Herbivore Feed](/mod/alecs-animal-husbandry/feed-items#herbivore-feed) |
+| Duck | Corn | [Herbivore Feed](/mod/alecs-animal-husbandry/feed-items#herbivore-feed), [Carnivore Kibble](/mod/alecs-animal-husbandry/feed-items#carnivore-kibble) |
+| Archaeopteryx | Raw Wildmeat | [Carnivore Kibble](/mod/alecs-animal-husbandry/feed-items#carnivore-kibble) |
+| Hawk | Raw Wildmeat | [Carnivore Kibble](/mod/alecs-animal-husbandry/feed-items#carnivore-kibble) |
+| Pterodactyl | Raw Wildmeat | [Carnivore Kibble](/mod/alecs-animal-husbandry/feed-items#carnivore-kibble) |
+| Vulture | Raw Wildmeat | [Carnivore Kibble](/mod/alecs-animal-husbandry/feed-items#carnivore-kibble) |
+
+After linking one with the Animal Control Flute, use its Ground/Flight button in the linked companion panel. The selected mode stays active across `Idle`, `Follow`, `Hold`, and movement orders. Flying companions automatically land for food, water, sleep, and breeding, then resume flight afterward when Flight mode is still selected. See [Commands and Controls](/mod/alecs-animal-husbandry/commands-and-controls#flying-companions).
 
 ## Critters Taming and Food Preference Table
 
