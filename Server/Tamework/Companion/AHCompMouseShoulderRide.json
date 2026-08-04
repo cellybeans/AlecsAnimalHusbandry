@@ -1,0 +1,16 @@
+{
+  "Enabled": true,
+  "Parent": "AHCompNeutral",
+  "Priority": 2,
+  "RoleIds": [
+    "Tamed_Mouse"
+  ],
+  "Command": {
+    "ShoulderRide": {
+      "Enabled": true,
+      "OffsetX": 0.32,
+      "OffsetY": 1.45,
+      "OffsetZ": 0.0
+    }
+  }
+}
