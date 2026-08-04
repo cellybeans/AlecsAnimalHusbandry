@@ -5,7 +5,7 @@
     "AttractiveItemSet": [
       "Food_Wildmeat_Raw"
     ],
-    "AttractiveItemSetParticles": "",
+    "AttractiveItemSetParticles": "Want_Food_Wildmeat_Raw",
     "CanAttackTarget": false,
     "CanBreedPair": true,
     "CanDefend": false,

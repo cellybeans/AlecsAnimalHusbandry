@@ -81,7 +81,7 @@ Once tamed, animals can be fed their preferred food or one of the [crafted food]
 
 ## Flying Companions Taming and Food Preference Table
 
-These passive vanilla flyers use the normal feed-to-tame interaction after they approach and land. Once tamed, they use the same needs, happiness, breeding, growth, and non-combat command systems as other Animal Husbandry companions.
+These passive vanilla flyers use the normal feed-to-tame interaction after they approach and land. Interact without the correct preferred food in hand to make the animal show its food thought bubble. Once tamed, they use the same needs, happiness, breeding, growth, and non-combat command systems as other Animal Husbandry companions.
 
 | Flying Companion | Preferred Food | Compatible Crafted Feed |
 |---|---|---|

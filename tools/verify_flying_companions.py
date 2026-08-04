@@ -14,6 +14,7 @@ MODE_COMPONENT = ROOT / "Server/NPC/Roles/_Core/Components/AH_Component_Tamework
 FLYING_FOLLOW_COMPONENT = ROOT / "Server/NPC/Roles/_Core/Components/AH_Component_Tamework_Instruction_Follow_Flying.json"
 WILD_TEMPLATE = ROOT / "Server/NPC/Roles/_Core/Templates/AH_Template_Aerial_Neutral.json"
 TAMED_TEMPLATE = ROOT / "Server/NPC/Roles/_Core/Templates/AH_Template_Aerial_Tamed.json"
+INTERACTION_CONFIG = ROOT / "Server/Tamework/Interactions/AHIntNeutral.json"
 TAMED_VARIANT_ROOT = ROOT / "Server/NPC/Roles/Avian/Aerial/Tamed"
 
 SPECIES = {
@@ -24,8 +25,8 @@ SPECIES = {
     "Crow": ("Avian/Aerial", "Drop_Crow", 15, 20, None, "Plant_Crop_Corn_Item", "Want_Food_Corn", ("Tw_Feed_Herbivore", "Tw_Feed_Carnivore")),
     "Finch_Green": ("Avian/Aerial", "Drop_Finch_Green", 15, 15, "Finch_Green", "Plant_Crop_Corn_Item", "Want_Food_Corn", ("Tw_Feed_Herbivore",)),
     "Woodpecker": ("Avian/Aerial", "Drop_Woodpecker", 15, 15, None, "Plant_Crop_Corn_Item", "Want_Food_Corn", ("Tw_Feed_Herbivore", "Tw_Feed_Carnivore")),
-    "Owl_Brown": ("Avian/Aerial", "Drop_Owl_Brown", 12, 29, "Owl_Brown", "Food_Wildmeat_Raw", "", ("Tw_Feed_Carnivore",)),
-    "Owl_Snow": ("Avian/Aerial", "Drop_Owl_Snow", 12, 29, None, "Food_Wildmeat_Raw", "", ("Tw_Feed_Carnivore",)),
+    "Owl_Brown": ("Avian/Aerial", "Drop_Owl_Brown", 12, 29, "Owl_Brown", "Food_Wildmeat_Raw", "Want_Food_Wildmeat_Raw", ("Tw_Feed_Carnivore",)),
+    "Owl_Snow": ("Avian/Aerial", "Drop_Owl_Snow", 12, 29, None, "Food_Wildmeat_Raw", "Want_Food_Wildmeat_Raw", ("Tw_Feed_Carnivore",)),
     "Bat": ("Avian/Aerial", "Drop_Bat", 15, 15, None, "Plant_Fruit_Apple", "Want_Food_Apple", ("Tw_Feed_Herbivore",)),
     "Bat_Ice": ("Avian/Aerial", "Drop_Bat_Ice", 15, 25, None, "Plant_Fruit_Apple", "Want_Food_Apple", ("Tw_Feed_Herbivore",)),
 }
@@ -33,10 +34,10 @@ SPECIES = {
 SPECIES.update({
     "Pigeon": ("Avian/Fowl", "Drop_Pigeon", 15, 20, None, "Plant_Crop_Corn_Item", "Want_Food_Corn", ("Tw_Feed_Herbivore",)),
     "Duck": ("Avian/Fowl", "Drop_Duck", 15, 25, "Duck", "Plant_Crop_Corn_Item", "Want_Food_Corn", ("Tw_Feed_Herbivore", "Tw_Feed_Carnivore")),
-    "Archaeopteryx": ("Avian/Raptor", "Drop_Archaeopteryx", 15, 61, None, "Food_Wildmeat_Raw", "", ("Tw_Feed_Carnivore",)),
-    "Hawk": ("Avian/Raptor", "Drop_Hawk", 15, 38, None, "Food_Wildmeat_Raw", "", ("Tw_Feed_Carnivore",)),
-    "Pterodactyl": ("Avian/Raptor", "Drop_Pterodactyl", 25, 60, None, "Food_Wildmeat_Raw", "", ("Tw_Feed_Carnivore",)),
-    "Vulture": ("Avian/Raptor", "Drop_Vulture", 30, 61, None, "Food_Wildmeat_Raw", "", ("Tw_Feed_Carnivore",)),
+    "Archaeopteryx": ("Avian/Raptor", "Drop_Archaeopteryx", 15, 61, None, "Food_Wildmeat_Raw", "Want_Food_Wildmeat_Raw", ("Tw_Feed_Carnivore",)),
+    "Hawk": ("Avian/Raptor", "Drop_Hawk", 15, 38, None, "Food_Wildmeat_Raw", "Want_Food_Wildmeat_Raw", ("Tw_Feed_Carnivore",)),
+    "Pterodactyl": ("Avian/Raptor", "Drop_Pterodactyl", 25, 60, None, "Food_Wildmeat_Raw", "Want_Food_Wildmeat_Raw", ("Tw_Feed_Carnivore",)),
+    "Vulture": ("Avian/Raptor", "Drop_Vulture", 30, 61, None, "Food_Wildmeat_Raw", "Want_Food_Wildmeat_Raw", ("Tw_Feed_Carnivore",)),
 })
 
 TAMED_IDS = tuple(f"Tamed_{name}" for name in SPECIES)
@@ -967,6 +968,28 @@ def check_tamed_shared() -> None:
         ),
         "favorite-item particle actions must be disabled when the particle ID is empty",
     )
+    for need, particle_parameter, timer_name in (
+        ("Hunger", "AttractiveItemSetParticles", "Hunger_FoodThought_Cooldown"),
+        ("Thirst", "WaterThoughtParticles", "Thirst_WaterThought_Cooldown"),
+    ):
+        thought_branches = [
+            instruction
+            for instruction in descendants(template.get("Instructions", []))
+            if any(
+                node.get("Type") == "TameworkNeedBelow" and node.get("Need") == need
+                for node in object_nodes(instruction.get("Sensor", {}))
+            )
+            and any(
+                action.get("Type") == "SpawnParticles"
+                and action.get("ParticleSystem") == {"Compute": particle_parameter}
+                for action in instruction.get("Actions", [])
+            )
+            and any(
+                action.get("Type") == "TimerStart" and action.get("Name") == timer_name
+                for action in instruction.get("Actions", [])
+            )
+        ]
+        require(len(thought_branches) == 1, f"tamed template missing {need.lower()} thought-bubble branch")
     require(
         has_body_motion_branch(template.get("Instructions", []), {"AirborneMode": False}, "Walk", "Nothing")
         and has_body_motion_branch(template.get("Instructions", []), {"AirborneMode": None}, "Fly", "Nothing"),
@@ -1160,6 +1183,20 @@ def check_configs() -> None:
     ):
         check_membership(relative, ("RoleIds",), wild_and_tamed, wild_and_tamed, relative)
         check_non_role_content(relative)
+    interactions = load(INTERACTION_CONFIG).get("Interactions", [])
+    wrong_food_cues = [
+        interaction
+        for interaction in interactions
+        if interaction.get("Type") == "Custom"
+        and interaction.get("Requires", {}).get("All", {}).get("IsNotTamed") is True
+        and any(
+            condition.get("ItemsParam") == "AttractiveItemSet" and condition.get("Operator") == "NoneOf"
+            for condition in interaction.get("Requires", {}).get("All", {}).get("ItemsInHand", [])
+        )
+        and interaction.get("Effects", {}).get("SpawnParticles", {}).get("ParticleSystemParam")
+        == "AttractiveItemSetParticles"
+    ]
+    require(len(wrong_food_cues) == 1, "neutral interaction config missing wrong-food thought bubble")
     check_membership(
         "Server/Tamework/Needs/AHNeedsOmnivore.json",
         ("RoleIds",),
