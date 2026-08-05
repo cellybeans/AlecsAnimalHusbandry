@@ -3,12 +3,19 @@
   "Enabled": true,
   "Priority": 10,
   "RoleIds": [
-    "Tamed_Bluebird", "Tamed_Sparrow", "Tamed_Parrot", "Tamed_Raven", "Tamed_Crow", "Tamed_Finch_Green", "Tamed_Woodpecker", "Tamed_Owl_Brown", "Tamed_Owl_Snow", "Tamed_Bat", "Tamed_Bat_Ice", "Tamed_Pigeon", "Tamed_Duck", "Tamed_Archaeopteryx", "Tamed_Hawk", "Tamed_Pterodactyl", "Tamed_Vulture"
+    "Tamed_Bluebird", "Tamed_Sparrow", "Tamed_Parrot", "Tamed_Raven", "Tamed_Crow", "Tamed_Finch_Green", "Tamed_Woodpecker", "Tamed_Owl_Brown", "Tamed_Owl_Snow", "Tamed_Bat", "Tamed_Bat_Ice", "Tamed_Pigeon", "Tamed_Duck", "Tamed_Archaeopteryx", "Tamed_Hawk"
   ],
   "Command": {
     "FlightToggle": {
       "Enabled": true,
       "HookId": "AnimalHusbandry.Command.ToggleAirborneMode"
+    },
+    "ShoulderRide": {
+      "Enabled": true,
+      "OffsetX": 0.32,
+      "OffsetY": 1.40,
+      "OffsetZ": 0.0,
+      "CrouchOffsetY": -0.35
     }
   }
 }
