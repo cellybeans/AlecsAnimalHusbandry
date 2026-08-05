@@ -30,7 +30,7 @@
       "LaunchPositionOffset": {
         "X": 0,
         "Y": 1.5,
-        "Z": 3.0
+        "Z": -3.0
       },
       "TrajectoryMode": "Direct",
       "LookTargetDistance": 48.0,

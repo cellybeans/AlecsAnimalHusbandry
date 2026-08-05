@@ -24,12 +24,14 @@
     "Ability2": {
       "RootInteraction": "Root_NPC_AH_Dragon_Frost_Avatar_Frost_Bolt",
       "Glyph": "ICE",
-      "GlyphTexturePath": "AlecsAnimalHusbandry/AvatarFlightIcons/FrostBolt.png"
+      "GlyphTexturePath": "AlecsAnimalHusbandry/AvatarFlightIcons/FrostBolt.png",
+      "CooldownSeconds": 10.0
     },
     "Ability3": {
       "RootInteraction": "Root_NPC_AH_Dragon_Frost_Avatar_Freezing_Breath",
       "Glyph": "FROST",
-      "GlyphTexturePath": "AlecsAnimalHusbandry/AvatarFlightIcons/FrostBreath.png"
+      "GlyphTexturePath": "AlecsAnimalHusbandry/AvatarFlightIcons/FrostBreath.png",
+      "CooldownSeconds": 15.0
     }
   },
   "Trails": {

@@ -66,9 +66,15 @@ if ($failures.Count -eq 0) {
     if ($null -eq $ability2 -or $ability2.RootInteraction -ne "Root_NPC_AH_Dragon_Frost_Avatar_Frost_Bolt" -or $ability2.Glyph -ne "ICE") {
         $failures.Add("Ability2 must reference the Frost Dragon AvatarFlight root with the ICE glyph")
     }
+    if ($null -eq $ability2 -or $ability2.CooldownSeconds -ne 10.0) {
+        $failures.Add("Ability2 frost bolt must have a 10-second cooldown")
+    }
     $ability3 = $config.CombatAbilities.Ability3
     if ($null -eq $ability3 -or $ability3.RootInteraction -ne "Root_NPC_AH_Dragon_Frost_Avatar_Freezing_Breath" -or $ability3.Glyph -ne "FROST") {
         $failures.Add("Ability3 must reference the Frost Dragon AvatarFlight freezing-breath root with the FROST glyph")
+    }
+    if ($null -eq $ability3 -or $ability3.CooldownSeconds -ne 15.0) {
+        $failures.Add("Ability3 freezing breath must have a 15-second cooldown")
     }
 
     if (@($rootAsset.Interactions).Count -ne 1 -or $rootAsset.Interactions[0] -ne "AH_Dragon_Frost_Avatar_Frost_Bolt") {
@@ -87,6 +93,9 @@ if ($failures.Count -eq 0) {
         }
         if ($null -ne $launchStep[0].TargetSlot) {
             $failures.Add("AvatarFlight frost bolt must not use TargetSlot")
+        }
+        if ($null -eq $launchStep[0].LaunchPositionOffset -or $launchStep[0].LaunchPositionOffset.X -ne 0 -or $launchStep[0].LaunchPositionOffset.Y -ne 1.5 -or $launchStep[0].LaunchPositionOffset.Z -ne -3.0) {
+            $failures.Add("AvatarFlight frost bolt must launch from the Frost Dragon mouth offset")
         }
     }
 

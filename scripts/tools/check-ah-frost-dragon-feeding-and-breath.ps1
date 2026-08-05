@@ -333,14 +333,14 @@ foreach ($path in $boltPaths) {
     $x = Convert-ToNumber (Get-PropertyValue $offset "X")
     $y = Convert-ToNumber (Get-PropertyValue $offset "Y")
     $z = Convert-ToNumber (Get-PropertyValue $offset "Z")
-    if ($x -ne 0 -or $y -ne 1.5 -or $z -ne 3.0) {
-        Add-Failure "$path LaunchPositionOffset must be X 0, Y 1.5, Z 3.0 (actual: X $x, Y $y, Z $z)"
+    if ($x -ne 0 -or $y -ne 1.5 -or $z -ne -3.0) {
+        Add-Failure "$path LaunchPositionOffset must be X 0, Y 1.5, Z -3.0 (actual: X $x, Y $y, Z $z)"
     }
     if ($y -ge 2.25) {
         Add-Failure "$path LaunchPositionOffset.Y must be lower than the old 2.25 origin (actual: $y)"
     }
-    if ($z -le 0) {
-        Add-Failure "$path LaunchPositionOffset.Z must be positive/forward (actual: $z)"
+    if ($z -ge 0) {
+        Add-Failure "$path LaunchPositionOffset.Z must be negative/forward in AvatarFlight coordinates (actual: $z)"
     }
 
     $worldSounds = @(Get-JsonPropertyEntries $interaction "WorldSoundEventId" | ForEach-Object { $_.Value })
