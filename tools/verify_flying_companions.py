@@ -278,6 +278,28 @@ def favorite_item_uses_full_alerted_range(template: dict) -> bool:
     )
 
 
+def aerial_defaults_are_declared(template: dict, expected: dict[str, object]) -> bool:
+    parameters = template.get("Parameters", {})
+    return (
+        all(parameters.get(name, {}).get("Value") == value for name, value in expected.items())
+        and not any(name in template for name in expected)
+    )
+
+
+def aerial_ground_follow_matches_critters(template: dict) -> bool:
+    references = reference_nodes(template, "Component_Tamework_Instruction_Follow_Advanced")
+    expected = {
+        "MasterTargetSlot": "MasterTarget",
+        "FollowDefaultSpotRange": 5,
+        "FollowLockOnRange": 15,
+        "FollowSeekSlowDownDistance": 5,
+        "FollowSeekStopDistance": 3,
+        "FollowScanRange": 10,
+        "FollowMaintainDistanceRange": [1, 4],
+    }
+    return len(references) == 1 and references[0].get("Modify") == expected
+
+
 def state_branches(template: dict, state: str) -> list[dict]:
     return [
         instruction
@@ -769,6 +791,23 @@ def check_wild_shared() -> None:
         "wild Walk controller must use a dedicated GroundSpeed no faster than 3",
     )
     require(
+        aerial_defaults_are_declared(
+            template,
+            {
+                "FoodBlockSet": "",
+                "GrazingBlockSet": "",
+                "DayTimeNapWeight": 0,
+                "NeedsSeekConsumeAnimation": "",
+                "SleepAnimation": "",
+                "SleepEnterAnimation": "",
+                "WakeAnimation": "",
+                "CuriousAnimation": "",
+                "AlertedAnimation": "FlyFast",
+            },
+        ),
+        "wild aerial defaults must be declared parameters rather than unknown root attributes",
+    )
+    require(
         favorite_item_preempts_proximity_flee(template),
         "wild favorite-item acquisition must precede the Alerted proximity-flee branch",
     )
@@ -915,6 +954,19 @@ def check_tamed_shared() -> None:
         has_slow_ground_controller(template),
         "tamed Walk controller must use a dedicated GroundSpeed no faster than 3",
     )
+    require(
+        aerial_defaults_are_declared(
+            template,
+            {
+                "NeedsSeekConsumeStartDistance": 2.25,
+                "FoodBlockSet": "",
+                "GrazingBlockSet": "",
+                "DayTimeNapWeight": 0,
+                "GreetAnimation": "",
+            },
+        ),
+        "tamed aerial defaults must be declared parameters rather than unknown root attributes",
+    )
     require(template.get("StartState") == "Idle", "tamed template must start Idle")
     require(template.get("InitialMotionController") == "Walk", "tamed template must start Walk")
     require(
@@ -946,6 +998,10 @@ def check_tamed_shared() -> None:
         has_state_mode_reference(template, "Follow", {"AirborneMode": False}, "Walk", "Component_Tamework_Instruction_Follow_Advanced")
         and has_state_mode_reference(template, "Follow", {"AirborneMode": None}, "Fly", "AH_Component_Tamework_Instruction_Follow_Flying"),
         "Follow must provide Walk and Fly mode references",
+    )
+    require(
+        aerial_ground_follow_matches_critters(template),
+        "grounded aerial Follow must use the standard critter follow distances",
     )
     flying_follow_parameters = set(load(FLYING_FOLLOW_COMPONENT).get("Parameters", {}))
     flying_follow_references = reference_nodes(template, "AH_Component_Tamework_Instruction_Follow_Flying")

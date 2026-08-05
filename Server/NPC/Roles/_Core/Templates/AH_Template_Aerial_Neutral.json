@@ -106,11 +106,11 @@
       "Description": "The timeout after which an alerted NPC will give up on the target, in seconds."
     },
     "GrazingBlockSet": {
-      "Value": "Grass",
+      "Value": "",
       "Description": "The type of block that this NPC will graze on top of."
     },
     "FoodBlockSet": {
-      "Value": "Hay",
+      "Value": "",
       "Description": "The type of block that this NPC will occasionally seek out to munch on."
     },
     "FoodTargetSlot": {
@@ -125,7 +125,7 @@
       "Description": "The hour range considered to be daytime for this NPC (inclusive). Hours should be written with decimal fractions."
     },
     "DayTimeNapWeight": {
-      "Value": 2,
+      "Value": 0,
       "Description": "The weight used to determine if the NPC should have a short nap during the day. Set to 0 to disable."
     },
     "DayTimeNapTimeRange": {
@@ -140,15 +140,15 @@
       "Description": "The flavor animation to play during the day. Ignored if null or empty."
     },
     "NeedsSeekConsumeAnimation": {
-      "Value": "Eat",
+      "Value": "",
       "Description": "Optional animation played when consuming a food resource (for example Eat)."
     },
     "SleepAnimation": {
-      "Value": "Sleep",
+      "Value": "",
       "Description": "Optional sleep-loop animation while in Sleep state."
     },
     "SleepEnterAnimation": {
-      "Value": "Laydown",
+      "Value": "",
       "Description": "Optional animation to play when entering Sleep (for example Laydown)."
     },
     "SleepEnterDelayRange": {
@@ -159,7 +159,7 @@
       "Description": "How long to wait after sleep-enter animation before sleep settles."
     },
     "WakeAnimation": {
-      "Value": "Wake",
+      "Value": "",
       "Description": "Optional animation to play when waking from Sleep (for example Wake)."
     },
     "WakeDelayRange": {
@@ -170,11 +170,11 @@
       "Description": "How long to wait after wake animation before continuing transitions."
     },
     "AlertedAnimation": {
-      "Value": "Alerted",
+      "Value": "FlyFast",
       "Description": "Optional animation to play when entering Alerted or Panic reactions."
     },
     "CuriousAnimation": {
-      "Value": "Curious",
+      "Value": "",
       "Description": "Optional animation to play while following a liked item."
     },
     "IgnoreOverrideTime": {
@@ -2244,14 +2244,5 @@
   },
   "NameTranslationKey": {
     "Compute": "NameTranslationKey"
-  },
-  "FoodBlockSet": "",
-  "GrazingBlockSet": "",
-  "DayTimeNapWeight": 0,
-  "NeedsSeekConsumeAnimation": "",
-  "SleepAnimation": "",
-  "SleepEnterAnimation": "",
-  "WakeAnimation": "",
-  "CuriousAnimation": "",
-  "AlertedAnimation": "FlyFast"
+  }
 }

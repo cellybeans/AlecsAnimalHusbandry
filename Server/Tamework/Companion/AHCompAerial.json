@@ -3,7 +3,7 @@
   "Enabled": true,
   "Priority": 10,
   "RoleIds": [
-    "Tamed_Bluebird", "Tamed_Sparrow", "Tamed_Parrot", "Tamed_Raven", "Tamed_Crow", "Tamed_Finch_Green", "Tamed_Woodpecker", "Tamed_Owl_Brown", "Tamed_Owl_Snow", "Tamed_Bat", "Tamed_Bat_Ice", "Tamed_Pigeon", "Tamed_Duck", "Tamed_Archaeopteryx", "Tamed_Hawk"
+    "Tamed_Bluebird", "Tamed_Sparrow", "Tamed_Parrot", "Tamed_Raven", "Tamed_Crow", "Tamed_Finch_Green", "Tamed_Woodpecker", "Tamed_Owl_Brown", "Tamed_Owl_Snow", "Tamed_Bat", "Tamed_Bat_Ice", "Tamed_Pigeon", "Tamed_Duck", "Tamed_Archaeopteryx", "Tamed_Hawk", "Tamed_Pterodactyl", "Tamed_Vulture"
   ],
   "Command": {
     "FlightToggle": {

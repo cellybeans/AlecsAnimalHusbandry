@@ -106,7 +106,7 @@
       "Description": "The timeout after which an alerted NPC will give up on the target, in seconds."
     },
     "GrazingBlockSet": {
-      "Value": "Grass",
+      "Value": "",
       "Description": "The type of block that this NPC will graze on top of."
     },
     "DayTimePeriod": {
@@ -117,7 +117,7 @@
       "Description": "The hour range considered to be daytime for this NPC (inclusive). Hours should be written with decimal fractions."
     },
     "DayTimeNapWeight": {
-      "Value": 2,
+      "Value": 0,
       "Description": "The weight used to determine if the NPC should have a short nap during the day. Set to 0 to disable."
     },
     "DayTimeNapTimeRange": {
@@ -162,7 +162,7 @@
       "Description": "Optional food item ids used for needs-seek food consumption. If empty, TwNeedsConfig container food ids are used."
     },
     "NeedsSeekConsumeStartDistance": {
-      "Value": 1.5,
+      "Value": 2.25,
       "Description": "Distance from trough/source where this aerial NPC can begin needs consumption."
     },
     "NeedsSeekConsumeMaintainMaxDistance": {
@@ -174,7 +174,7 @@
       "Description": "Distance band this aerial NPC should maintain while waiting to consume."
     },
     "FoodBlockSet": {
-      "Value": "Livestock_Feeding",
+      "Value": "",
       "Description": "The type of block that this NPC will occasionally seek out to munch on."
     },
     "FoodBlockTargetSlot": {
@@ -211,7 +211,7 @@
       "Description": "The minimum distance which the NPC will retain from a target holding an attractive item."
     },
     "GreetAnimation": {
-      "Value": "Alerted",
+      "Value": "",
       "Description": "The flavor animation to play when greeting another NPC or player. Ignored if null or empty."
     },
     "GreetStateTimeout": {
@@ -2510,14 +2510,14 @@
                   "Reference": "Component_Tamework_Instruction_Follow_Advanced",
                   "Modify": {
                     "MasterTargetSlot": "MasterTarget",
-                    "FollowDefaultSpotRange": 10,
-                    "FollowLockOnRange": 20,
-                    "FollowSeekSlowDownDistance": 8,
-                    "FollowSeekStopDistance": 6,
-                    "FollowScanRange": 16,
+                    "FollowDefaultSpotRange": 5,
+                    "FollowLockOnRange": 15,
+                    "FollowSeekSlowDownDistance": 5,
+                    "FollowSeekStopDistance": 3,
+                    "FollowScanRange": 10,
                     "FollowMaintainDistanceRange": [
-                      5,
-                      9
+                      1,
+                      4
                     ]
                   }
                 }
@@ -4144,10 +4144,5 @@
   },
   "NameTranslationKey": {
     "Compute": "NameTranslationKey"
-  },
-  "NeedsSeekConsumeStartDistance": 2.25,
-  "FoodBlockSet": "",
-  "GrazingBlockSet": "",
-  "DayTimeNapWeight": 0,
-  "GreetAnimation": ""
+  }
 }
