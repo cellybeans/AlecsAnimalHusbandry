@@ -27,14 +27,14 @@
   "Icon": "Icons/ItemsGenerated/AnimalHusbandry_Command_Item.png",
   "IconProperties": {
     "Scale": 0.68,
+    "Translation": [
+      1,
+      -4
+    ],
     "Rotation": [
       334,
       331,
       321
-    ],
-    "Translation": [
-      -8,
-      -11
     ]
   },
   "MaxStack": 1

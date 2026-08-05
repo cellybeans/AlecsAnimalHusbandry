@@ -27,15 +27,15 @@
   "Texture": "Items/AnimalHusbandry/shakuhachi_texture_alt_64.png",
   "Icon": "Icons/ItemsGenerated/AnimalHusbandry_Command_Item_Shakuhachi.png",
   "IconProperties": {
-    "Scale": 0.7,
-    "Rotation": [
-      339,
-      337,
-      327
-    ],
+    "Scale": 0.68,
     "Translation": [
-      -10,
-      -12.5
+      1,
+      -4
+    ],
+    "Rotation": [
+      334,
+      331,
+      321
     ]
   },
   "MaxStack": 1

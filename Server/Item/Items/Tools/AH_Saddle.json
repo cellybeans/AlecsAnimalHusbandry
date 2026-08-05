@@ -6,7 +6,7 @@
   "Categories": [
     "Items.Tools"
   ],
-  "Quality": "Tool",
+  "Quality": "Uncommon",
   "PlayerAnimationsId": "Item",
   "UsePlayerAnimations": true,
   "Model": "NPC/Beast/Rex_Cave/Models/Attachments/Saddle_Rex_Cave.blockymodel",
