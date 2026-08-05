@@ -1,20 +1,25 @@
 # Changelog
 
-## Unreleased
+## 2.0.0 - Frost Dragon, Flying Companions, and Animal Equipment - 2026-08-04
 
 ### Added
-- Added prototype shoulder riding for tamed mice through the bonded companion panel's `To Me` command.
-- Added a craftable `AH_Saddle` and owner-only interactions for equipping persistent saddles on every currently mountable tamed animal. Full wool blocks apply persistent blankets across all 20 colors on horses, deer and antelope, moose, mosshorns, and skeleton horses. Equipment prompts display the bound interaction key, and offspring never inherit equipped saddles or blankets. Empty-hand interactions remove saddles before blankets and return the exact item, while changing a blanket color refunds the old wool block.
-- Added equipment asset validation covering exact equip/refund mappings, Pet-first Saddle/Blanket removal order, all 32 mountable model targets, every saddle and blanket attachment option, owner/tamed gates, and non-random equipment defaults.
-- Added Animal Husbandry-owned Frost Dragon avatar-flight assets for Tamework dragon flight, including its shoulder-mounted rider anchor, scaled launch VFX, dedicated launch animation, animation-timed wing-flap and fast-flight audio, and icy wingtip trails during launch, flap, boost, and near-maximum-speed gliding.
-- Added a Tamework dynamic attachment rule that gives tamed moose named `Flash` the Canada blanket appearance.
+- Added the Frost Dragon as a fully supported Beast companion. Frost Dragons prefer Frost Essence, can fight on the ground or in the air with bites, Frost Bolts, and Freezing Breath, and can be ridden with a custom AvatarFlight model, combat abilities, animations, audio, launch effects, and icy flight trails.
+- Added full taming and husbandry support for 17 passive flying companions: bluebirds, sparrows, parrots, ravens, crows, green finches, woodpeckers, brown and snow owls, bats and ice bats, pigeons, ducks, archaeopteryxes, hawks, pterodactyls, and vultures. Their companion panel includes a persistent Ground/Flight toggle, and they automatically land for food, water, sleep, and breeding before resuming flight.
+- Added a craftable `AH_Saddle` and owner-only equipment interactions for every mountable tamed animal. Saddles persist with the animal, provide a movement-speed bonus, and can be removed for a full refund.
+- Added persistent blankets in all 20 full-wool colors for horses, deer and antelope, moose, mosshorns, and skeleton horses. Recoloring or removing a blanket refunds the previous wool block, and offspring do not inherit equipped saddles or blankets.
+- Added petting interactions for tamed Beasts and critters, including happiness gain and species-appropriate reactions.
+- Added shoulder riding for tamed mice through the bonded companion panel's `To Me` command.
+- Added a special Canada blanket appearance for tamed moose named `Flash`.
 
 ### Changed
-- Updated the required Alec's Tamework dependency to `2.17.x` for built-in held-item attachments and condition-driven avatar-flight trails.
+- Updated the required Alec's Tamework dependency to `3.x` and the Animal Husbandry manifest version to `2.0.0`.
+- Gave all 32 native ground mounts species-tuned movement profiles, made tamed crocodiles mountable, and gave Tetrabird jumps a slower, glide-like descent.
+- Equipment prompts now display the player's bound interaction key. Empty-hand removal prioritizes petting, then removes saddles before blankets, while returning the exact equipped item.
 
 ### Fixed
-- Fixed Frost Dragon flap sounds accumulating during forward flight or remaining silent while hovering. Flight and hover now schedule randomized one-shot wing sounds at their respective animation cadences.
-- Prevented accidental owner hits from leaving tamed livestock and aerial companions, including moose, with hostile target memory that made them repeatedly flee from or attack their owner.
+- Prevented accidental owner hits from leaving tamed livestock and flying companions with hostile target memory that made them repeatedly flee from or attack their owner.
+- Updated tamed livestock food thought bubbles to show each animal's actual preferred food.
+- Replaced direct Zone 3 predator spawn-table overrides with local Patchwork patches, preserving compatibility with the base game and other mods while keeping Animal Husbandry's Arctic Fox and Frost Dragon spawn changes.
 
 ## 1.7.1 - Mountable Creatures and Telemetry Descriptor Hotfix - 2026-06-30
 
