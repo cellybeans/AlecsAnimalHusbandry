@@ -7,6 +7,7 @@
     "AttractiveItemSet": [
       "Ingredient_Ice_Essence"
     ],
+    "AttractiveItemSetParticles": "AH_Dragon_Frost_Want_Food_Ice_Essence",
     "IsMemory": true,
     "MemoriesCategory": "Mythic",
     "NameTranslationKey": {

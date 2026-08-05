@@ -192,6 +192,9 @@ function Assert-ExactSingle([object] $Value, [string] $Expected, [string] $Path)
 $wildRolePath = "Server/NPC/Roles/Boss/Dragon_Frost.json"
 $tamedRolePath = "Server/NPC/Roles/Creature/Mythic/Tamed/Tamed_Dragon_Frost.json"
 $foodPath = "Server/Tamework/Food/AHFoodBeast.json"
+$foodThoughtSystemPath = "Server/Particles/AnimalHusbandry/Dragon_Frost/AH_Dragon_Frost_Want_Food_Ice_Essence.particlesystem"
+$foodThoughtSpawnerPath = "Server/Particles/AnimalHusbandry/Dragon_Frost/Spawners/AH_Dragon_Frost_ThoughtCloud_Ice_Essence.particlespawner"
+$foodThoughtTexturePath = "Common/Particles/AnimalHusbandry/Thoughts/IceEssenceThought.png"
 $boltPaths = @(
     "Server/Item/Interactions/NPCs/AnimalHusbandry/Dragon_Frost/AH_Dragon_Frost_Frost_Bolt.json",
     "Server/Item/Interactions/NPCs/AnimalHusbandry/Dragon_Frost/AH_Dragon_Frost_Avatar_Frost_Bolt.json"
@@ -215,6 +218,8 @@ $sourceEffectPath = "Server/Entity/Effects/Status/AnimalHusbandry/AH_Dragon_Fros
 $wildRole = Read-JsonAsset $wildRolePath
 $tamedRole = Read-JsonAsset $tamedRolePath
 $food = Read-JsonAsset $foodPath
+$foodThoughtSystem = Read-JsonAsset $foodThoughtSystemPath
+$foodThoughtSpawner = Read-JsonAsset $foodThoughtSpawnerPath
 $boltInteractions = @{}
 foreach ($path in $boltPaths) {
     $boltInteractions[$path] = Read-JsonAsset $path
@@ -238,6 +243,10 @@ foreach ($audioPath in @($breathRoarAudioPath, $boltLaunchAudioPath)) {
     }
 }
 
+if (-not (Test-Path -LiteralPath (Join-Path $Root $foodThoughtTexturePath) -PathType Leaf)) {
+    Add-Failure "missing required food thought texture: $foodThoughtTexturePath"
+}
+
 $standardModel = Read-JsonCandidate "standard Frost Dragon model" @(
     "Server/Models/AnimalHusbandry/AH_Dragon_Frost.blockymodel",
     "Common/NPC/AnimalHusbandry/Dragon_Frost/Models/Model.blockymodel"
@@ -249,9 +258,23 @@ $avatarModel = Read-JsonCandidate "AvatarFlight Frost Dragon model" @(
 
 if ($null -ne $wildRole) {
     Assert-ExactSingle (Get-PropertyValue $wildRole.Modify "AttractiveItemSet") "Ingredient_Ice_Essence" "$wildRolePath Modify.AttractiveItemSet"
+    if ([string](Get-PropertyValue $wildRole.Modify "AttractiveItemSetParticles") -ne "AH_Dragon_Frost_Want_Food_Ice_Essence") {
+        Add-Failure "$wildRolePath Modify.AttractiveItemSetParticles must be AH_Dragon_Frost_Want_Food_Ice_Essence"
+    }
 }
 if ($null -ne $tamedRole) {
     Assert-ExactSingle (Get-PropertyValue $tamedRole.Modify "AttractiveItemSet") "Ingredient_Ice_Essence" "$tamedRolePath Modify.AttractiveItemSet"
+    if ([string](Get-PropertyValue $tamedRole.Modify "AttractiveItemSetParticles") -ne "AH_Dragon_Frost_Want_Food_Ice_Essence") {
+        Add-Failure "$tamedRolePath Modify.AttractiveItemSetParticles must be AH_Dragon_Frost_Want_Food_Ice_Essence"
+    }
+}
+if ($null -ne $foodThoughtSystem) {
+    Assert-Contains (Get-JsonPropertyEntries $foodThoughtSystem "SpawnerId" | ForEach-Object { $_.Value }) "AH_Dragon_Frost_ThoughtCloud_Ice_Essence" "$foodThoughtSystemPath Spawners"
+}
+if ($null -ne $foodThoughtSpawner) {
+    if ([string](Get-PropertyValue (Get-PropertyValue $foodThoughtSpawner "Particle") "Texture") -ne "Particles/AnimalHusbandry/Thoughts/IceEssenceThought.png") {
+        Add-Failure "$foodThoughtSpawnerPath Particle.Texture must be Particles/AnimalHusbandry/Thoughts/IceEssenceThought.png"
+    }
 }
 if ($null -ne $food) {
     Assert-Contains (Get-PropertyValue $food.Foods "Compatible") "Tw_Feed_Carnivore" "$foodPath Foods.Compatible"
