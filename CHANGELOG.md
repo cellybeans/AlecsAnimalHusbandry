@@ -8,7 +8,7 @@
 - Added a craftable `AH_Saddle` and owner-only equipment interactions for every mountable tamed animal. Saddles persist with the animal, provide a movement-speed bonus, and can be removed for a full refund.
 - Added persistent blankets in all 20 full-wool colors for horses, deer and antelope, moose, mosshorns, and skeleton horses. Recoloring or removing a blanket refunds the previous wool block, and offspring do not inherit equipped saddles or blankets.
 - Added petting interactions for tamed Beasts and critters, including happiness gain and species-appropriate reactions.
-- Added shoulder riding for tamed mice through the bonded companion panel's `To Me` command.
+- Added shoulder riding through the bonded companion panel's `To Me` command for tamed frogs, geckos, meerkats, mice, squirrels, and every supported flying companion except pterodactyls and vultures.
 - Added a special Canada blanket appearance for tamed moose named `Flash`.
 
 ### Changed

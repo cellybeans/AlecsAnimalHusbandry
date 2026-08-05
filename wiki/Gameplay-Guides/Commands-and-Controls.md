@@ -46,6 +46,14 @@ Item page: [Combat Beast Flute](/mod/alecs-animal-husbandry/combat-beast-flute)
 - If a companion is nearby and owned by you, the panel can also show `Release` and `Cull`.
 - If a companion shows `LOST`, use respawn/recovery instead of recall/return-home.
 
+## Shoulder Riding
+
+Use `To Me` on a nearby linked companion to place a supported animal on your shoulder. Use it again to set the companion down.
+
+- Supported critters: frogs, geckos, meerkats, mice, and squirrels.
+- Supported flying companions: bluebirds, sparrows, parrots, ravens, crows, green finches, woodpeckers, brown and snow owls, bats and ice bats, pigeons, ducks, archaeopteryxes, and hawks.
+- Pterodactyls and vultures are too large for shoulder riding.
+
 ## Flying Companions
 
 Supported flying companions have a Ground/Flight button on their linked companion card.

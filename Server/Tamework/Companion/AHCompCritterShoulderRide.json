@@ -1,0 +1,23 @@
+{
+  "Enabled": true,
+  "Parent": "AHCompNeutral",
+  "Priority": 2,
+  "RoleIds": [
+    "Tamed_Frog_Blue",
+    "Tamed_Frog_Green",
+    "Tamed_Frog_Orange",
+    "Tamed_Gecko",
+    "Tamed_Meerkat",
+    "Tamed_Mouse",
+    "Tamed_Squirrel"
+  ],
+  "Command": {
+    "ShoulderRide": {
+      "Enabled": true,
+      "OffsetX": 0.32,
+      "OffsetY": 1.40,
+      "OffsetZ": 0.0,
+      "CrouchOffsetY": -0.35
+    }
+  }
+}

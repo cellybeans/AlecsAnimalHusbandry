@@ -106,6 +106,7 @@ The demo instancing and tutorial system is an alpha project, so please expect to
     <ul>
       <li>Control your animals with companion commands like <strong>Follow</strong>, <strong>Hold</strong>, <strong>Set Home</strong>, <strong>Return Home</strong>, and <strong>Recall</strong>.</li>
       <li>Combat-capable Beasts also support battle-focused commands like <strong>Defend</strong> and <strong>Attack Target</strong>.</li>
+      <li>Call supported critters and flying companions onto your shoulder with the <strong>To Me</strong> action in their linked companion card.</li>
     </ul>
   </li>
   <li>
