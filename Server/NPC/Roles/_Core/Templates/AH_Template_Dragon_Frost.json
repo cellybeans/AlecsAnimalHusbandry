@@ -1693,24 +1693,6 @@
                 {
                   "Actions": [
                     {
-                      "Type": "TameworkDebugCombatSnapshot",
-                      "Message": "Frost Dragon combat entry",
-                      "TargetSlots": [
-                        "LockedTarget",
-                        "CAETargetSlot",
-                        "MasterTarget"
-                      ],
-                      "NumberParams": [
-                        "AttackDistance",
-                        "CombatBehaviorDistance",
-                        "DesiredAttackDistanceRange",
-                        "CombatBackwardsRelativeSpeed",
-                        "CAEMinRange",
-                        "CAEMaxRange",
-                        "CAEPositioningAngle"
-                      ]
-                    },
-                    {
                       "Type": "FlockBeacon",
                       "Message": "Flock_Attack",
                       "SendTargetSlot": "LockedTarget"
@@ -2004,19 +1986,6 @@
                   },
                   "Instructions": [
                     {
-                      "Continue": true,
-                      "Sensor": {
-                        "Type": "Any",
-                        "Once": true
-                      },
-                      "Actions": [
-                        {
-                          "Type": "TameworkDebugCombatSnapshot",
-                          "Message": "Frost Dragon landing approach"
-                        }
-                      ]
-                    },
-                    {
                       "Sensor": {
                         "Type": "Target",
                         "Range": { "Compute": "AlertedRange" }
@@ -2068,19 +2037,6 @@
                     "IgnoreMissingSetState": true
                   },
                   "Instructions": [
-                    {
-                      "Continue": true,
-                      "Sensor": {
-                        "Type": "Any",
-                        "Once": true
-                      },
-                      "Actions": [
-                        {
-                          "Type": "TameworkDebugCombatSnapshot",
-                          "Message": "Frost Dragon landing touchdown"
-                        }
-                      ]
-                    },
                     {
                       "$Comment": "Confirm touchdown from physical contact so a pitched collision box cannot remain on the Fly controller while Land waits for its positional goal.",
                       "Sensor": {
@@ -2283,19 +2239,6 @@
                   },
                   "Instructions": [
                     {
-                      "Continue": true,
-                      "Sensor": {
-                        "Type": "Any",
-                        "Once": true
-                      },
-                      "Actions": [
-                        {
-                          "Type": "TameworkDebugCombatSnapshot",
-                          "Message": "Frost Dragon aerial frost-bolt volley"
-                        }
-                      ]
-                    },
-                    {
                       "$Comment": "Choose exactly one bounded 2-4 shot volley, then force a moving recovery.",
                       "Type": "Random",
                       "ExecuteFor": [ 9, 9 ],
@@ -2452,19 +2395,6 @@
                   "Instructions": [
                     {
                       "Continue": true,
-                      "Sensor": {
-                        "Type": "Any",
-                        "Once": true
-                      },
-                      "Actions": [
-                        {
-                          "Type": "TameworkDebugCombatSnapshot",
-                          "Message": "Frost Dragon breath ingress"
-                        }
-                      ]
-                    },
-                    {
-                      "Continue": true,
                       "$Comment": "Commit only after descending into close range with a valid forward firing solution.",
                       "Sensor": {
                         "Type": "Target",
@@ -2556,10 +2486,6 @@
                       },
                       "Actions": [
                         {
-                          "Type": "TameworkDebugCombatSnapshot",
-                          "Message": "Frost Dragon breath flyover"
-                        },
-                        {
                           "Type": "Attack",
                           "Attack": { "Compute": "AirBreathAttack" },
                           "AimingTimeRange": [ 0, 0 ],
@@ -2628,19 +2554,6 @@
                     "IgnoreMissingSetState": true
                   },
                   "Instructions": [
-                    {
-                      "Continue": true,
-                      "Sensor": {
-                        "Type": "Any",
-                        "Once": true
-                      },
-                      "Actions": [
-                        {
-                          "Type": "TameworkDebugCombatSnapshot",
-                          "Message": "Frost Dragon aerial recovery"
-                        }
-                      ]
-                    },
                     {
                       "$Comment": "Climb outward into a fresh patrol waypoint before CAE can select another special.",
                       "Sensor": {
