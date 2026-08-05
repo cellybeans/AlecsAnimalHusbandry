@@ -6,6 +6,7 @@
       "AH_Livestock_Tamed"
     ],
     "Hostile": [
+      "Aggressive",
       "Predators",
       "PredatorsBig",
       "Vermin",
@@ -14,11 +15,13 @@
       "Outlander",
       "Scarak",
       "Void",
-      "Undead"
+      "Undead",
+      "Spiders",
+      "Scorpions",
+      "Snakes"
     ],
     "Ignore": [
       "Player"
     ]
   }
 }
-
