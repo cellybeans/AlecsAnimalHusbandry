@@ -14,6 +14,8 @@ MODE_COMPONENT = ROOT / "Server/NPC/Roles/_Core/Components/AH_Component_Tamework
 FLYING_FOLLOW_COMPONENT = ROOT / "Server/NPC/Roles/_Core/Components/AH_Component_Tamework_Instruction_Follow_Flying.json"
 WILD_TEMPLATE = ROOT / "Server/NPC/Roles/_Core/Templates/AH_Template_Aerial_Neutral.json"
 TAMED_TEMPLATE = ROOT / "Server/NPC/Roles/_Core/Templates/AH_Template_Aerial_Tamed.json"
+FROST_DRAGON_TEMPLATE = ROOT / "Server/NPC/Roles/_Core/Templates/AH_Template_Dragon_Frost_Tamed.json"
+FROST_DRAGON_ROLE = ROOT / "Server/NPC/Roles/Creature/Mythic/Tamed/Tamed_Dragon_Frost.json"
 INTERACTION_CONFIG = ROOT / "Server/Tamework/Interactions/AHIntNeutral.json"
 TAMED_VARIANT_ROOT = ROOT / "Server/NPC/Roles/Avian/Aerial/Tamed"
 
@@ -794,8 +796,8 @@ def check_wild_shared() -> None:
         aerial_defaults_are_declared(
             template,
             {
-                "FoodBlockSet": "",
-                "GrazingBlockSet": "",
+                "FoodBlockSet": "Hay",
+                "GrazingBlockSet": "Grass",
                 "DayTimeNapWeight": 0,
                 "NeedsSeekConsumeAnimation": "",
                 "SleepAnimation": "",
@@ -959,8 +961,8 @@ def check_tamed_shared() -> None:
             template,
             {
                 "NeedsSeekConsumeStartDistance": 2.25,
-                "FoodBlockSet": "",
-                "GrazingBlockSet": "",
+                "FoodBlockSet": "Livestock_Feeding",
+                "GrazingBlockSet": "Grass",
                 "DayTimeNapWeight": 0,
                 "GreetAnimation": "",
             },
@@ -1220,6 +1222,19 @@ def check_configs() -> None:
     require(
         aerial["Command"]["FlightToggle"] == {"Enabled": True, "HookId": HOOK_ID},
         "flight toggle contract drift",
+    )
+    frost_particles = FROST_DRAGON_TEMPLATE.exists() and load(FROST_DRAGON_TEMPLATE).get("Parameters", {}).get("AttractiveItemSetParticles")
+    require(
+        frost_particles == {
+            "Value": "Want_Food_Wildmeat_Raw",
+            "Description": "The particle system that spawns to indicate the NPC's liked item(s).",
+        },
+        "Frost Dragon template must expose AttractiveItemSetParticles for AHIntBeast",
+    )
+    require(
+        load(FROST_DRAGON_ROLE).get("Modify", {}).get("AttractiveItemSetParticles")
+        == "AH_Dragon_Frost_Want_Food_Ice_Essence",
+        "Frost Dragon must retain its ice-essence food particle override",
     )
     tamed_ids = set(TAMED_IDS)
     wild_and_tamed = set(SPECIES) | tamed_ids

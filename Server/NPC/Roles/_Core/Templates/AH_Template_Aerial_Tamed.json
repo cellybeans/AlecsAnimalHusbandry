@@ -106,7 +106,7 @@
       "Description": "The timeout after which an alerted NPC will give up on the target, in seconds."
     },
     "GrazingBlockSet": {
-      "Value": "",
+      "Value": "Grass",
       "Description": "The type of block that this NPC will graze on top of."
     },
     "DayTimePeriod": {
@@ -174,7 +174,7 @@
       "Description": "Distance band this aerial NPC should maintain while waiting to consume."
     },
     "FoodBlockSet": {
-      "Value": "",
+      "Value": "Livestock_Feeding",
       "Description": "The type of block that this NPC will occasionally seek out to munch on."
     },
     "FoodBlockTargetSlot": {

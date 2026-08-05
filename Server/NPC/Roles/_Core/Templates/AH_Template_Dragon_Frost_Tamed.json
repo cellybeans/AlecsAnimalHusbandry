@@ -238,6 +238,10 @@
       "TypeHint": "String",
       "Description": "Food item IDs accepted for feeding."
     },
+    "AttractiveItemSetParticles": {
+      "Value": "Want_Food_Wildmeat_Raw",
+      "Description": "The particle system that spawns to indicate the NPC's liked item(s)."
+    },
     "FoodFavorite": {
       "Value": [],
       "TypeHint": "String",

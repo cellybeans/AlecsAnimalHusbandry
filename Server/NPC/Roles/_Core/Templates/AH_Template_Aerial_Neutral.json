@@ -106,11 +106,11 @@
       "Description": "The timeout after which an alerted NPC will give up on the target, in seconds."
     },
     "GrazingBlockSet": {
-      "Value": "",
+      "Value": "Grass",
       "Description": "The type of block that this NPC will graze on top of."
     },
     "FoodBlockSet": {
-      "Value": "",
+      "Value": "Hay",
       "Description": "The type of block that this NPC will occasionally seek out to munch on."
     },
     "FoodTargetSlot": {
