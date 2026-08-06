@@ -112,7 +112,7 @@ foreach ($languagePath in $languagePaths) {
         Require-Condition ($languageText -match $promptPattern) "Equipment prompt '$promptKey' must contain $keyGlyphToken in $($languagePath.FullName)."
     }
 }
-$englishLanguage = Get-Content -Raw -LiteralPath (Join-Path $Root "Server/Languages/en-US/server.lang")
+$englishLanguageLines = @(Get-Content -LiteralPath (Join-Path $Root "Server/Languages/en-US/server.lang"))
 $expectedEnglishPrompts = @(
     "animalhusbandry.interactions.applySaddle=Press [{key}] to equip Saddle",
     "animalhusbandry.interactions.applyBlanket=Press [{key}] to equip Blanket",
@@ -120,7 +120,7 @@ $expectedEnglishPrompts = @(
     "animalhusbandry.interactions.removeBlanket=Press [{key}] to remove Blanket"
 )
 foreach ($expectedPrompt in $expectedEnglishPrompts) {
-    Require-Condition ($englishLanguage -match "(?m)^$([regex]::Escape($expectedPrompt))$") "Missing exact English equipment prompt: $expectedPrompt"
+    Require-Condition ($englishLanguageLines -contains $expectedPrompt) "Missing exact English equipment prompt: $expectedPrompt"
 }
 
 $breedingPaths = @(Get-ChildItem -LiteralPath (Join-Path $Root "Server/Tamework/Breeding") -Filter "AHBreed*.json")
