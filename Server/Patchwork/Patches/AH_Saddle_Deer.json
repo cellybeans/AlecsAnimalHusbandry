@@ -29,7 +29,7 @@
       "Op": "Merge",
       "Path": "/RandomAttachmentSets",
       "Value": {
-        "Saddle": {
+        "AH_Saddle": {
           "None": {
             "Model": "NPC/Wildlife/Deer/Models/Attachments/Saddle_Deer.blockymodel",
             "Texture": "NPC/Wildlife/Deer/Models/Empty.png",
@@ -41,7 +41,7 @@
             "Weight": 0
           }
         },
-        "SaddleBlanket": {
+        "AH_SaddleBlanket": {
           "None": {
             "Model": "NPC/Wildlife/Deer/Models/Attachments/Blanket_Deer.blockymodel",
             "Texture": "NPC/Wildlife/Deer/Models/Empty.png",

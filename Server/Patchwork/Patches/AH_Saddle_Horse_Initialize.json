@@ -27,7 +27,7 @@
       "Op": "Add",
       "Path": "/RandomAttachmentSets",
       "Value": {
-        "Saddle": {
+        "AH_Saddle": {
           "None": {
             "Model": "NPC/Livestock/Horse/Models/Attachments/Saddle.blockymodel",
             "Texture": "NPC/Wildlife/Moose/Models/Empty.png",
@@ -39,7 +39,7 @@
             "Weight": 0
           }
         },
-        "SaddleBlanket": {
+        "AH_SaddleBlanket": {
           "None": {
             "Model": "NPC/Livestock/Horse/Models/Attachments/Blanket_Horse.blockymodel",
             "Texture": "NPC/Wildlife/Moose/Models/Empty.png",

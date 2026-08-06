@@ -25,7 +25,7 @@
       "Op": "Merge",
       "Path": "/RandomAttachmentSets",
       "Value": {
-        "Saddle": {
+        "AH_Saddle": {
           "None": {
             "Model": "NPC/Beast/Rex_Cave/Models/Attachments/Saddle_Rex_Cave.blockymodel",
             "Texture": "NPC/Wildlife/Moose/Models/Empty.png",

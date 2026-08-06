@@ -27,7 +27,7 @@
       "Op": "Add",
       "Path": "/RandomAttachmentSets",
       "Value": {
-        "Saddle": {
+        "AH_Saddle": {
           "None": {
             "Model": "NPC/Swimming_Beast/Crocodile/Models/Attachments/Saddle_Crocodile.blockymodel",
             "Texture": "NPC/Wildlife/Moose/Models/Empty.png",

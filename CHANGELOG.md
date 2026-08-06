@@ -6,6 +6,9 @@
 - Fixed saddles and blankets not being equippable because their Patchwork model
   patches targeted the document root. Equipment patches now preserve attachment
   sets supplied by compatible skin mods and initialize the set only when absent.
+- Moved AH equipment to dedicated attachment slots so vanilla and third-party
+  attachment sets (including the moose antler set) cannot block saddle or
+  blanket application.
 
 ## 2.0.0 - Frost Dragon, Flying Companions, and Animal Equipment - 2026-08-06
 

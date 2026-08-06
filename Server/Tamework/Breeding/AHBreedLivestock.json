@@ -120,8 +120,8 @@
       "RandomWeight": 0.0,
       "MutationChance": 0.05,
       "ExcludedSets": [
-        "Saddle",
-        "SaddleBlanket"
+        "AH_Saddle",
+        "AH_SaddleBlanket"
       ]
     }
   },

@@ -27,7 +27,7 @@
       "Op": "Add",
       "Path": "/RandomAttachmentSets",
       "Value": {
-        "Saddle": {
+        "AH_Saddle": {
           "None": {
             "Model": "NPC/Beast/Emberwulf/Models/Attachments/Saddle_Emberwulf.blockymodel",
             "Texture": "NPC/Wildlife/Moose/Models/Empty.png",

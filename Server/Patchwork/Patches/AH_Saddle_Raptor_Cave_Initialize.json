@@ -27,7 +27,7 @@
       "Op": "Add",
       "Path": "/RandomAttachmentSets",
       "Value": {
-        "Saddle": {
+        "AH_Saddle": {
           "None": {
             "Model": "NPC/Beast/Raptor_Cave/Models/Attachments/Saddle_Raptor_Cave.blockymodel",
             "Texture": "NPC/Wildlife/Moose/Models/Empty.png",

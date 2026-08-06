@@ -24,7 +24,7 @@
       "Op": "Merge",
       "Path": "/RandomAttachmentSets",
       "Value": {
-        "Saddle": {
+        "AH_Saddle": {
           "None": {
             "Model": "NPC/Swimming_Beast/Lobster/Models/Attachments/Saddle_Lobster.blockymodel",
             "Texture": "NPC/Wildlife/Moose/Models/Empty.png",

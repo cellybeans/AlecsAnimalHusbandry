@@ -24,7 +24,7 @@
       "Op": "Merge",
       "Path": "/RandomAttachmentSets",
       "Value": {
-        "Saddle": {
+        "AH_Saddle": {
           "None": {
             "Model": "NPC/Wildlife/Mosshorn/Models/Attachments/Saddle_Mosshorn.blockymodel",
             "Texture": "NPC/Wildlife/Moose/Models/Empty.png",
@@ -36,7 +36,7 @@
             "Weight": 0
           }
         },
-        "SaddleBlanket": {
+        "AH_SaddleBlanket": {
           "None": {
             "Model": "NPC/Wildlife/Mosshorn/Models/Attachments/Blanket_Mosshorn.blockymodel",
             "Texture": "NPC/Wildlife/Moose/Models/Empty.png",

@@ -13,6 +13,6 @@
   "MinMoveSpeedMultiplier": 0.5,
   "MaxMoveSpeedMultiplier": 2.0,
   "AttachmentModifiers": [
-    { "Slot": "Saddle", "Values": ["Yes"], "Multiplier": 1.10 }
+    { "Slot": "AH_Saddle", "Values": ["Yes"], "Multiplier": 1.10 }
   ]
 }

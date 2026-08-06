@@ -27,7 +27,7 @@
       "Op": "Add",
       "Path": "/RandomAttachmentSets",
       "Value": {
-        "Saddle": {
+        "AH_Saddle": {
           "None": {
             "Model": "NPC/Wildlife/Tetrabird/Models/Attachments/Saddle_Tetrabird.blockymodel",
             "Texture": "NPC/Wildlife/Moose/Models/Empty.png",

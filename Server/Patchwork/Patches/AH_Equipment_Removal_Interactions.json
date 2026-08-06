@@ -34,7 +34,7 @@
             "Custom": [
               {
                 "Id": "tamework:attachment_exchange_available",
-                "Param": "Saddle",
+                "Param": "AH_Saddle",
                 "Values": [
                   "AH_Saddle=Yes"
                 ]
@@ -46,7 +46,7 @@
           "Custom": [
             {
               "Id": "tamework:exchange_attachment",
-              "Param": "Saddle",
+              "Param": "AH_Saddle",
               "Values": [
                 "AH_Saddle=Yes"
               ]
@@ -77,7 +77,7 @@
             "Custom": [
               {
                 "Id": "tamework:attachment_exchange_available",
-                "Param": "SaddleBlanket",
+                "Param": "AH_SaddleBlanket",
                 "Values": [
                   "Cloth_Block_Wool_Black=Black",
                   "Cloth_Block_Wool_Blue=Blue",
@@ -108,7 +108,7 @@
           "Custom": [
             {
               "Id": "tamework:exchange_attachment",
-              "Param": "SaddleBlanket",
+              "Param": "AH_SaddleBlanket",
               "Values": [
                 "Cloth_Block_Wool_Black=Black",
                 "Cloth_Block_Wool_Blue=Blue",

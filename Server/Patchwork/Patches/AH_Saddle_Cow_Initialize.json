@@ -27,7 +27,7 @@
       "Op": "Add",
       "Path": "/RandomAttachmentSets",
       "Value": {
-        "Saddle": {
+        "AH_Saddle": {
           "None": {
             "Model": "NPC/Livestock/Cow/Models/Attachments/Saddle_Cow.blockymodel",
             "Texture": "NPC/Wildlife/Moose/Models/Empty.png",
