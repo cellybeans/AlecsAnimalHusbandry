@@ -2050,7 +2050,6 @@
                   1.5,
                   2.0
                 ],
-                "ReturnParentState": "Idle",
                 "_ExportStates": [
                   "Idle"
                 ]

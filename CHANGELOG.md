@@ -24,6 +24,8 @@
 - Equipment prompts now display the player's bound interaction key. Empty-hand removal prioritizes petting, then removes saddles before blankets, while returning the exact equipped item.
 
 ### Fixed
+- Fixed flying-companion and Frost Dragon roles failing Hytale validation after
+  the shared Tamework aerial-component migration.
 - Prevented accidental owner hits from leaving tamed livestock and flying companions with hostile target memory that made them repeatedly flee from or attack their owner.
 - Updated tamed livestock food thought bubbles to show each animal's actual preferred food.
 - Replaced direct Zone 3 predator spawn-table overrides with local Patchwork patches, preserving compatibility with the base game and other mods while keeping Animal Husbandry's Arctic Fox and Frost Dragon spawn changes.
