@@ -32,18 +32,18 @@
     "AirVolleyAttack2": { "Value": "Root_NPC_AH_Dragon_Frost_Frost_Bolt_Volley_2" },
     "AirVolleyAttack3": { "Value": "Root_NPC_AH_Dragon_Frost_Frost_Bolt_Volley_3" },
     "AirVolleyAttack4": { "Value": "Root_NPC_AH_Dragon_Frost_Frost_Bolt_Volley_4" },
-    "AirVolleyCooldownRange": { "Value": [12, 20] },
+    "AirVolleyCooldownRange": { "Value": [10, 20] },
     "AirVolleyWeight": { "Value": 3 },
     "AirBreathAttack": { "Value": "Root_NPC_AH_Dragon_Frost_Flying_Freezing_Breath" },
     "AirBreathAttackDistance": { "Value": 13 },
-    "AirBreathCooldownRange": { "Value": [15, 30] },
+    "AirBreathCooldownRange": { "Value": [10, 20] },
     "AirBreathWeight": { "Value": 6 },
     "AirRangedAttackViewSector": { "Value": 75 },
     "AirBreathAttackViewSector": { "Value": 60 },
     "AirCombatAltitudeRange": { "Value": [8, 16] },
     "AirCombatClimbRelativeSpeed": { "Value": 1 },
     "AirCombatSinkRelativeSpeed": { "Value": 0.8 },
-    "AirCombatWanderRelativeSpeed": { "Value": 0.9 },
+    "AirCombatWanderRelativeSpeed": { "Value": 0.7 },
     "AirCombatWanderRadiusRange": { "Value": [18, 36] },
     "AirCombatWanderRetargetTimeRange": { "Value": [4, 8] },
     "AirCombatWanderStopDistance": { "Value": 5 },
@@ -69,15 +69,35 @@
             "Range": { "Compute": "HardLeashDistance" }
           }
         },
-        "Actions": [ { "Type": "TimerStop", "Name": "AH_Dragon_Frost_Air_FrostBolt" }, { "Type": "TimerStop", "Name": "AH_Dragon_Frost_Air_Volley" }, { "Type": "TimerStop", "Name": "AH_Dragon_Frost_Air_Breath" }, { "Type": "SetFlag", "Name": "AH_Dragon_Frost_Air_Reset_To_Recovery", "SetTo": false }, { "Type": "SetFlag", "Name": "AH_Dragon_Frost_Air_Reset_To_Ranged", "SetTo": false }, { "Type": "State", "State": ".Default" }, { "Type": "ReleaseTarget", "TargetSlot": "LockedTarget" }, { "Type": "ResetInstructions" } ]
+        "Actions": [
+          { "Type": "TimerStop", "Name": "AH_Dragon_Frost_Air_FrostBolt" },
+          { "Type": "TimerStop", "Name": "AH_Dragon_Frost_Air_Volley" },
+          { "Type": "TimerStop", "Name": "AH_Dragon_Frost_Air_Breath" },
+          { "Type": "SetFlag", "Name": "AH_Dragon_Frost_Air_Reset_To_Recovery", "SetTo": false },
+          { "Type": "SetFlag", "Name": "AH_Dragon_Frost_Air_Reset_To_Ranged", "SetTo": false },
+          { "Type": "State", "State": ".Default" },
+          { "Type": "ReleaseTarget", "TargetSlot": "LockedTarget" },
+          { "Type": "ResetInstructions" }
+        ]
       },
       {
         "Sensor": {
           "Type": "Target",
           "TargetSlot": "LockedTarget",
-          "Filters": [ { "Type": "TameworkIsOwner" } ]
+          "Filters": [
+            { "Type": "TameworkIsOwner" }
+          ]
         },
-        "Actions": [ { "Type": "TimerStop", "Name": "AH_Dragon_Frost_Air_FrostBolt" }, { "Type": "TimerStop", "Name": "AH_Dragon_Frost_Air_Volley" }, { "Type": "TimerStop", "Name": "AH_Dragon_Frost_Air_Breath" }, { "Type": "SetFlag", "Name": "AH_Dragon_Frost_Air_Reset_To_Recovery", "SetTo": false }, { "Type": "SetFlag", "Name": "AH_Dragon_Frost_Air_Reset_To_Ranged", "SetTo": false }, { "Type": "State", "State": ".Default" }, { "Type": "ReleaseTarget", "TargetSlot": "LockedTarget" }, { "Type": "ResetInstructions" } ]
+        "Actions": [
+          { "Type": "TimerStop", "Name": "AH_Dragon_Frost_Air_FrostBolt" },
+          { "Type": "TimerStop", "Name": "AH_Dragon_Frost_Air_Volley" },
+          { "Type": "TimerStop", "Name": "AH_Dragon_Frost_Air_Breath" },
+          { "Type": "SetFlag", "Name": "AH_Dragon_Frost_Air_Reset_To_Recovery", "SetTo": false },
+          { "Type": "SetFlag", "Name": "AH_Dragon_Frost_Air_Reset_To_Ranged", "SetTo": false },
+          { "Type": "State", "State": ".Default" },
+          { "Type": "ReleaseTarget", "TargetSlot": "LockedTarget" },
+          { "Type": "ResetInstructions" }
+        ]
       },
       {
         "Sensor": {
@@ -92,7 +112,16 @@
             }
           ]
         },
-        "Actions": [ { "Type": "TimerStop", "Name": "AH_Dragon_Frost_Air_FrostBolt" }, { "Type": "TimerStop", "Name": "AH_Dragon_Frost_Air_Volley" }, { "Type": "TimerStop", "Name": "AH_Dragon_Frost_Air_Breath" }, { "Type": "SetFlag", "Name": "AH_Dragon_Frost_Air_Reset_To_Recovery", "SetTo": false }, { "Type": "SetFlag", "Name": "AH_Dragon_Frost_Air_Reset_To_Ranged", "SetTo": false }, { "Type": "State", "State": ".Default" }, { "Type": "ReleaseTarget", "TargetSlot": "LockedTarget" }, { "Type": "ResetInstructions" } ]
+        "Actions": [
+          { "Type": "TimerStop", "Name": "AH_Dragon_Frost_Air_FrostBolt" },
+          { "Type": "TimerStop", "Name": "AH_Dragon_Frost_Air_Volley" },
+          { "Type": "TimerStop", "Name": "AH_Dragon_Frost_Air_Breath" },
+          { "Type": "SetFlag", "Name": "AH_Dragon_Frost_Air_Reset_To_Recovery", "SetTo": false },
+          { "Type": "SetFlag", "Name": "AH_Dragon_Frost_Air_Reset_To_Ranged", "SetTo": false },
+          { "Type": "State", "State": ".Default" },
+          { "Type": "ReleaseTarget", "TargetSlot": "LockedTarget" },
+          { "Type": "ResetInstructions" }
+        ]
       },
       {
         "Sensor": {
@@ -108,21 +137,44 @@
             }
           }
         },
-        "Actions": [ { "Type": "TimerStop", "Name": "AH_Dragon_Frost_Air_FrostBolt" }, { "Type": "TimerStop", "Name": "AH_Dragon_Frost_Air_Volley" }, { "Type": "TimerStop", "Name": "AH_Dragon_Frost_Air_Breath" }, { "Type": "SetFlag", "Name": "AH_Dragon_Frost_Air_Reset_To_Recovery", "SetTo": false }, { "Type": "SetFlag", "Name": "AH_Dragon_Frost_Air_Reset_To_Ranged", "SetTo": false }, { "Type": "State", "State": ".Default" }, { "Type": "ReleaseTarget", "TargetSlot": "LockedTarget" }, { "Type": "ResetInstructions" } ]
+        "Actions": [
+          { "Type": "TimerStop", "Name": "AH_Dragon_Frost_Air_FrostBolt" },
+          { "Type": "TimerStop", "Name": "AH_Dragon_Frost_Air_Volley" },
+          { "Type": "TimerStop", "Name": "AH_Dragon_Frost_Air_Breath" },
+          { "Type": "SetFlag", "Name": "AH_Dragon_Frost_Air_Reset_To_Recovery", "SetTo": false },
+          { "Type": "SetFlag", "Name": "AH_Dragon_Frost_Air_Reset_To_Ranged", "SetTo": false },
+          { "Type": "State", "State": ".Default" },
+          { "Type": "ReleaseTarget", "TargetSlot": "LockedTarget" },
+          { "Type": "ResetInstructions" }
+        ]
       },
       {
         "$Comment": "Aerial cancellation changes only this component state; target ownership remains with Defend.",
         "Continue": true,
         "Sensor": { "Type": "And", "Sensors": [ { "Type": "Or", "Sensors": [ { "Type": "State", "State": ".AirRanged" }, { "Type": "State", "State": ".AirVolley" }, { "Type": "State", "State": ".AirBreathIngress" }, { "Type": "State", "State": ".AirBreathPass" }, { "Type": "State", "State": ".AirRecovery" } ] }, { "Type": "Or", "Sensors": [ { "Type": "Not", "Sensor": { "Type": "Target", "TargetSlot": "LockedTarget" } }, { "Type": "Not", "Sensor": { "Type": "Flag", "Name": "AirborneMode" } }, { "Type": "Not", "Sensor": { "Type": "MotionController", "MotionController": "Fly" } } ] } ] },
-        "Actions": [ { "Type": "TimerStop", "Name": "AH_Dragon_Frost_Air_FrostBolt" }, { "Type": "TimerStop", "Name": "AH_Dragon_Frost_Air_Volley" }, { "Type": "TimerStop", "Name": "AH_Dragon_Frost_Air_Breath" }, { "Type": "SetFlag", "Name": "AH_Dragon_Frost_Air_Reset_To_Recovery", "SetTo": false }, { "Type": "SetFlag", "Name": "AH_Dragon_Frost_Air_Reset_To_Ranged", "SetTo": false }, { "Type": "State", "State": ".Default" }, { "Type": "ResetInstructions" } ]
+        "Actions": [
+          { "Type": "TimerStop", "Name": "AH_Dragon_Frost_Air_FrostBolt" },
+          { "Type": "TimerStop", "Name": "AH_Dragon_Frost_Air_Volley" },
+          { "Type": "TimerStop", "Name": "AH_Dragon_Frost_Air_Breath" },
+          { "Type": "SetFlag", "Name": "AH_Dragon_Frost_Air_Reset_To_Recovery", "SetTo": false },
+          { "Type": "SetFlag", "Name": "AH_Dragon_Frost_Air_Reset_To_Ranged", "SetTo": false },
+          { "Type": "State", "State": ".Default" },
+          { "Type": "ResetInstructions" }
+        ]
       },
       {
         "Sensor": { "Type": "And", "Sensors": [ { "Type": "State", "State": ".AirRecovery" }, { "Type": "Flag", "Name": "AH_Dragon_Frost_Air_Reset_To_Recovery", "Set": true } ] },
-        "Actions": [ { "Type": "SetFlag", "Name": "AH_Dragon_Frost_Air_Reset_To_Recovery", "SetTo": false }, { "Type": "ResetInstructions" } ]
+        "Actions": [
+          { "Type": "SetFlag", "Name": "AH_Dragon_Frost_Air_Reset_To_Recovery", "SetTo": false },
+          { "Type": "ResetInstructions" }
+        ]
       },
       {
         "Sensor": { "Type": "And", "Sensors": [ { "Type": "State", "State": ".AirRanged" }, { "Type": "Flag", "Name": "AH_Dragon_Frost_Air_Reset_To_Ranged", "Set": true } ] },
-        "Actions": [ { "Type": "SetFlag", "Name": "AH_Dragon_Frost_Air_Reset_To_Ranged", "SetTo": false }, { "Type": "ResetInstructions" } ]
+        "Actions": [
+          { "Type": "SetFlag", "Name": "AH_Dragon_Frost_Air_Reset_To_Ranged", "SetTo": false },
+          { "Type": "ResetInstructions" }
+        ]
       },
       {
         "Continue": true,
@@ -146,7 +198,9 @@
             { "Type": "MotionController", "MotionController": "Walk" }
           ]
         },
-        "Actions": [ { "Type": "State", "State": ".GroundCombat" } ]
+        "Actions": [
+          { "Type": "State", "State": ".GroundCombat" }
+        ]
       },
       {
         "Sensor": { "Type": "State", "State": ".GroundCombat" },
@@ -352,42 +406,58 @@
         ]
       },
       {
-        "Sensor": { "Type": "And", "Sensors": [
-          { "Type": "State", "State": ".AirRanged" }, { "Type": "Target", "TargetSlot": "LockedTarget" },
-          { "Type": "Flag", "Name": "AirborneMode", "Set": true }, { "Type": "MotionController", "MotionController": "Fly" }
-        ] },
+        "Sensor": {
+          "Type": "And",
+          "Sensors": [
+            { "Type": "State", "State": ".AirRanged" },
+            { "Type": "Target", "TargetSlot": "LockedTarget" },
+            { "Type": "Flag", "Name": "AirborneMode", "Set": true },
+            { "Type": "MotionController", "MotionController": "Fly" }
+          ]
+        },
         "Instructions": [
           {
             "$Comment": "Recover from physical blockage without abandoning the locked aerial combat target.",
-            "Sensor": { "Type": "And", "Sensors": [
-              { "Type": "Target", "TargetSlot": "LockedTarget" },
-              { "Type": "Flag", "Name": "AirborneMode", "Set": true },
-              { "Type": "MotionController", "MotionController": "Fly" },
-              { "Type": "Eval", "Expression": "blocked" }
-            ] },
+            "Sensor": {
+              "Type": "And",
+              "Sensors": [
+                { "Type": "Target", "TargetSlot": "LockedTarget" },
+                { "Type": "Flag", "Name": "AirborneMode", "Set": true },
+                { "Type": "MotionController", "MotionController": "Fly" },
+                { "Type": "Eval", "Expression": "blocked" }
+              ]
+            },
             "BodyMotion": { "Type": "Wander", "MaxHeadingChange": 90, "RelativeSpeed": { "Compute": "AirCombatWanderRelativeSpeed" } }
           },
           {
             "$Comment": "Recover from deferred or blocked navigation without abandoning the locked aerial combat target.",
-            "Sensor": { "Type": "And", "Sensors": [
-              { "Type": "Target", "TargetSlot": "LockedTarget" },
-              { "Type": "Flag", "Name": "AirborneMode", "Set": true },
-              { "Type": "MotionController", "MotionController": "Fly" },
-              { "Type": "Nav", "NavStates": [ "Defer", "Blocked" ], "ThrottleDuration": 2 }
-            ] },
+            "Sensor": {
+              "Type": "And",
+              "Sensors": [
+                { "Type": "Target", "TargetSlot": "LockedTarget" },
+                { "Type": "Flag", "Name": "AirborneMode", "Set": true },
+                { "Type": "MotionController", "MotionController": "Fly" },
+                { "Type": "Nav", "NavStates": [ "Defer", "Blocked" ], "ThrottleDuration": 2 }
+              ]
+            },
             "BodyMotion": { "Type": "Wander", "MaxHeadingChange": 90, "RelativeSpeed": { "Compute": "AirCombatWanderRelativeSpeed" } }
           },
           {
             "Continue": true,
-            "Sensor": { "Type": "And", "Sensors": [
-              { "Type": "Target", "TargetSlot": "LockedTarget" }, { "Type": "Flag", "Name": "AirborneMode", "Set": true },
-              { "Type": "MotionController", "MotionController": "Fly" }
-            ] },
+            "Sensor": {
+              "Type": "And",
+              "Sensors": [
+                { "Type": "Target", "TargetSlot": "LockedTarget" },
+                { "Type": "Flag", "Name": "AirborneMode", "Set": true },
+                { "Type": "MotionController", "MotionController": "Fly" }
+              ]
+            },
             "HeadMotion": { "Type": "Watch" },
             "BodyMotion": { "Type": "TameworkFlyingOrbit", "Mode": "WANDER_TARGET", "WanderRadiusRange": { "Compute": "AirCombatWanderRadiusRange" }, "WanderRetargetTimeRange": { "Compute": "AirCombatWanderRetargetTimeRange" }, "WanderStopDistance": { "Compute": "AirCombatWanderStopDistance" }, "RelativeSpeed": { "Compute": "AirCombatWanderRelativeSpeed" }, "DesiredAltitudeRange": { "Compute": "AirCombatAltitudeRange" }, "ClimbRelativeSpeed": { "Compute": "AirCombatClimbRelativeSpeed" }, "SinkRelativeSpeed": { "Compute": "AirCombatSinkRelativeSpeed" } }
           },
           {
-            "Type": "Random", "Sensor": { "Type": "And", "Sensors": [ { "Type": "Target", "TargetSlot": "LockedTarget", "Range": { "Compute": "AirFrostBoltAttackDistance" } }, { "Type": "Flag", "Name": "AirborneMode", "Set": true }, { "Type": "MotionController", "MotionController": "Fly" }, { "Type": "Timer", "Name": "AH_Dragon_Frost_Air_Volley", "State": "Stopped" }, { "Type": "Timer", "Name": "AH_Dragon_Frost_Air_Breath", "State": "Stopped" } ] },
+            "Type": "Random",
+            "Sensor": { "Type": "And", "Sensors": [ { "Type": "Target", "TargetSlot": "LockedTarget", "Range": { "Compute": "AirFrostBoltAttackDistance" } }, { "Type": "Flag", "Name": "AirborneMode", "Set": true }, { "Type": "MotionController", "MotionController": "Fly" }, { "Type": "Timer", "Name": "AH_Dragon_Frost_Air_Volley", "State": "Stopped" }, { "Type": "Timer", "Name": "AH_Dragon_Frost_Air_Breath", "State": "Stopped" } ] },
             "Instructions": [
               { "Weight": { "Compute": "AirBreathWeight" }, "Sensor": { "Type": "And", "Sensors": [ { "Type": "Target", "TargetSlot": "LockedTarget" }, { "Type": "Flag", "Name": "AirborneMode", "Set": true }, { "Type": "MotionController", "MotionController": "Fly" } ] }, "Actions": [ { "Type": "TimerStart", "Name": "AH_Dragon_Frost_Air_Breath", "StartValueRange": { "Compute": "AirBreathCooldownRange" }, "RestartValueRange": { "Compute": "AirBreathCooldownRange" } }, { "Type": "TimerRestart", "Name": "AH_Dragon_Frost_Air_Breath" }, { "Type": "State", "State": ".AirBreathIngress" }, { "Type": "ResetInstructions" } ] },
               { "Weight": { "Compute": "AirVolleyWeight" }, "Sensor": { "Type": "And", "Sensors": [ { "Type": "Target", "TargetSlot": "LockedTarget", "Range": { "Compute": "AirFrostBoltAttackDistance" } }, { "Type": "Flag", "Name": "AirborneMode", "Set": true }, { "Type": "MotionController", "MotionController": "Fly" } ] }, "Actions": [ { "Type": "TimerStart", "Name": "AH_Dragon_Frost_Air_Volley", "StartValueRange": { "Compute": "AirVolleyCooldownRange" }, "RestartValueRange": { "Compute": "AirVolleyCooldownRange" } }, { "Type": "TimerRestart", "Name": "AH_Dragon_Frost_Air_Volley" }, { "Type": "State", "State": ".AirVolley" }, { "Type": "ResetInstructions" } ] }
@@ -402,11 +472,15 @@
       {
         "Sensor": { "Type": "And", "Sensors": [ { "Type": "State", "State": ".AirVolley" }, { "Type": "Target", "TargetSlot": "LockedTarget" }, { "Type": "Flag", "Name": "AirborneMode", "Set": true }, { "Type": "MotionController", "MotionController": "Fly" } ] },
         "Instructions": [
-          { "Type": "Random", "Sensor": { "Type": "And", "Sensors": [ { "Type": "Target", "TargetSlot": "LockedTarget", "Range": { "Compute": "AirFrostBoltAttackDistance" } }, { "Type": "Flag", "Name": "AirborneMode", "Set": true }, { "Type": "MotionController", "MotionController": "Fly" } ] }, "Instructions": [
-            { "Weight": 1, "Sensor": { "Type": "And", "Sensors": [ { "Type": "Target", "TargetSlot": "LockedTarget", "Range": { "Compute": "AirFrostBoltAttackDistance" } }, { "Type": "Flag", "Name": "AirborneMode", "Set": true }, { "Type": "MotionController", "MotionController": "Fly" } ] }, "HeadMotion": { "Type": "Aim", "Spread": 0, "HitProbability": 1, "Deflection": true }, "BodyMotion": { "Type": "TameworkFlyingOrbit", "Mode": "FACE_TARGET", "DesiredAltitudeRange": { "Compute": "AirCombatAltitudeRange" }, "ClimbRelativeSpeed": { "Compute": "AirCombatClimbRelativeSpeed" }, "SinkRelativeSpeed": { "Compute": "AirCombatSinkRelativeSpeed" } }, "ActionsBlocking": true, "Actions": [ { "Type": "Attack", "Attack": { "Compute": "AirVolleyAttack2" }, "BallisticMode": "Short", "AimingTimeRange": [0.25, 1], "AttackPauseRange": [10, 10] }, { "Type": "Timeout", "Delay": [4, 4] }, { "Type": "SetFlag", "Name": "AH_Dragon_Frost_Air_Reset_To_Recovery", "SetTo": true }, { "Type": "State", "State": ".AirRecovery" } ] },
-            { "Weight": 1, "Sensor": { "Type": "And", "Sensors": [ { "Type": "Target", "TargetSlot": "LockedTarget", "Range": { "Compute": "AirFrostBoltAttackDistance" } }, { "Type": "Flag", "Name": "AirborneMode", "Set": true }, { "Type": "MotionController", "MotionController": "Fly" } ] }, "HeadMotion": { "Type": "Aim", "Spread": 0, "HitProbability": 1, "Deflection": true }, "BodyMotion": { "Type": "TameworkFlyingOrbit", "Mode": "FACE_TARGET", "DesiredAltitudeRange": { "Compute": "AirCombatAltitudeRange" }, "ClimbRelativeSpeed": { "Compute": "AirCombatClimbRelativeSpeed" }, "SinkRelativeSpeed": { "Compute": "AirCombatSinkRelativeSpeed" } }, "ActionsBlocking": true, "Actions": [ { "Type": "Attack", "Attack": { "Compute": "AirVolleyAttack3" }, "BallisticMode": "Short", "AimingTimeRange": [0.25, 1], "AttackPauseRange": [10, 10] }, { "Type": "Timeout", "Delay": [5.8, 5.8] }, { "Type": "SetFlag", "Name": "AH_Dragon_Frost_Air_Reset_To_Recovery", "SetTo": true }, { "Type": "State", "State": ".AirRecovery" } ] },
-            { "Weight": 1, "Sensor": { "Type": "And", "Sensors": [ { "Type": "Target", "TargetSlot": "LockedTarget", "Range": { "Compute": "AirFrostBoltAttackDistance" } }, { "Type": "Flag", "Name": "AirborneMode", "Set": true }, { "Type": "MotionController", "MotionController": "Fly" } ] }, "HeadMotion": { "Type": "Aim", "Spread": 0, "HitProbability": 1, "Deflection": true }, "BodyMotion": { "Type": "TameworkFlyingOrbit", "Mode": "FACE_TARGET", "DesiredAltitudeRange": { "Compute": "AirCombatAltitudeRange" }, "ClimbRelativeSpeed": { "Compute": "AirCombatClimbRelativeSpeed" }, "SinkRelativeSpeed": { "Compute": "AirCombatSinkRelativeSpeed" } }, "ActionsBlocking": true, "Actions": [ { "Type": "Attack", "Attack": { "Compute": "AirVolleyAttack4" }, "BallisticMode": "Short", "AimingTimeRange": [0.25, 1], "AttackPauseRange": [10, 10] }, { "Type": "Timeout", "Delay": [7.5, 7.5] }, { "Type": "SetFlag", "Name": "AH_Dragon_Frost_Air_Reset_To_Recovery", "SetTo": true }, { "Type": "State", "State": ".AirRecovery" } ] }
-          ] },
+          {
+            "Type": "Random",
+            "Sensor": { "Type": "And", "Sensors": [ { "Type": "Target", "TargetSlot": "LockedTarget", "Range": { "Compute": "AirFrostBoltAttackDistance" } }, { "Type": "Flag", "Name": "AirborneMode", "Set": true }, { "Type": "MotionController", "MotionController": "Fly" } ] },
+            "Instructions": [
+              { "Weight": 1, "Sensor": { "Type": "And", "Sensors": [ { "Type": "Target", "TargetSlot": "LockedTarget", "Range": { "Compute": "AirFrostBoltAttackDistance" } }, { "Type": "Flag", "Name": "AirborneMode", "Set": true }, { "Type": "MotionController", "MotionController": "Fly" } ] }, "HeadMotion": { "Type": "Aim", "Spread": 0, "HitProbability": 1, "Deflection": true }, "BodyMotion": { "Type": "TameworkFlyingOrbit", "Mode": "FACE_TARGET", "DesiredAltitudeRange": { "Compute": "AirCombatAltitudeRange" }, "ClimbRelativeSpeed": { "Compute": "AirCombatClimbRelativeSpeed" }, "SinkRelativeSpeed": { "Compute": "AirCombatSinkRelativeSpeed" } }, "ActionsBlocking": true, "Actions": [ { "Type": "Attack", "Attack": { "Compute": "AirVolleyAttack2" }, "BallisticMode": "Short", "AimingTimeRange": [0.25, 1], "AttackPauseRange": [10, 10] }, { "Type": "Timeout", "Delay": [4, 4] }, { "Type": "SetFlag", "Name": "AH_Dragon_Frost_Air_Reset_To_Recovery", "SetTo": true }, { "Type": "State", "State": ".AirRecovery" } ] },
+              { "Weight": 1, "Sensor": { "Type": "And", "Sensors": [ { "Type": "Target", "TargetSlot": "LockedTarget", "Range": { "Compute": "AirFrostBoltAttackDistance" } }, { "Type": "Flag", "Name": "AirborneMode", "Set": true }, { "Type": "MotionController", "MotionController": "Fly" } ] }, "HeadMotion": { "Type": "Aim", "Spread": 0, "HitProbability": 1, "Deflection": true }, "BodyMotion": { "Type": "TameworkFlyingOrbit", "Mode": "FACE_TARGET", "DesiredAltitudeRange": { "Compute": "AirCombatAltitudeRange" }, "ClimbRelativeSpeed": { "Compute": "AirCombatClimbRelativeSpeed" }, "SinkRelativeSpeed": { "Compute": "AirCombatSinkRelativeSpeed" } }, "ActionsBlocking": true, "Actions": [ { "Type": "Attack", "Attack": { "Compute": "AirVolleyAttack3" }, "BallisticMode": "Short", "AimingTimeRange": [0.25, 1], "AttackPauseRange": [10, 10] }, { "Type": "Timeout", "Delay": [5.8, 5.8] }, { "Type": "SetFlag", "Name": "AH_Dragon_Frost_Air_Reset_To_Recovery", "SetTo": true }, { "Type": "State", "State": ".AirRecovery" } ] },
+              { "Weight": 1, "Sensor": { "Type": "And", "Sensors": [ { "Type": "Target", "TargetSlot": "LockedTarget", "Range": { "Compute": "AirFrostBoltAttackDistance" } }, { "Type": "Flag", "Name": "AirborneMode", "Set": true }, { "Type": "MotionController", "MotionController": "Fly" } ] }, "HeadMotion": { "Type": "Aim", "Spread": 0, "HitProbability": 1, "Deflection": true }, "BodyMotion": { "Type": "TameworkFlyingOrbit", "Mode": "FACE_TARGET", "DesiredAltitudeRange": { "Compute": "AirCombatAltitudeRange" }, "ClimbRelativeSpeed": { "Compute": "AirCombatClimbRelativeSpeed" }, "SinkRelativeSpeed": { "Compute": "AirCombatSinkRelativeSpeed" } }, "ActionsBlocking": true, "Actions": [ { "Type": "Attack", "Attack": { "Compute": "AirVolleyAttack4" }, "BallisticMode": "Short", "AimingTimeRange": [0.25, 1], "AttackPauseRange": [10, 10] }, { "Type": "Timeout", "Delay": [7.5, 7.5] }, { "Type": "SetFlag", "Name": "AH_Dragon_Frost_Air_Reset_To_Recovery", "SetTo": true }, { "Type": "State", "State": ".AirRecovery" } ] }
+            ]
+          },
           { "Sensor": { "Type": "Any" }, "ActionsBlocking": true, "Actions": [ { "Type": "Timeout", "Delay": [0.25, 0.5] }, { "Type": "SetFlag", "Name": "AH_Dragon_Frost_Air_Reset_To_Recovery", "SetTo": true }, { "Type": "State", "State": ".AirRecovery" } ] }
         ]
       },
