@@ -1183,7 +1183,7 @@ def check_species(names: tuple[str, ...]) -> None:
         require(tamed_modify.get("IsMemory") is False, f"Tamed_{name} role must not be a memory")
         require(tamed_modify.get("MemoriesCategory") == "Avian", f"Tamed_{name} memory category mismatch")
         if name == "Bluebird":
-            require(tamed_modify.get("MaxSpeed") == 20, "Tamed_Bluebird MaxSpeed override must remain 20")
+            require("MaxSpeed" not in tamed_modify, "Tamed_Bluebird must inherit the shared aerial flight-speed cap")
             require(tamed_modify.get("ParticleOffset") == [0, 0.4, 0], "Tamed_Bluebird ParticleOffset override must remain [0, 0.4, 0]")
             require(tamed_modify.get("NeedsSeekConsumeStartDistance") == 1.5, "Tamed_Bluebird NeedsSeekConsumeStartDistance override must remain 1.5")
             require(tamed_modify.get("NeedsSeekConsumeMaintainMaxDistance") == 1.25, "Tamed_Bluebird NeedsSeekConsumeMaintainMaxDistance override must remain 1.25")
