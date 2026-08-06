@@ -7,6 +7,9 @@
   aerial-companion and Frost Dragon tuning.
 - Replaced copied flying Hold, favorite-item pursuit, and airborne-mode
   transition graphs with Tamework's reusable aerial components.
+- Gave the Frost Dragon's flying follow recovery enough placement clearance to
+  teleport safely beside its owner instead of failing at the owner's occupied
+  position.
 
 ## 2.0.0 - Frost Dragon, Flying Companions, and Animal Equipment - 2026-08-04
 

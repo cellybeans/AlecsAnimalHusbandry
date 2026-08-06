@@ -1067,6 +1067,9 @@ def check_configs() -> None:
             "MasterTargetSlot": "MasterTarget",
             "FollowDesiredAltitudeRange": [4, 8],
             "FollowTeleportThresholdRange": 60,
+            "FollowTeleportOffsetRange": [4, 6],
+            "FollowTeleportOffsetSector": 120,
+            "FollowTeleportMaxYOffset": 8,
             "FollowOrbitRadiusRange": [16, 24],
             "FollowOrbitRetargetTimeRange": [3, 6],
             "FollowOrbitStopDistance": 3,
@@ -1074,7 +1077,7 @@ def check_configs() -> None:
             "FollowHoverRadius": 1.75,
             "FollowHoverRelativeSpeed": 0.12,
         },
-        "Frost Dragon flying follow tuning must remain unchanged",
+        "Frost Dragon flying follow and safe teleport tuning must remain explicit",
     )
     aerial = load(ROOT / "Server/Tamework/Companion/AHCompAerial.json")
     require(aerial.get("Parent") == "TwCompanionConfig_Default", "wrong aerial companion parent")
