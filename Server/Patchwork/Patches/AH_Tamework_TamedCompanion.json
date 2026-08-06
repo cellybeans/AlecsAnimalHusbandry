@@ -1,0 +1,22 @@
+{
+  "Id": "AH_Tamework_TamedCompanion",
+  "Target": "Server/NPC/Groups/Tamework_TamedCompanion.json",
+  "Priority": 0,
+  "Enabled": true,
+  "Operations": [
+    {
+      "Id": "include-predator-companion-group",
+      "Op": "Insert",
+      "Path": "/IncludeGroups",
+      "Position": "End",
+      "Value": "AH_Predator_Tamed"
+    },
+    {
+      "Id": "include-livestock-companion-group",
+      "Op": "Insert",
+      "Path": "/IncludeGroups",
+      "Position": "End",
+      "Value": "AH_Livestock_Tamed"
+    }
+  ]
+}
