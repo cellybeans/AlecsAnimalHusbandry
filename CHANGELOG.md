@@ -1,17 +1,6 @@
 # Changelog
 
-## Unreleased
-
-- Replaced Animal Husbandry's copied large-ground and flying follow bases with
-  the reusable components included in Alec's Tamework 3.0 while preserving all
-  aerial-companion and Frost Dragon tuning.
-- Replaced copied flying Hold, favorite-item pursuit, and airborne-mode
-  transition graphs with Tamework's reusable aerial components.
-- Gave the Frost Dragon's flying follow recovery enough placement clearance to
-  teleport safely beside its owner instead of failing at the owner's occupied
-  position.
-
-## 2.0.0 - Frost Dragon, Flying Companions, and Animal Equipment - 2026-08-04
+## 2.0.0 - Frost Dragon, Flying Companions, and Animal Equipment - Unreleased
 
 ### Added
 - Added the Frost Dragon as a fully supported Beast companion. Frost Dragons prefer Frost Essence, can fight on the ground or in the air with bites, Frost Bolts, and Freezing Breath, and can be ridden with a custom AvatarFlight model, combat abilities, animations, audio, launch effects, and icy flight trails.
@@ -25,12 +14,31 @@
 ### Changed
 - Updated the required Alec's Tamework dependency to `3.x` and the Animal Husbandry manifest version to `2.0.0`.
 - Gave all 32 native ground mounts species-tuned movement profiles, made tamed crocodiles mountable, and gave Tetrabird jumps a slower, glide-like descent.
+- Migrated ground and flying follow, flying Hold, airborne transitions, and
+  favorite-item pursuit to the shared Tamework 3.0 companion components while
+  preserving Animal Husbandry's species-specific tuning.
+- Autonomous flying companions now steer around nearby obstacles and return
+  toward their owner or combat target when they wander beyond their configured
+  range.
+- Capped tamed Bluebird flight speed to keep its small-body movement stable.
 - Equipment prompts now display the player's bound interaction key. Empty-hand removal prioritizes petting, then removes saddles before blankets, while returning the exact equipped item.
 
 ### Fixed
 - Prevented accidental owner hits from leaving tamed livestock and flying companions with hostile target memory that made them repeatedly flee from or attack their owner.
 - Updated tamed livestock food thought bubbles to show each animal's actual preferred food.
 - Replaced direct Zone 3 predator spawn-table overrides with local Patchwork patches, preserving compatibility with the base game and other mods while keeping Animal Husbandry's Arctic Fox and Frost Dragon spawn changes.
+- Fixed Frost Dragons failing to use Aggressive aerial combat consistently and
+  made player-hostile creatures recognize supported tamed Beasts and flying
+  companions as opposing targets.
+- Fixed Frost Dragon follow recovery failing to teleport because it selected
+  the owner's occupied position; recovery now chooses a clear position beside
+  the owner without changing Defend or Aggressive mode.
+- Fixed aerial companion templates, command policies, and valid landing block
+  sets that could prevent birds from following commands or completing flight
+  transitions.
+- Fixed Frost Dragons displaying the wrong food cue instead of Frost Essence.
+- Fixed the Animal Control Flute, Combat Beast Flute, and saddle using incorrect
+  icon or rarity presentation.
 
 ## 1.7.1 - Mountable Creatures and Telemetry Descriptor Hotfix - 2026-06-30
 
