@@ -1,5 +1,5 @@
 {
-  "Id": "AH_Saddle_Crocodile",
+  "Id": "AH_Saddle_Crocodile_Initialize",
   "$Comment": "Patch any loaded Crocodile model definitions to include saddle. TargetExists is evaluated per target.",
   "Target": "Server/Models/Swimming_Beast/Crocodile.json",
   "When": {
@@ -8,11 +8,13 @@
         "TargetExists": true
       },
       {
-        "JsonPathExists": {
-          "Source": {
-            "Type": "Target"
-          },
-          "Path": "/RandomAttachmentSets"
+        "Not": {
+          "JsonPathExists": {
+            "Source": {
+              "Type": "Target"
+            },
+            "Path": "/RandomAttachmentSets"
+          }
         }
       }
     ]
@@ -21,8 +23,8 @@
   "Enabled": true,
   "Operations": [
     {
-      "Id": "add-saddles-for-crocodile",
-      "Op": "Merge",
+      "Id": "add-saddles-for-crocodile-initialize-attachments",
+      "Op": "Add",
       "Path": "/RandomAttachmentSets",
       "Value": {
         "Saddle": {

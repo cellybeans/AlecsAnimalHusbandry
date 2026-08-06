@@ -1,5 +1,5 @@
 {
-  "Id": "AH_Saddle_Tortoise",
+  "Id": "AH_Saddle_Tortoise_Initialize",
   "$Comment": "Patch any loaded Tortoise model definitions to include saddle. TargetExists is evaluated per target.",
   "Target": "Server/Models/Wildlife/Tortoise.json",
   "When": {
@@ -8,11 +8,13 @@
         "TargetExists": true
       },
       {
-        "JsonPathExists": {
-          "Source": {
-            "Type": "Target"
-          },
-          "Path": "/RandomAttachmentSets"
+        "Not": {
+          "JsonPathExists": {
+            "Source": {
+              "Type": "Target"
+            },
+            "Path": "/RandomAttachmentSets"
+          }
         }
       }
     ]
@@ -21,8 +23,8 @@
   "Enabled": true,
   "Operations": [
     {
-      "Id": "add-saddles-for-tortoise",
-      "Op": "Merge",
+      "Id": "add-saddles-for-tortoise-initialize-attachments",
+      "Op": "Add",
       "Path": "/RandomAttachmentSets",
       "Value": {
         "Saddle": {

@@ -1,5 +1,5 @@
 {
-  "Id": "AH_Saddle_Rex_Cave",
+  "Id": "AH_Saddle_Rex_Cave_Initialize",
   "$Comment": "Patch any loaded Rex_Cave model definitions to include saddle. TargetExists is evaluated per target.",
   "Target": "Server/Models/Beast/Rex_Cave.json",
   "When": {
@@ -8,11 +8,13 @@
         "TargetExists": true
       },
       {
-        "JsonPathExists": {
-          "Source": {
-            "Type": "Target"
-          },
-          "Path": "/RandomAttachmentSets"
+        "Not": {
+          "JsonPathExists": {
+            "Source": {
+              "Type": "Target"
+            },
+            "Path": "/RandomAttachmentSets"
+          }
         }
       }
     ]
@@ -21,8 +23,8 @@
   "Enabled": true,
   "Operations": [
     {
-      "Id": "add-saddles-for-rex-cave",
-      "Op": "Merge",
+      "Id": "add-saddles-for-rex-cave-initialize-attachments",
+      "Op": "Add",
       "Path": "/RandomAttachmentSets",
       "Value": {
         "Saddle": {

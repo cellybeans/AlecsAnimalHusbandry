@@ -1,5 +1,5 @@
 {
-  "Id": "AH_Saddle_Moose",
+  "Id": "AH_Saddle_Moose_Initialize",
   "$Comment": "Patch any loaded Moose_Cow or Moose_Bull model definitions to include saddles and saddle blankets. TargetExists is evaluated per target.",
   "Targets": [
     "Server/Models/Wildlife/Moose_Bull.json",
@@ -11,11 +11,13 @@
         "TargetExists": true
       },
       {
-        "JsonPathExists": {
-          "Source": {
-            "Type": "Target"
-          },
-          "Path": "/RandomAttachmentSets"
+        "Not": {
+          "JsonPathExists": {
+            "Source": {
+              "Type": "Target"
+            },
+            "Path": "/RandomAttachmentSets"
+          }
         }
       }
     ]
@@ -24,8 +26,8 @@
   "Enabled": true,
   "Operations": [
     {
-      "Id": "add-saddles-for-moose",
-      "Op": "Merge",
+      "Id": "add-saddles-for-moose-initialize-attachments",
+      "Op": "Add",
       "Path": "/RandomAttachmentSets",
       "Value": {
         "Saddle": {

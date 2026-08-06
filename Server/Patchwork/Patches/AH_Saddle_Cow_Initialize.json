@@ -1,5 +1,5 @@
 {
-  "Id": "AH_Saddle_Cow",
+  "Id": "AH_Saddle_Cow_Initialize",
   "$Comment": "Patch any loaded Cow model definitions to include saddle. TargetExists is evaluated per target.",
   "Target": "Server/Models/Livestock/Cow.json",
   "When": {
@@ -8,11 +8,13 @@
         "TargetExists": true
       },
       {
-        "JsonPathExists": {
-          "Source": {
-            "Type": "Target"
-          },
-          "Path": "/RandomAttachmentSets"
+        "Not": {
+          "JsonPathExists": {
+            "Source": {
+              "Type": "Target"
+            },
+            "Path": "/RandomAttachmentSets"
+          }
         }
       }
     ]
@@ -21,8 +23,8 @@
   "Enabled": true,
   "Operations": [
     {
-      "Id": "add-saddles-for-cow",
-      "Op": "Merge",
+      "Id": "add-saddles-for-cow-initialize-attachments",
+      "Op": "Add",
       "Path": "/RandomAttachmentSets",
       "Value": {
         "Saddle": {

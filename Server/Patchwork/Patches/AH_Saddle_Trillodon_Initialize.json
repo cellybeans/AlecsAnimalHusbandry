@@ -1,5 +1,5 @@
 {
-  "Id": "AH_Saddle_Trillodon",
+  "Id": "AH_Saddle_Trillodon_Initialize",
   "$Comment": "Patch any loaded Trillodon model definitions to include saddle. TargetExists is evaluated per target.",
   "Target": "Server/Models/Wildlife/Trillodon.json",
   "When": {
@@ -8,11 +8,13 @@
         "TargetExists": true
       },
       {
-        "JsonPathExists": {
-          "Source": {
-            "Type": "Target"
-          },
-          "Path": "/RandomAttachmentSets"
+        "Not": {
+          "JsonPathExists": {
+            "Source": {
+              "Type": "Target"
+            },
+            "Path": "/RandomAttachmentSets"
+          }
         }
       }
     ]
@@ -21,8 +23,8 @@
   "Enabled": true,
   "Operations": [
     {
-      "Id": "add-saddles-for-trillodon",
-      "Op": "Merge",
+      "Id": "add-saddles-for-trillodon-initialize-attachments",
+      "Op": "Add",
       "Path": "/RandomAttachmentSets",
       "Value": {
         "Saddle": {

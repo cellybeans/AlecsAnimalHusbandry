@@ -24,6 +24,9 @@
 - Equipment prompts now display the player's bound interaction key. Empty-hand removal prioritizes petting, then removes saddles before blankets, while returning the exact equipped item.
 
 ### Fixed
+- Fixed saddles and blankets not being equippable because their Patchwork model
+  patches targeted the document root. Equipment patches now preserve attachment
+  sets supplied by compatible skin mods and initialize the set only when absent.
 - Fixed flying-companion and Frost Dragon roles failing Hytale validation after
   the shared Tamework aerial-component migration.
 - Prevented accidental owner hits from leaving tamed livestock and flying companions with hostile target memory that made them repeatedly flee from or attack their owner.

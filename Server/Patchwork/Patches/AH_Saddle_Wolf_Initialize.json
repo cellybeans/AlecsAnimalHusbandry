@@ -1,5 +1,5 @@
 {
-  "Id": "AH_Saddle_Wolf",
+  "Id": "AH_Saddle_Wolf_Initialize",
   "$Comment": "Patch any loaded Tamed_Wolf_Black and Tamed_Wolf_White model definitions to include saddle. TargetExists is evaluated per target.",
   "Targets": [
     "Server/Models/Beast/Tamed_Wolf_White.json",
@@ -13,11 +13,13 @@
         "TargetExists": true
       },
       {
-        "JsonPathExists": {
-          "Source": {
-            "Type": "Target"
-          },
-          "Path": "/RandomAttachmentSets"
+        "Not": {
+          "JsonPathExists": {
+            "Source": {
+              "Type": "Target"
+            },
+            "Path": "/RandomAttachmentSets"
+          }
         }
       }
     ]
@@ -26,8 +28,8 @@
   "Enabled": true,
   "Operations": [
     {
-      "Id": "add-saddles-for-wolf",
-      "Op": "Merge",
+      "Id": "add-saddles-for-wolf-initialize-attachments",
+      "Op": "Add",
       "Path": "/RandomAttachmentSets",
       "Value": {
         "Saddle": {

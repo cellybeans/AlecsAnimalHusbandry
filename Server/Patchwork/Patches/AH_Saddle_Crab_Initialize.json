@@ -1,5 +1,5 @@
 {
-  "Id": "AH_Saddle_Crab",
+  "Id": "AH_Saddle_Crab_Initialize",
   "$Comment": "Patch any loaded Crab model definitions to include saddle. TargetExists is evaluated per target.",
   "Target": "Server/Models/Swimming_Beast/Crab.json",
   "When": {
@@ -8,11 +8,13 @@
         "TargetExists": true
       },
       {
-        "JsonPathExists": {
-          "Source": {
-            "Type": "Target"
-          },
-          "Path": "/RandomAttachmentSets"
+        "Not": {
+          "JsonPathExists": {
+            "Source": {
+              "Type": "Target"
+            },
+            "Path": "/RandomAttachmentSets"
+          }
         }
       }
     ]
@@ -21,8 +23,8 @@
   "Enabled": true,
   "Operations": [
     {
-      "Id": "add-saddles-for-crab",
-      "Op": "Merge",
+      "Id": "add-saddles-for-crab-initialize-attachments",
+      "Op": "Add",
       "Path": "/RandomAttachmentSets",
       "Value": {
         "Saddle": {

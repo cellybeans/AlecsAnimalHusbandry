@@ -1,5 +1,5 @@
 {
-  "Id": "AH_Saddle_Emberwulf",
+  "Id": "AH_Saddle_Emberwulf_Initialize",
   "$Comment": "Patch any loaded Tamed_Emberwulf_Black and Tamed_Emberwulf_White model definitions to include saddle. TargetExists is evaluated per target.",
   "Target": "Server/Models/Beast/Emberwulf.json",
   "When": {
@@ -8,11 +8,13 @@
         "TargetExists": true
       },
       {
-        "JsonPathExists": {
-          "Source": {
-            "Type": "Target"
-          },
-          "Path": "/RandomAttachmentSets"
+        "Not": {
+          "JsonPathExists": {
+            "Source": {
+              "Type": "Target"
+            },
+            "Path": "/RandomAttachmentSets"
+          }
         }
       }
     ]
@@ -21,8 +23,8 @@
   "Enabled": true,
   "Operations": [
     {
-      "Id": "add-saddles-for-emberwulf",
-      "Op": "Merge",
+      "Id": "add-saddles-for-emberwulf-initialize-attachments",
+      "Op": "Add",
       "Path": "/RandomAttachmentSets",
       "Value": {
         "Saddle": {

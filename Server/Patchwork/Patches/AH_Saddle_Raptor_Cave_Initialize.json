@@ -1,5 +1,5 @@
 {
-  "Id": "AH_Saddle_Raptor_Cave",
+  "Id": "AH_Saddle_Raptor_Cave_Initialize",
   "$Comment": "Patch any loaded Tamed_Raptor_Cave model definitions to include saddle. TargetExists is evaluated per target.",
   "Target": "Server/Models/Beast/Raptor_Cave.json",
   "When": {
@@ -8,11 +8,13 @@
         "TargetExists": true
       },
       {
-        "JsonPathExists": {
-          "Source": {
-            "Type": "Target"
-          },
-          "Path": "/RandomAttachmentSets"
+        "Not": {
+          "JsonPathExists": {
+            "Source": {
+              "Type": "Target"
+            },
+            "Path": "/RandomAttachmentSets"
+          }
         }
       }
     ]
@@ -21,8 +23,8 @@
   "Enabled": true,
   "Operations": [
     {
-      "Id": "add-saddles-for-raptor-cave",
-      "Op": "Merge",
+      "Id": "add-saddles-for-raptor-cave-initialize-attachments",
+      "Op": "Add",
       "Path": "/RandomAttachmentSets",
       "Value": {
         "Saddle": {

@@ -1,5 +1,5 @@
 {
-  "Id": "AH_Saddle_Tetrabird",
+  "Id": "AH_Saddle_Tetrabird_Initialize",
   "$Comment": "Patch any loaded Tetrabird model definitions to include saddle. TargetExists is evaluated per target.",
   "Target": "Server/Models/Wildlife/Tetrabird.json",
   "When": {
@@ -8,11 +8,13 @@
         "TargetExists": true
       },
       {
-        "JsonPathExists": {
-          "Source": {
-            "Type": "Target"
-          },
-          "Path": "/RandomAttachmentSets"
+        "Not": {
+          "JsonPathExists": {
+            "Source": {
+              "Type": "Target"
+            },
+            "Path": "/RandomAttachmentSets"
+          }
         }
       }
     ]
@@ -21,8 +23,8 @@
   "Enabled": true,
   "Operations": [
     {
-      "Id": "add-saddles-for-tetrabird",
-      "Op": "Merge",
+      "Id": "add-saddles-for-tetrabird-initialize-attachments",
+      "Op": "Add",
       "Path": "/RandomAttachmentSets",
       "Value": {
         "Saddle": {

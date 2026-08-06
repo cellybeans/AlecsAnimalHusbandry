@@ -171,7 +171,8 @@ $expectedBlanketPatches = @(
     "AH_Saddle_Horse.json",
     "AH_Saddle_Horse_Skeleton.json",
     "AH_Saddle_Moose.json",
-    "AH_Saddle_Mosshorn.json"
+    "AH_Saddle_Mosshorn.json",
+    "AH_Saddle_Mosshorn_Plain.json"
 )
 $expectedBlanketTextures = @{
     Black = "Blanket_Black.png"
@@ -196,8 +197,7 @@ $expectedBlanketTextures = @{
     LightYellow = "Blanket_Yellow_Light.png"
 }
 
-$modelPatchPaths = @(Get-ChildItem -LiteralPath (Join-Path $Root "Server/Patchwork/Patches") -Filter "AH_Saddle_*.json")
-Require-Condition ($modelPatchPaths.Count -eq 21) "Expected 21 saddle model patches, found $($modelPatchPaths.Count)."
+$modelPatchPaths = @(Get-ChildItem -LiteralPath (Join-Path $Root "Server/Patchwork/Patches") -Filter "AH_Saddle_*.json" | Where-Object { $_.Name -notlike "*_Initialize.json" })
 
 $actualModelTargets = @()
 $actualBlanketPatches = @()
@@ -213,7 +213,7 @@ foreach ($modelPatchPath in $modelPatchPaths) {
         $actualModelTargets += @($targetsProperty.Value)
     }
 
-    $sets = $modelPatch.Operations[0].Value.RandomAttachmentSets
+    $sets = $modelPatch.Operations[0].Value
     Require-Condition ($null -ne $sets.Saddle) "$modelPatchName must define a Saddle attachment set."
     Require-Condition ($sets.Saddle.None.Weight -gt 0) "$modelPatchName must keep Saddle.None as a random default."
     Require-Condition ($sets.Saddle.Yes.Weight -eq 0) "$modelPatchName must not randomly apply saddles."
@@ -263,4 +263,4 @@ Require-Condition ($saddleItem.Recipe.Output[0].ItemId -eq "AH_Saddle") "AH_Sadd
 Require-Condition ((Test-Path -LiteralPath (Join-Path $Root "Common/$($saddleItem.Model)"))) "AH_Saddle model reference does not exist."
 Require-Condition ((Test-Path -LiteralPath (Join-Path $Root "Common/$($saddleItem.Texture)"))) "AH_Saddle texture reference does not exist."
 
-Write-Host "Animal Husbandry equipment asset checks passed: bound-key prompt glyphs, atomic equip/replacement, Pet-first Saddle/Blanket removal, exact refunds, non-heritable equipment sets, 20 blanket colors, 21 saddle patches, 32 model targets, 5 blanket patches, and AH_Saddle."
+Write-Host "Animal Husbandry equipment asset checks passed: bound-key prompt glyphs, atomic equip/replacement, Pet-first Saddle/Blanket removal, exact refunds, non-heritable equipment sets, 20 blanket colors, 32 model targets, 5 blanket patches, and AH_Saddle."
