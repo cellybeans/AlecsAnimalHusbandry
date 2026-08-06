@@ -1091,7 +1091,22 @@
     {
       "$Comment": "Keep the Frost Dragon airborne-mode controller transition global across every order.",
       "Continue": true,
-      "Reference": "Component_AH_Instruction_Dragon_Frost_Airborne_Mode_Transition"
+      "Reference": "Component_Tamework_Instruction_Airborne_Mode_Transition",
+      "Modify": {
+        "ToggleAirborneModeHookId": "AnimalHusbandry.Command.ToggleFrostDragonAirborneMode",
+        "AirborneModeFlagName": "AirborneMode",
+        "GroundedActivityFlagName": "AH_Dragon_Frost_UnusedGroundedActivity",
+        "LandingRayName": "LandingRay",
+        "LandingBlocks": "StoneAndSoil",
+        "TakeOffJumpSpeed": 4,
+        "LandingSearchRange": 64,
+        "LandingSearchAngle": 90,
+        "LandingSlowDownDistance": 5,
+        "LandingStopDistance": 0.5,
+        "LandingHeightDifference": [-3, 2],
+        "LandingGoalLenience": 3,
+        "LandingDesiredAltitudeWeight": 0
+      }
     },
     {
       "$Comment": "",

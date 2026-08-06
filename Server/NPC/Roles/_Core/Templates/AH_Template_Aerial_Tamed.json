@@ -961,7 +961,22 @@
     {
       "$Comment": "Keep the tamed aerial mode transition global across every order.",
       "Continue": true,
-      "Reference": "AH_Component_Tamework_Instruction_Aerial_Mode_Transition"
+      "Reference": "Component_Tamework_Instruction_Airborne_Mode_Transition",
+      "Modify": {
+        "ToggleAirborneModeHookId": "AnimalHusbandry.Command.ToggleAirborneMode",
+        "AirborneModeFlagName": "AirborneMode",
+        "GroundedActivityFlagName": "AerialGroundedActivity",
+        "LandingRayName": "AH_Aerial_Mode_LandingRay",
+        "LandingBlocks": "StoneAndSoil",
+        "TakeOffJumpSpeed": 4,
+        "LandingSearchRange": 64,
+        "LandingSearchAngle": 90,
+        "LandingSlowDownDistance": 5,
+        "LandingStopDistance": 0.5,
+        "LandingHeightDifference": [-3, 2],
+        "LandingGoalLenience": 3,
+        "LandingDesiredAltitudeWeight": 0
+      }
     },
     {
       "$Comment": "Bridge command-item move hooks into NPC movement.",
@@ -2642,7 +2657,7 @@
           },
           "Instructions": [
             {
-              "Reference": "AH_Component_Tamework_Instruction_Hold_Flying"
+              "Reference": "Component_Tamework_Instruction_Hold_Flying"
             }
           ]
         },

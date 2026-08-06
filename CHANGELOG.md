@@ -5,6 +5,8 @@
 - Replaced Animal Husbandry's copied large-ground and flying follow bases with
   the reusable components included in Alec's Tamework 3.0 while preserving all
   aerial-companion and Frost Dragon tuning.
+- Replaced copied flying Hold, favorite-item pursuit, and airborne-mode
+  transition graphs with Tamework's reusable aerial components.
 
 ## 2.0.0 - Frost Dragon, Flying Companions, and Animal Equipment - 2026-08-04
 
