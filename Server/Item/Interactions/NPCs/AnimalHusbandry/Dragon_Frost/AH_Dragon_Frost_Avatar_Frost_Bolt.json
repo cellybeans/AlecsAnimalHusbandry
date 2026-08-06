@@ -29,7 +29,7 @@
       "ProjectileId": "AH_Dragon_Frost_Frost_Bolt",
       "LaunchPositionOffset": {
         "X": 0,
-        "Y": 1.5,
+        "Y": 0.5,
         "Z": -3.0
       },
       "TrajectoryMode": "Direct",

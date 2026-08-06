@@ -94,7 +94,7 @@ if ($failures.Count -eq 0) {
         if ($null -ne $launchStep[0].TargetSlot) {
             $failures.Add("AvatarFlight frost bolt must not use TargetSlot")
         }
-        if ($null -eq $launchStep[0].LaunchPositionOffset -or $launchStep[0].LaunchPositionOffset.X -ne 0 -or $launchStep[0].LaunchPositionOffset.Y -ne 1.5 -or $launchStep[0].LaunchPositionOffset.Z -ne -3.0) {
+        if ($null -eq $launchStep[0].LaunchPositionOffset -or $launchStep[0].LaunchPositionOffset.X -ne 0 -or $launchStep[0].LaunchPositionOffset.Y -ne 0.5 -or $launchStep[0].LaunchPositionOffset.Z -ne -3.0) {
             $failures.Add("AvatarFlight frost bolt must launch from the Frost Dragon mouth offset")
         }
     }
@@ -102,6 +102,8 @@ if ($failures.Count -eq 0) {
     $nativeLaunchStep = @($nativeInteraction.Interactions | Where-Object { $_.Type -eq "TameworkLaunchProjectile" })
     if ($nativeLaunchStep.Count -ne 1 -or $nativeLaunchStep[0].TargetSlot -ne "LockedTarget") {
         $failures.Add("native NPC frost bolt must retain LockedTarget targeting")
+    } elseif ($null -eq $nativeLaunchStep[0].LaunchPositionOffset -or $nativeLaunchStep[0].LaunchPositionOffset.Y -ne 1.5) {
+        $failures.Add("native NPC frost bolt must retain its existing vertical launch offset")
     }
 
     $playerComparable = $interaction | ConvertTo-Json -Depth 100 | ConvertFrom-Json
@@ -111,6 +113,7 @@ if ($failures.Count -eq 0) {
     $nativeComparableLaunchStep = @($nativeComparable.Interactions | Where-Object { $_.Type -eq "TameworkLaunchProjectile" })
     $nativeComparableLaunchStep[0].PSObject.Properties.Remove("TargetSlot")
     $nativeComparableLaunchStep[0] | Add-Member -NotePropertyName "LookTargetDistance" -NotePropertyValue 48.0
+    $nativeComparableLaunchStep[0].LaunchPositionOffset.Y = 0.5
     Test-JsonEquivalent $nativeComparable $playerComparable "frost-bolt sequence"
 }
 
