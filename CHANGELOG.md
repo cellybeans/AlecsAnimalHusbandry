@@ -3,6 +3,8 @@
 ## 2.0.1 - Saddle and Blanket Compatibility Hotfix - Unreleased
 
 ### Fixed
+- Required both parents in an Animal Husbandry breeding pair to share the same
+  owner, preventing offspring ownership from depending on parent scan order.
 - Fixed saddles and blankets not being equippable because their Patchwork model
   patches targeted the document root. Equipment patches now preserve attachment
   sets supplied by compatible skin mods and initialize the set only when absent.
