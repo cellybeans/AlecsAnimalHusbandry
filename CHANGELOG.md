@@ -1,6 +1,13 @@
 # Changelog
 
-## 2.0.0 - Frost Dragon, Flying Companions, and Animal Equipment - Unreleased
+## 2.0.1 - Saddle and Blanket Compatibility Hotfix - Unreleased
+
+### Fixed
+- Fixed saddles and blankets not being equippable because their Patchwork model
+  patches targeted the document root. Equipment patches now preserve attachment
+  sets supplied by compatible skin mods and initialize the set only when absent.
+
+## 2.0.0 - Frost Dragon, Flying Companions, and Animal Equipment - 2026-08-06
 
 ### Added
 - Added the Frost Dragon as a fully supported Beast companion. Frost Dragons prefer Frost Essence, can fight on the ground or in the air with bites, Frost Bolts, and Freezing Breath, and can be ridden with a custom AvatarFlight model, combat abilities, animations, audio, launch effects, and icy flight trails.
@@ -24,9 +31,6 @@
 - Equipment prompts now display the player's bound interaction key. Empty-hand removal prioritizes petting, then removes saddles before blankets, while returning the exact equipped item.
 
 ### Fixed
-- Fixed saddles and blankets not being equippable because their Patchwork model
-  patches targeted the document root. Equipment patches now preserve attachment
-  sets supplied by compatible skin mods and initialize the set only when absent.
 - Fixed flying-companion and Frost Dragon roles failing Hytale validation after
   the shared Tamework aerial-component migration.
 - Prevented accidental owner hits from leaving tamed livestock and flying companions with hostile target memory that made them repeatedly flee from or attack their owner.
