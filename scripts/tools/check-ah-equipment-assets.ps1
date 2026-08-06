@@ -124,12 +124,12 @@ foreach ($expectedPrompt in $expectedEnglishPrompts) {
 }
 
 $breedingPaths = @(Get-ChildItem -LiteralPath (Join-Path $Root "Server/Tamework/Breeding") -Filter "AHBreed*.json")
-$expectedExcludedSets = @("Saddle", "SaddleBlanket")
+$expectedExcludedSets = @("AH_Saddle", "AH_SaddleBlanket")
 Require-Condition ($breedingPaths.Count -eq 3) "Expected three Animal Husbandry breeding configs."
 foreach ($breedingPath in $breedingPaths) {
     $breedingConfig = Get-Content -Raw -LiteralPath $breedingPath.FullName | ConvertFrom-Json
     $excludedSets = @($breedingConfig.Inheritance.AttachmentInheritance.ExcludedSets)
-    Require-Condition (@(Compare-Object ($excludedSets | Sort-Object) ($expectedExcludedSets | Sort-Object)).Count -eq 0) "Breeding config must exclude Saddle and SaddleBlanket inheritance: $($breedingPath.FullName)"
+    Require-Condition (@(Compare-Object ($excludedSets | Sort-Object) ($expectedExcludedSets | Sort-Object)).Count -eq 0) "Breeding config must exclude AH_Saddle and AH_SaddleBlanket inheritance: $($breedingPath.FullName)"
 }
 
 $expectedModelTargets = @(
@@ -214,25 +214,25 @@ foreach ($modelPatchPath in $modelPatchPaths) {
     }
 
     $sets = $modelPatch.Operations[0].Value
-    Require-Condition ($null -ne $sets.Saddle) "$modelPatchName must define a Saddle attachment set."
-    Require-Condition ($sets.Saddle.None.Weight -gt 0) "$modelPatchName must keep Saddle.None as a random default."
-    Require-Condition ($sets.Saddle.Yes.Weight -eq 0) "$modelPatchName must not randomly apply saddles."
+    Require-Condition ($null -ne $sets.AH_Saddle) "$modelPatchName must define an AH_Saddle attachment set."
+    Require-Condition ($sets.AH_Saddle.None.Weight -gt 0) "$modelPatchName must keep AH_Saddle.None as a random default."
+    Require-Condition ($sets.AH_Saddle.Yes.Weight -eq 0) "$modelPatchName must not randomly apply saddles."
     foreach ($saddleValue in @("None", "Yes")) {
-        $saddle = $sets.Saddle.$saddleValue
+        $saddle = $sets.AH_Saddle.$saddleValue
         Require-Condition ((Test-Path -LiteralPath (Join-Path $Root "Common/$($saddle.Model)"))) "$modelPatchName saddle '$saddleValue' model does not exist."
         Require-Condition ((Test-Path -LiteralPath (Join-Path $Root "Common/$($saddle.Texture)"))) "$modelPatchName saddle '$saddleValue' texture does not exist."
     }
 
-    $blanketSetProperty = $sets.PSObject.Properties["SaddleBlanket"]
+    $blanketSetProperty = $sets.PSObject.Properties["AH_SaddleBlanket"]
     if ($null -eq $blanketSetProperty) {
-        Require-Condition (-not ($expectedBlanketPatches -contains $modelPatchName)) "$modelPatchName must define its supplied SaddleBlanket model."
+        Require-Condition (-not ($expectedBlanketPatches -contains $modelPatchName)) "$modelPatchName must define its supplied AH_SaddleBlanket model."
         continue
     }
 
     $blanketSet = $blanketSetProperty.Value
     $actualBlanketPatches += $modelPatchName
-    Require-Condition ($expectedBlanketPatches -contains $modelPatchName) "$modelPatchName unexpectedly defines SaddleBlanket support."
-    Require-Condition ($blanketSet.None.Weight -gt 0) "$modelPatchName must keep SaddleBlanket.None as a random default."
+    Require-Condition ($expectedBlanketPatches -contains $modelPatchName) "$modelPatchName unexpectedly defines AH_SaddleBlanket support."
+    Require-Condition ($blanketSet.None.Weight -gt 0) "$modelPatchName must keep AH_SaddleBlanket.None as a random default."
     $availableBlankets = @($blanketSet.PSObject.Properties.Name)
     foreach ($mappedValue in $mappedValues) {
         Require-Condition ($availableBlankets -contains $mappedValue) "$modelPatchName is missing blanket value '$mappedValue'."
