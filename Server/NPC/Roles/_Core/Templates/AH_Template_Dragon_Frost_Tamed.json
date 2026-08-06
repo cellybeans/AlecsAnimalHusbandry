@@ -1390,7 +1390,7 @@
               },
               "Instructions": [
                 {
-              "Reference": "AH_Component_Tamework_Instruction_Follow_Large",
+              "Reference": "Component_Tamework_Instruction_Follow_Large",
               "Modify": {
                 "MasterTargetSlot": "MasterTarget",
                 "FollowTeleportThresholdRange": 60,
@@ -1399,7 +1399,8 @@
                 "FollowMaintainDistanceRange": [
                   16,
                   24
-                ]
+                ],
+                "FollowRelativeSpeed": 1
               }
                 }
               ]
@@ -1534,7 +1535,7 @@
                 "ChaseRelativeSpeed": {
                   "Compute": "ChaseRelativeSpeed"
                 },
-                "DefendFollowMacroElement": "AH_Component_Tamework_Instruction_Follow_Large",
+                "DefendFollowMacroElement": "Component_Tamework_Instruction_Follow_Large",
                 "AdditionalCombatBehaviorMacroElement": {
                   "Compute": "AdditionalCombatBehaviorMacroElement"
                 }
@@ -1649,7 +1650,7 @@
                     "CombatRelativeTurnSpeed": { "Compute": "CombatRelativeTurnSpeed" },
                     "ChaseRelativeSpeed": { "Compute": "ChaseRelativeSpeed" },
                     "AdditionalCombatBehaviorMacroElement": { "Compute": "AdditionalCombatBehaviorMacroElement" },
-                    "DefendFollowMacroElement": "AH_Component_Tamework_Instruction_Follow_Large"
+                    "DefendFollowMacroElement": "Component_Tamework_Instruction_Follow_Large"
                   }
                 }
               ]

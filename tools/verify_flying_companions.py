@@ -11,7 +11,9 @@ BASELINE_COMMIT = "0fa7f94"
 HOOK_ID = "AnimalHusbandry.Command.ToggleAirborneMode"
 WILD_COMPONENT = ROOT / "Server/NPC/Roles/_Core/Components/AH_Component_Tamework_Instruction_Aerial_Follow_Item.json"
 MODE_COMPONENT = ROOT / "Server/NPC/Roles/_Core/Components/AH_Component_Tamework_Instruction_Aerial_Mode_Transition.json"
-FLYING_FOLLOW_COMPONENT = ROOT / "Server/NPC/Roles/_Core/Components/AH_Component_Tamework_Instruction_Follow_Flying.json"
+LOCAL_FLYING_FOLLOW_COMPONENT = ROOT / "Server/NPC/Roles/_Core/Components/AH_Component_Tamework_Instruction_Follow_Flying.json"
+LOCAL_LARGE_FOLLOW_COMPONENT = ROOT / "Server/NPC/Roles/_Core/Components/AH_Component_Tamework_Instruction_Follow_Large.json"
+FROST_FLYING_FOLLOW_COMPONENT = ROOT / "Server/NPC/Roles/_Core/Components/AH_Component_Tamework_Instruction_Follow_Frost_Dragon_Flying.json"
 WILD_TEMPLATE = ROOT / "Server/NPC/Roles/_Core/Templates/AH_Template_Aerial_Neutral.json"
 TAMED_TEMPLATE = ROOT / "Server/NPC/Roles/_Core/Templates/AH_Template_Aerial_Tamed.json"
 FROST_DRAGON_TEMPLATE = ROOT / "Server/NPC/Roles/_Core/Templates/AH_Template_Dragon_Frost_Tamed.json"
@@ -998,19 +1000,28 @@ def check_tamed_shared() -> None:
     )
     require(
         has_state_mode_reference(template, "Follow", {"AirborneMode": False}, "Walk", "Component_Tamework_Instruction_Follow_Advanced")
-        and has_state_mode_reference(template, "Follow", {"AirborneMode": None}, "Fly", "AH_Component_Tamework_Instruction_Follow_Flying"),
+        and has_state_mode_reference(template, "Follow", {"AirborneMode": None}, "Fly", "Component_Tamework_Instruction_Follow_Flying"),
         "Follow must provide Walk and Fly mode references",
     )
     require(
         aerial_ground_follow_matches_critters(template),
         "grounded aerial Follow must use the standard critter follow distances",
     )
-    flying_follow_parameters = set(load(FLYING_FOLLOW_COMPONENT).get("Parameters", {}))
-    flying_follow_references = reference_nodes(template, "AH_Component_Tamework_Instruction_Follow_Flying")
+    flying_follow_references = reference_nodes(template, "Component_Tamework_Instruction_Follow_Flying")
     require(len(flying_follow_references) == 1, "tamed template must consume flying follow exactly once")
     require(
-        set(flying_follow_references[0].get("Modify", {})) <= flying_follow_parameters,
-        "flying follow Modify contains undeclared component parameters",
+        flying_follow_references[0].get("Modify") == {
+            "MasterTargetSlot": "MasterTarget",
+            "FollowDesiredAltitudeRange": [6, 10],
+            "FollowTeleportThresholdRange": 32,
+            "FollowOrbitRadiusRange": [16, 24],
+            "FollowOrbitRetargetTimeRange": [3, 6],
+            "FollowOrbitStopDistance": 3,
+            "FollowOrbitRelativeSpeed": 0.65,
+            "FollowHoverRadius": 1.75,
+            "FollowHoverRelativeSpeed": 0.12,
+        },
+        "shared flying follow must preserve all Animal Husbandry tuning explicitly",
     )
     favorite_particle_actions = [
         node
@@ -1097,7 +1108,7 @@ def check_tamed_shared() -> None:
         "Component_Tamework_Instruction_Needs_Seek_Resource",
         "Component_Tamework_Instruction_Needs_Seek_Resource_Sensor",
         "Component_Tamework_Instruction_SeekFood_PlayerFollow",
-        "AH_Component_Tamework_Instruction_Follow_Flying",
+        "Component_Tamework_Instruction_Follow_Flying",
         "AH_Component_Tamework_Instruction_Hold_Flying",
     ):
         require(contains_reference(template, reference), f"tamed template lost existing reference {reference}")
@@ -1209,6 +1220,45 @@ def check_species(names: tuple[str, ...]) -> None:
 
 
 def check_configs() -> None:
+    require(not LOCAL_FLYING_FOLLOW_COMPONENT.exists(), "local flying follow base must move to Tamework")
+    require(not LOCAL_LARGE_FOLLOW_COMPONENT.exists(), "local large follow base must move to Tamework")
+    require(
+        load(ROOT / "manifest.json").get("Dependencies", {}).get("Alechilles:Alec's Tamework!")
+        == ">=3.0 <4.0",
+        "Animal Husbandry must require the Tamework release that publishes shared follow components",
+    )
+    frost_template = load(FROST_DRAGON_TEMPLATE)
+    frost_ground = reference_nodes(frost_template, "Component_Tamework_Instruction_Follow_Large")
+    require(len(frost_ground) == 1, "Frost Dragon must consume shared large follow exactly once")
+    require(
+        frost_ground[0].get("Modify") == {
+            "MasterTargetSlot": "MasterTarget",
+            "FollowTeleportThresholdRange": 60,
+            "FollowSeekSlowDownDistance": 32,
+            "FollowSeekStopDistance": 16,
+            "FollowMaintainDistanceRange": [16, 24],
+            "FollowRelativeSpeed": 1,
+        },
+        "Frost Dragon ground follow tuning must remain explicit",
+    )
+    frost_flying = reference_nodes(
+        load(FROST_FLYING_FOLLOW_COMPONENT), "Component_Tamework_Instruction_Follow_Flying"
+    )
+    require(len(frost_flying) == 1, "Frost Dragon wrapper must consume shared flying follow exactly once")
+    require(
+        frost_flying[0].get("Modify") == {
+            "MasterTargetSlot": "MasterTarget",
+            "FollowDesiredAltitudeRange": [4, 8],
+            "FollowTeleportThresholdRange": 60,
+            "FollowOrbitRadiusRange": [16, 24],
+            "FollowOrbitRetargetTimeRange": [3, 6],
+            "FollowOrbitStopDistance": 3,
+            "FollowOrbitRelativeSpeed": 0.65,
+            "FollowHoverRadius": 1.75,
+            "FollowHoverRelativeSpeed": 0.12,
+        },
+        "Frost Dragon flying follow tuning must remain unchanged",
+    )
     aerial = load(ROOT / "Server/Tamework/Companion/AHCompAerial.json")
     require(aerial.get("Parent") == "TwCompanionConfig_Default", "wrong aerial companion parent")
     require(aerial.get("Enabled") is True, "aerial companion must be enabled")
