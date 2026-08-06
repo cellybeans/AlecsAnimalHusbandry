@@ -9,8 +9,10 @@ import subprocess
 ROOT = Path(__file__).resolve().parents[1]
 BASELINE_COMMIT = "0fa7f94"
 HOOK_ID = "AnimalHusbandry.Command.ToggleAirborneMode"
-WILD_COMPONENT = ROOT / "Server/NPC/Roles/_Core/Components/AH_Component_Tamework_Instruction_Aerial_Follow_Item.json"
-MODE_COMPONENT = ROOT / "Server/NPC/Roles/_Core/Components/AH_Component_Tamework_Instruction_Aerial_Mode_Transition.json"
+LOCAL_WILD_COMPONENT = ROOT / "Server/NPC/Roles/_Core/Components/AH_Component_Tamework_Instruction_Aerial_Follow_Item.json"
+LOCAL_MODE_COMPONENT = ROOT / "Server/NPC/Roles/_Core/Components/AH_Component_Tamework_Instruction_Aerial_Mode_Transition.json"
+LOCAL_HOLD_COMPONENT = ROOT / "Server/NPC/Roles/_Core/Components/AH_Component_Tamework_Instruction_Hold_Flying.json"
+LOCAL_FROST_MODE_COMPONENT = ROOT / "Server/NPC/Roles/Creature/Mythic/Components/Component_AH_Instruction_Dragon_Frost_Airborne_Mode_Transition.json"
 LOCAL_FLYING_FOLLOW_COMPONENT = ROOT / "Server/NPC/Roles/_Core/Components/AH_Component_Tamework_Instruction_Follow_Flying.json"
 LOCAL_LARGE_FOLLOW_COMPONENT = ROOT / "Server/NPC/Roles/_Core/Components/AH_Component_Tamework_Instruction_Follow_Large.json"
 FROST_FLYING_FOLLOW_COMPONENT = ROOT / "Server/NPC/Roles/_Core/Components/AH_Component_Tamework_Instruction_Follow_Frost_Dragon_Flying.json"
@@ -662,134 +664,11 @@ def has_state_controller_instruction(template: dict, state: str, controller: str
 
 
 def check_wild_shared() -> None:
-    require(WILD_COMPONENT.exists(), f"missing {WILD_COMPONENT.relative_to(ROOT)}")
-    component = load(WILD_COMPONENT)
-    require(component.get("Interface") == "AnimalHusbandry.Instruction.AerialFollowItem", "wrong wild interface")
-    require(component.get("DefaultState") == ".FollowItem", "wild component must declare local default state .FollowItem")
-    require(component.get("ResetOnStateChange") is True, "wild component local state must reset with its parent state")
     require(
-        component.get("Parameters", {}).get("_ImportStates") == ["Idle"],
-        "wild component must import only the parent Idle state",
-    )
-    state_nodes = [node for node in object_nodes(component.get("Content", {})) if node.get("Type") == "State"]
-    require(state_nodes, "wild component has no local state nodes")
-    require(
-        all(isinstance(node.get("State"), str) and node["State"].startswith(".") for node in state_nodes),
-        "wild component State sensors/setters must use dotted local states",
-    )
-    parent_state_nodes = [
-        node for node in object_nodes(component.get("Content", {})) if node.get("Type") == "ParentState"
-    ]
-    require(
-        parent_state_nodes and all(node.get("State") == "Idle" for node in parent_state_nodes),
-        "wild component must return to the imported parent Idle state",
-    )
-    require(
-        not any(
-            action.get("Type") == "TakeOff"
-            for instruction in descendants(component.get("Content", {}).get("Instructions", []))
-            for action in instruction.get("Actions", [])
-        ),
-        "TakeOff is a BodyMotion and must not appear in Actions",
-    )
-    instructions = component.get("Content", {}).get("Instructions", [])
-    require(
-        has_first_sensor_branch(
-            instructions,
-            lambda instruction: instruction.get("BodyMotion", {}).get("Type") == "Seek",
-            "Target",
-            "TargetSlot",
-            "FollowTargetSlot",
-            favorite_target=True,
-        ),
-        "wild component flying Seek must begin with favorite-filtered LockedTarget",
-    )
-    require(
-        any(
-            action.get("Type") == "IgnoreForAvoidance"
-            and action.get("TargetSlot", {}).get("Compute") == "FollowTargetSlot"
-            for instruction in instructions
-            if has_favorite_item_filter(instruction.get("Sensor", {}))
-            for action in instruction.get("Actions", [])
-        ),
-        "wild attraction must exempt its favorite-item target from global avoidance",
-    )
-    require(
-        has_first_sensor_branch(
-            instructions,
-            lambda instruction: any(
-                action.get("Type") == "StorePosition"
-                for action in instruction.get("Actions", [])
-            ),
-            "Target",
-            "TargetSlot",
-            "FollowTargetSlot",
-            favorite_target=True,
-        ),
-        "wild component StorePosition handoff must begin with favorite-filtered LockedTarget",
-    )
-    require(
-        has_first_sensor_branch(
-            instructions,
-            lambda instruction: instruction.get("BodyMotion", {}).get("Type") == "Land",
-            "ReadPosition",
-            "Slot",
-            "LandingPositionSlot",
-        ),
-        "wild component Land must begin with ReadPosition LandingPositionSlot",
-    )
-    require(
-        has_first_sensor_branch(
-            instructions,
-            lambda instruction: instruction.get("BodyMotion", {}).get("Type") == "MaintainDistance",
-            "Target",
-            "TargetSlot",
-            "FollowTargetSlot",
-            favorite_target=True,
-        ),
-        "wild component MaintainDistance must begin with favorite-filtered LockedTarget",
-    )
-    require(
-        any(
-            action.get("Type") == "State" and action.get("State") == ".FollowItemGrounded"
-            for instruction in instructions
-            for action in instruction.get("Actions", [])
-        ),
-        "wild component has no State action targeting FollowItemGrounded",
-    )
-    require(
-        has_target_loss_branch(instructions, ".FollowItem", "Walk", ["ReleaseTarget", "ParentState"]),
-        "wild component has no FollowItem + Walk target-loss ReleaseTarget/Idle branch",
-    )
-    require(
-        has_target_loss_branch(instructions, ".FollowItem", "Fly", ["ReleaseTarget", "ParentState"]),
-        "wild component has no FollowItem + Fly target-loss ReleaseTarget/Idle branch",
-    )
-    require(
-        has_target_loss_branch(
-            instructions,
-            ".FollowItemLanding",
-            "Walk",
-            ["ReleaseTarget", "ParentState"],
-            take_off=True,
-        ),
-        "wild component has no FollowItemLanding + Walk target-loss release/takeoff/Idle branch",
-    )
-    require(
-        has_target_loss_branch(
-            instructions,
-            ".FollowItemGrounded",
-            "Walk",
-            ["ReleaseTarget", "ParentState"],
-            take_off=True,
-        ),
-        "wild component has no FollowItemGrounded + Walk target-loss release/takeoff/Idle branch",
+        not LOCAL_WILD_COMPONENT.exists(),
+        "local flying favorite-item component must move to Tamework",
     )
     template = load(WILD_TEMPLATE)
-    require(
-        component.get("Parameters", {}).get("FollowTargetSlot", {}).get("Value") == "LockedTarget",
-        "wild attraction must use the Alerted state's LockedTarget slot",
-    )
     require(
         has_slow_ground_controller(template),
         "wild Walk controller must use a dedicated GroundSpeed no faster than 3",
@@ -819,139 +698,33 @@ def check_wild_shared() -> None:
         favorite_item_uses_full_alerted_range(template),
         "wild favorite-item acquisition must use the full AlertedRange",
     )
-    reference = "AH_Component_Tamework_Instruction_Aerial_Follow_Item"
+    reference = "Component_Tamework_Instruction_SeekFood_PlayerFollow_Flying"
     matches = reference_nodes(template, reference)
     ancestors = reference_state_ancestors(template, reference)
     require(len(matches) == 1, "wild template must consume attraction component exactly once")
     require(ancestors == [("FollowItem",)], "wild attraction component reference must be scoped to FollowItem")
-    exported_states = matches[0].get("Modify", {}).get("_ExportStates", [])
     require(
-        matches[0].get("Modify", {}).get("FollowTargetSlot") == "LockedTarget",
-        "wild template must pass LockedTarget to the attraction component",
-    )
-    require(
-        exported_states == ["Idle"],
-        "wild attraction component must export only the imported parent Idle state",
+        matches[0].get("Modify") == {
+            "AttractiveItemSet": {"Compute": "AttractiveItemSet"},
+            "FollowTargetSlot": "LockedTarget",
+            "LandingPositionSlot": "AH_Aerial_Favorite_Landing",
+            "FlightSeekStopDistance": 5.0,
+            "GroundApproachDistanceRange": [1.5, 2.0],
+            "ReturnParentState": "Idle",
+            "_ExportStates": ["Idle"],
+        },
+        "wild attraction component must preserve all aerial favorite-item tuning",
     )
 
 
 def check_tamed_shared() -> None:
-    require(MODE_COMPONENT.exists(), f"missing {MODE_COMPONENT.relative_to(ROOT)}")
-    component = load(MODE_COMPONENT)
-    require(component.get("Type") == "Component", "mode component must be a Component")
-    require(component.get("Class") == "Instruction", "mode component must be an Instruction")
-    require(component.get("Interface") == "AnimalHusbandry.Instruction.AerialModeTransition", "wrong mode interface")
-    content = component.get("Content", {})
-    require(content.get("Continue") is True, "mode component content must continue")
-    require(content.get("Sensor", {}).get("Type") == "Any", "mode component content must use Any")
-    mode_instructions = content.get("Instructions", [])
-    require(mode_instructions, "mode component has no instructions")
-    hook = next(
-        (
-            instruction
-            for instruction in mode_instructions
-            if instruction.get("Sensor", {}).get("Type") == "TameworkHook"
-        ),
-        {},
+    require(
+        not LOCAL_MODE_COMPONENT.exists(),
+        "local airborne-mode transition must move to Tamework",
     )
     require(
-        hook.get("Sensor", {}).get("Type") == "TameworkHook"
-        and hook.get("Sensor", {}).get("HookId") == HOOK_ID
-        and hook.get("Sensor", {}).get("Consume") is True,
-        "mode component must consume ToggleAirborneMode",
-    )
-    require(
-        any(
-            instruction.get("Sensor", {}).get("Type") == "Flag"
-            and instruction.get("Sensor", {}).get("Name") == "AirborneMode"
-            and "Set" not in instruction.get("Sensor", {})
-            and any(
-                action.get("Type") == "SetFlag"
-                and action.get("Name") == "AirborneMode"
-                and action.get("SetTo") is False
-                for action in instruction.get("Actions", [])
-            )
-            for instruction in instruction_children(hook)
-        ),
-        "mode component missing AirborneMode true-to-false branch",
-    )
-    require(
-        any(
-            instruction.get("Sensor", {}).get("Type") == "Flag"
-            and instruction.get("Sensor", {}).get("Name") == "AirborneMode"
-            and instruction.get("Sensor", {}).get("Set") is False
-            and any(
-                action.get("Type") == "SetFlag"
-                and action.get("Name") == "AirborneMode"
-                and action.get("SetTo") is True
-                for action in instruction.get("Actions", [])
-            )
-            for instruction in instruction_children(hook)
-        ),
-        "mode component missing AirborneMode false-to-true branch",
-    )
-    require(
-        has_body_motion_branch(
-            mode_instructions,
-            {"AirborneMode": None, "AerialGroundedActivity": False},
-            "Walk",
-            "TakeOff",
-            JumpSpeed=4,
-        )
-        and has_action(mode_instructions, "PlayAnimation", Slot="Status"),
-        "mode component missing gated Walk TakeOff",
-    )
-    landing_branch = next(
-        (
-            instruction
-            for instruction in descendants(mode_instructions)
-            if instruction.get("Sensor", {}).get("Type") == "And"
-            and has_flag(instruction.get("Sensor", {}).get("Sensors", []), "AirborneMode", False)
-            and has_controller(instruction.get("Sensor", {}).get("Sensors", []), "Fly")
-        ),
-        None,
-    )
-    require(landing_branch is not None, "mode component missing Fly landing conjunction")
-    require(
-        any(
-            child.get("Sensor", {}).get("Type") == "AdjustPosition"
-            and child.get("Sensor", {}).get("Offset") == [0, 1, 0]
-            and child.get("Sensor", {}).get("Sensor", {}).get("Type") == "SearchRay"
-            and child.get("Sensor", {}).get("Sensor", {}).get("Name") == "AH_Aerial_Mode_LandingRay"
-            and child.get("Sensor", {}).get("Sensor", {}).get("Range") == 64
-            and child.get("Sensor", {}).get("Sensor", {}).get("Angle") == 90
-            and child.get("Sensor", {}).get("Sensor", {}).get("Blocks") == "StoneAndSoil"
-            and child.get("BodyMotion", {}).get("Type") == "Land"
-            and child.get("BodyMotion", {}).get("SlowDownDistance") == 5
-            and child.get("BodyMotion", {}).get("StopDistance") == 0.5
-            and child.get("BodyMotion", {}).get("HeightDifference") == [-3, 2]
-            and child.get("BodyMotion", {}).get("GoalLenience") == 3
-            and child.get("BodyMotion", {}).get("DesiredAltitudeWeight") == 0
-            for child in instruction_children(landing_branch)
-        ),
-        "mode component missing configured landing ray/Land",
-    )
-    require(
-        has_conjunction(mode_instructions, {"AirborneMode": False}, "Walk")
-        and has_action(mode_instructions, "ResetSearchRays"),
-        "mode component missing Walk touchdown ray reset",
-    )
-    neutralizer_wrappers = [
-        instruction
-        for instruction in mode_instructions
-        if instruction.get("Sensor", {}).get("Type") == "Flag"
-        and instruction.get("Sensor", {}).get("Name") == "AerialGroundedActivity"
-        and instruction.get("Sensor", {}).get("Set") is False
-        and sum(
-            child.get("Sensor", {}).get("Type") == "Any"
-            and child.get("Sensor", {}).get("Once") is True
-            and has_action([child], "TameworkSetFlyingCompanionMode", Mode="Follow")
-            for child in instruction_children(instruction)
-        ) == 1
-    ]
-    require(
-        len(neutralizer_wrappers) == 1,
-        "mode component must neutralize stale landing state only when no grounded activity owns the companion",
+        not LOCAL_HOLD_COMPONENT.exists(),
+        "local flying Hold component must move to Tamework",
     )
     template = load(TAMED_TEMPLATE)
     require(
@@ -978,16 +751,34 @@ def check_tamed_shared() -> None:
         "AirborneMode must use its default false value so state changes cannot reset the selected flight mode",
     )
     template_text = text(TAMED_TEMPLATE)
-    require("AH_Component_Tamework_Instruction_Aerial_Mode_Transition" in template_text, "tamed template missing mode transition")
+    require("Component_Tamework_Instruction_Airborne_Mode_Transition" in template_text, "tamed template missing mode transition")
     mode_reference = next(
         (
             instruction
             for instruction in template.get("Instructions", [])
-            if instruction.get("Reference") == "AH_Component_Tamework_Instruction_Aerial_Mode_Transition"
+            if instruction.get("Reference") == "Component_Tamework_Instruction_Airborne_Mode_Transition"
         ),
         None,
     )
     require(mode_reference is not None and mode_reference.get("Continue") is True, "mode transition must be global Continue")
+    require(
+        mode_reference.get("Modify") == {
+            "ToggleAirborneModeHookId": "AnimalHusbandry.Command.ToggleAirborneMode",
+            "AirborneModeFlagName": "AirborneMode",
+            "GroundedActivityFlagName": "AerialGroundedActivity",
+            "LandingRayName": "AH_Aerial_Mode_LandingRay",
+            "LandingBlocks": "StoneAndSoil",
+            "TakeOffJumpSpeed": 4,
+            "LandingSearchRange": 64,
+            "LandingSearchAngle": 90,
+            "LandingSlowDownDistance": 5,
+            "LandingStopDistance": 0.5,
+            "LandingHeightDifference": [-3, 2],
+            "LandingGoalLenience": 3,
+            "LandingDesiredAltitudeWeight": 0,
+        },
+        "tamed mode transition must preserve hook, flags, ray, and landing tuning",
+    )
     for state in ("Idle", "Follow", "Hold"):
         require(
             not has_state_action(template, state, "TameworkSetFlyingCompanionMode"),
@@ -1067,7 +858,7 @@ def check_tamed_shared() -> None:
     require(
         not has_reference(
             [branch for branch in state_branches(template, "Hold")],
-            "AH_Component_Tamework_Instruction_Hold_Flying",
+            "Component_Tamework_Instruction_Hold_Flying",
         ),
         "airborne Hold must not run the landing-oriented Hold_Flying component",
     )
@@ -1109,7 +900,7 @@ def check_tamed_shared() -> None:
         "Component_Tamework_Instruction_Needs_Seek_Resource_Sensor",
         "Component_Tamework_Instruction_SeekFood_PlayerFollow",
         "Component_Tamework_Instruction_Follow_Flying",
-        "AH_Component_Tamework_Instruction_Hold_Flying",
+        "Component_Tamework_Instruction_Hold_Flying",
     ):
         require(contains_reference(template, reference), f"tamed template lost existing reference {reference}")
     for key, expected in (("CanDefend", False), ("CanAttackTarget", False), ("AttackWhenStartled", False)):
@@ -1223,11 +1014,37 @@ def check_configs() -> None:
     require(not LOCAL_FLYING_FOLLOW_COMPONENT.exists(), "local flying follow base must move to Tamework")
     require(not LOCAL_LARGE_FOLLOW_COMPONENT.exists(), "local large follow base must move to Tamework")
     require(
+        not LOCAL_FROST_MODE_COMPONENT.exists(),
+        "local Frost Dragon airborne-mode transition must move to Tamework",
+    )
+    require(
         load(ROOT / "manifest.json").get("Dependencies", {}).get("Alechilles:Alec's Tamework!")
         == ">=3.0 <4.0",
         "Animal Husbandry must require the Tamework release that publishes shared follow components",
     )
     frost_template = load(FROST_DRAGON_TEMPLATE)
+    frost_mode = reference_nodes(
+        frost_template, "Component_Tamework_Instruction_Airborne_Mode_Transition"
+    )
+    require(len(frost_mode) == 1, "Frost Dragon must consume shared airborne transition exactly once")
+    require(
+        frost_mode[0].get("Modify") == {
+            "ToggleAirborneModeHookId": "AnimalHusbandry.Command.ToggleFrostDragonAirborneMode",
+            "AirborneModeFlagName": "AirborneMode",
+            "GroundedActivityFlagName": "AH_Dragon_Frost_UnusedGroundedActivity",
+            "LandingRayName": "LandingRay",
+            "LandingBlocks": "StoneAndSoil",
+            "TakeOffJumpSpeed": 4,
+            "LandingSearchRange": 64,
+            "LandingSearchAngle": 90,
+            "LandingSlowDownDistance": 5,
+            "LandingStopDistance": 0.5,
+            "LandingHeightDifference": [-3, 2],
+            "LandingGoalLenience": 3,
+            "LandingDesiredAltitudeWeight": 0,
+        },
+        "Frost Dragon airborne transition tuning must remain explicit",
+    )
     frost_ground = reference_nodes(frost_template, "Component_Tamework_Instruction_Follow_Large")
     require(len(frost_ground) == 1, "Frost Dragon must consume shared large follow exactly once")
     require(

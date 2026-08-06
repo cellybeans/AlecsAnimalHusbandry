@@ -12,6 +12,8 @@ docs/superpowers/
 .worktrees/
 .asset-tools/
 *.json.bak
+**/__pycache__/
+*.py[cod]
 
 # OS noise
 Thumbs.db

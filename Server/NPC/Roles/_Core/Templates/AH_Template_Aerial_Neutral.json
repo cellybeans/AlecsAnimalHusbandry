@@ -2038,7 +2038,7 @@
           },
           "Instructions": [
             {
-              "Reference": "AH_Component_Tamework_Instruction_Aerial_Follow_Item",
+              "Reference": "Component_Tamework_Instruction_SeekFood_PlayerFollow_Flying",
               "Modify": {
                 "AttractiveItemSet": {
                   "Compute": "AttractiveItemSet"
@@ -2050,6 +2050,7 @@
                   1.5,
                   2.0
                 ],
+                "ReturnParentState": "Idle",
                 "_ExportStates": [
                   "Idle"
                 ]
