@@ -3,7 +3,8 @@
     "Hostile": [
       "Kweebec",
       "Birds",
-      "AH_Predator_Tamed"
+      "AH_Predator_Tamed",
+      "HyDragonCompanion"
     ],
     "Ignore": [
       "Kweebec_Prisoner"
@@ -13,4 +14,3 @@
     ]
   }
 }
-
