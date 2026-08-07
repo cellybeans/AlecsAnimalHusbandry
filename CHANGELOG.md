@@ -1,5 +1,14 @@
 # Changelog
 
+## 2.0.2 - Tranquilized Frost Dragon Hotfix - Unreleased
+
+### Fixed
+
+- Fixed tranquilized Frost Dragons remaining suspended in midair. They now
+  immediately leave flight and fall to the ground.
+- Fixed tranquilized Frost Dragons and predator companions leaving their sleep
+  animation when hit again, including by zero-damage tranquilizer arrows.
+
 ## 2.0.1 - Saddle and Blanket Compatibility Hotfix - Unreleased
 
 ### Fixed
