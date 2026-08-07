@@ -134,6 +134,11 @@
   },
   "RoleOverrides": {
     "Tamed_Bison": {
+      "Cooldowns": {
+        "BaseCooldownMinutes": 90,
+        "MinDelaySeconds": 270,
+        "MaxDelaySeconds": 810
+      },
       "OffspringLifecycle": {
         "Families": [
           {
@@ -145,6 +150,11 @@
       }
     },
     "Tamed_Boar": {
+      "Cooldowns": {
+        "BaseCooldownMinutes": 60,
+        "MinDelaySeconds": 180,
+        "MaxDelaySeconds": 540
+      },
       "OffspringLifecycle": {
         "Families": [
           {
@@ -155,7 +165,22 @@
         ]
       }
     },
+    "Tamed_Bunny": {
+      "Cooldowns": {
+        "BaseCooldownMinutes": 35,
+        "MinDelaySeconds": 105,
+        "MaxDelaySeconds": 315
+      },
+      "OffspringLifecycle": {
+        "TimeToFullGrownMinutes": 50
+      }
+    },
     "Tamed_Camel": {
+      "Cooldowns": {
+        "BaseCooldownMinutes": 85,
+        "MinDelaySeconds": 255,
+        "MaxDelaySeconds": 765
+      },
       "OffspringLifecycle": {
         "Families": [
           {
@@ -167,6 +192,11 @@
       }
     },
     "Tamed_Chicken": {
+      "Cooldowns": {
+        "BaseCooldownMinutes": 60,
+        "MinDelaySeconds": 180,
+        "MaxDelaySeconds": 540
+      },
       "OffspringLifecycle": {
         "Families": [
           {
@@ -178,6 +208,11 @@
       }
     },
     "Tamed_Chicken_Desert": {
+      "Cooldowns": {
+        "BaseCooldownMinutes": 60,
+        "MinDelaySeconds": 180,
+        "MaxDelaySeconds": 540
+      },
       "OffspringLifecycle": {
         "Families": [
           {
@@ -189,6 +224,11 @@
       }
     },
     "Tamed_Cow": {
+      "Cooldowns": {
+        "BaseCooldownMinutes": 100,
+        "MinDelaySeconds": 300,
+        "MaxDelaySeconds": 900
+      },
       "OffspringLifecycle": {
         "Families": [
           {
@@ -200,6 +240,11 @@
       }
     },
     "Tamed_Goat": {
+      "Cooldowns": {
+        "BaseCooldownMinutes": 80,
+        "MinDelaySeconds": 240,
+        "MaxDelaySeconds": 720
+      },
       "OffspringLifecycle": {
         "Families": [
           {
@@ -211,6 +256,11 @@
       }
     },
     "Tamed_Horse": {
+      "Cooldowns": {
+        "BaseCooldownMinutes": 90,
+        "MinDelaySeconds": 270,
+        "MaxDelaySeconds": 810
+      },
       "OffspringLifecycle": {
         "Families": [
           {
@@ -221,7 +271,32 @@
         ]
       }
     },
+    "Tamed_Mosshorn": {
+      "Cooldowns": {
+        "BaseCooldownMinutes": 110,
+        "MinDelaySeconds": 330,
+        "MaxDelaySeconds": 990
+      },
+      "OffspringLifecycle": {
+        "TimeToFullGrownMinutes": 180
+      }
+    },
+    "Tamed_Mosshorn_Plain": {
+      "Cooldowns": {
+        "BaseCooldownMinutes": 110,
+        "MinDelaySeconds": 330,
+        "MaxDelaySeconds": 990
+      },
+      "OffspringLifecycle": {
+        "TimeToFullGrownMinutes": 180
+      }
+    },
     "Tamed_Mouflon": {
+      "Cooldowns": {
+        "BaseCooldownMinutes": 70,
+        "MinDelaySeconds": 210,
+        "MaxDelaySeconds": 630
+      },
       "OffspringLifecycle": {
         "Families": [
           {
@@ -233,6 +308,11 @@
       }
     },
     "Tamed_Pig": {
+      "Cooldowns": {
+        "BaseCooldownMinutes": 60,
+        "MinDelaySeconds": 180,
+        "MaxDelaySeconds": 540
+      },
       "OffspringLifecycle": {
         "Families": [
           {
@@ -244,6 +324,11 @@
       }
     },
     "Tamed_Pig_Wild": {
+      "Cooldowns": {
+        "BaseCooldownMinutes": 65,
+        "MinDelaySeconds": 195,
+        "MaxDelaySeconds": 585
+      },
       "OffspringLifecycle": {
         "Families": [
           {
@@ -254,7 +339,22 @@
         ]
       }
     },
+    "Tamed_Rabbit": {
+      "Cooldowns": {
+        "BaseCooldownMinutes": 35,
+        "MinDelaySeconds": 105,
+        "MaxDelaySeconds": 315
+      },
+      "OffspringLifecycle": {
+        "TimeToFullGrownMinutes": 50
+      }
+    },
     "Tamed_Ram": {
+      "Cooldowns": {
+        "BaseCooldownMinutes": 70,
+        "MinDelaySeconds": 210,
+        "MaxDelaySeconds": 630
+      },
       "OffspringLifecycle": {
         "Families": [
           {
@@ -266,17 +366,27 @@
       }
     },
     "Tamed_Sheep": {
+      "Cooldowns": {
+        "BaseCooldownMinutes": 90,
+        "MinDelaySeconds": 270,
+        "MaxDelaySeconds": 810
+      },
       "OffspringLifecycle": {
         "Families": [
           {
             "AdultRoleId": "Tamed_Sheep",
             "BabyRoleId": "Tamed_Sheep_Lamb",
-            "TimeToFullGrownMinutes": 90
+            "TimeToFullGrownMinutes": 100
           }
         ]
       }
     },
     "Tamed_Skrill": {
+      "Cooldowns": {
+        "BaseCooldownMinutes": 65,
+        "MinDelaySeconds": 195,
+        "MaxDelaySeconds": 585
+      },
       "OffspringLifecycle": {
         "Families": [
           {
@@ -288,6 +398,11 @@
       }
     },
     "Tamed_Turkey": {
+      "Cooldowns": {
+        "BaseCooldownMinutes": 60,
+        "MinDelaySeconds": 180,
+        "MaxDelaySeconds": 540
+      },
       "OffspringLifecycle": {
         "Families": [
           {
@@ -299,6 +414,11 @@
       }
     },
     "Tamed_Warthog": {
+      "Cooldowns": {
+        "BaseCooldownMinutes": 65,
+        "MinDelaySeconds": 195,
+        "MaxDelaySeconds": 585
+      },
       "OffspringLifecycle": {
         "Families": [
           {
