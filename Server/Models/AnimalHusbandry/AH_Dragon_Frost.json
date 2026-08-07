@@ -147,7 +147,8 @@
       "Animations": [
         {
           "Animation": "NPC/AnimalHusbandry/Dragon_Frost/Animations/Sleep.blockyanim",
-          "SoundEventId": "SFX_Dragon_Sleep"
+          "SoundEventId": "SFX_Dragon_Sleep",
+          "Looping": true
         }
       ]
     }
