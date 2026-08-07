@@ -153,15 +153,13 @@ TimeToFullGrownMinutes > 0
 
 For family-based lifecycle entries, read the first family's growth value. Report counts by config: livestock 20, neutral 45, beast 29.
 
-- [ ] **Step 3: Run repository validation**
+- [ ] **Step 3: Run repository-safe static validation**
 
-Run the release input validator from Git Bash through PowerShell only because the repository provides it as a PowerShell script:
-
-```bash
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/release/validate-release.ps1
-```
-
-Do not run package publication or live-server validation.
+From Git Bash, parse every JSON file under `Server/Tamework/Breeding`, run
+`git diff --check`, and confirm the effective-resolution check from Step 2
+reports all 94 eligible profiles. The repository's broader release validator is
+a PowerShell script, so it is out of scope under the workspace's Git Bash-only
+instruction. Do not run package publication or live-server validation.
 
 - [ ] **Step 4: Review final state**
 
