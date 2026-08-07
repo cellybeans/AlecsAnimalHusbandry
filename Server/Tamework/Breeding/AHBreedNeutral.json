@@ -151,6 +151,36 @@
     "AdultSwitchScale": 1.2
   },
   "RoleOverrides": {
+    "Tamed_Antelope": {
+      "Cooldowns": {
+        "BaseCooldownMinutes": 75,
+        "MinDelaySeconds": 225,
+        "MaxDelaySeconds": 675
+      },
+      "OffspringLifecycle": {
+        "TimeToFullGrownMinutes": 110
+      }
+    },
+    "Tamed_Armadillo": {
+      "Cooldowns": {
+        "BaseCooldownMinutes": 60,
+        "MinDelaySeconds": 180,
+        "MaxDelaySeconds": 540
+      },
+      "OffspringLifecycle": {
+        "TimeToFullGrownMinutes": 80
+      }
+    },
+    "Tamed_Crab": {
+      "Cooldowns": {
+        "BaseCooldownMinutes": 75,
+        "MinDelaySeconds": 225,
+        "MaxDelaySeconds": 675
+      },
+      "OffspringLifecycle": {
+        "TimeToFullGrownMinutes": 90
+      }
+    },
     "Deer_Doe": {
       "Pairing": {
         "RoleCompatibility": "DifferentFamilyRole"
@@ -203,29 +233,10 @@
       "Pairing": {
         "RoleCompatibility": "DifferentFamilyRole"
       },
-      "OffspringLifecycle": {
-        "Families": [
-          {
-            "AdultRoles": [
-              {
-                "RoleId": "Tamed_Deer_Doe",
-                "Gender": "Female",
-                "Weight": 1.0
-              },
-              {
-                "RoleId": "Tamed_Deer_Stag",
-                "Gender": "Male",
-                "Weight": 1.0
-              }
-            ],
-            "TimeToFullGrownMinutes": 90
-          }
-        ]
-      }
-    },
-    "Tamed_Deer_Stag": {
-      "Pairing": {
-        "RoleCompatibility": "DifferentFamilyRole"
+      "Cooldowns": {
+        "BaseCooldownMinutes": 80,
+        "MinDelaySeconds": 240,
+        "MaxDelaySeconds": 720
       },
       "OffspringLifecycle": {
         "Families": [
@@ -242,9 +253,108 @@
                 "Weight": 1.0
               }
             ],
-            "TimeToFullGrownMinutes": 90
+            "TimeToFullGrownMinutes": 120
           }
         ]
+      }
+    },
+    "Tamed_Deer_Stag": {
+      "Pairing": {
+        "RoleCompatibility": "DifferentFamilyRole"
+      },
+      "Cooldowns": {
+        "BaseCooldownMinutes": 80,
+        "MinDelaySeconds": 240,
+        "MaxDelaySeconds": 720
+      },
+      "OffspringLifecycle": {
+        "Families": [
+          {
+            "AdultRoles": [
+              {
+                "RoleId": "Tamed_Deer_Doe",
+                "Gender": "Female",
+                "Weight": 1.0
+              },
+              {
+                "RoleId": "Tamed_Deer_Stag",
+                "Gender": "Male",
+                "Weight": 1.0
+              }
+            ],
+            "TimeToFullGrownMinutes": 120
+          }
+        ]
+      }
+    },
+    "Tamed_Bluebird": {
+      "Cooldowns": {
+        "BaseCooldownMinutes": 40,
+        "MinDelaySeconds": 120,
+        "MaxDelaySeconds": 360
+      },
+      "OffspringLifecycle": {
+        "TimeToFullGrownMinutes": 45
+      }
+    },
+    "Tamed_Flamingo": {
+      "Cooldowns": {
+        "BaseCooldownMinutes": 55,
+        "MinDelaySeconds": 165,
+        "MaxDelaySeconds": 495
+      },
+      "OffspringLifecycle": {
+        "TimeToFullGrownMinutes": 75
+      }
+    },
+    "Tamed_Hatworm": {
+      "Cooldowns": {
+        "BaseCooldownMinutes": 40,
+        "MinDelaySeconds": 120,
+        "MaxDelaySeconds": 360
+      },
+      "OffspringLifecycle": {
+        "TimeToFullGrownMinutes": 45
+      }
+    },
+    "Tamed_Horse_Skeleton": {
+      "Cooldowns": {
+        "BaseCooldownMinutes": 110,
+        "MinDelaySeconds": 330,
+        "MaxDelaySeconds": 990
+      },
+      "OffspringLifecycle": {
+        "TimeToFullGrownMinutes": 180
+      }
+    },
+    "Tamed_Horse_Skeleton_Armored": {
+      "Cooldowns": {
+        "BaseCooldownMinutes": 120,
+        "MinDelaySeconds": 360,
+        "MaxDelaySeconds": 1080
+      },
+      "OffspringLifecycle": {
+        "TimeToFullGrownMinutes": 210
+      }
+    },
+    "Tamed_Lizard_Sand": {
+      "Cooldowns": {
+        "BaseCooldownMinutes": 60,
+        "MinDelaySeconds": 180,
+        "MaxDelaySeconds": 540
+      },
+      "OffspringLifecycle": {
+        "TimeToFullGrownMinutes": 80
+      }
+    },
+    "Tamed_Lobster": {
+      "Cooldowns": {
+        "BaseCooldownMinutes": 80,
+        "MinDelaySeconds": 240,
+        "MaxDelaySeconds": 720
+      },
+      "OffspringLifecycle": {
+        "TimeToFullGrownMinutes": 100
       }
     },
     "Moose_Bull": {
@@ -299,29 +409,10 @@
       "Pairing": {
         "RoleCompatibility": "DifferentFamilyRole"
       },
-      "OffspringLifecycle": {
-        "Families": [
-          {
-            "AdultRoles": [
-              {
-                "RoleId": "Tamed_Moose_Bull",
-                "Gender": "Male",
-                "Weight": 1.0
-              },
-              {
-                "RoleId": "Tamed_Moose_Cow",
-                "Gender": "Female",
-                "Weight": 1.0
-              }
-            ],
-            "TimeToFullGrownMinutes": 90
-          }
-        ]
-      }
-    },
-    "Tamed_Moose_Cow": {
-      "Pairing": {
-        "RoleCompatibility": "DifferentFamilyRole"
+      "Cooldowns": {
+        "BaseCooldownMinutes": 100,
+        "MinDelaySeconds": 300,
+        "MaxDelaySeconds": 900
       },
       "OffspringLifecycle": {
         "Families": [
@@ -338,9 +429,348 @@
                 "Weight": 1.0
               }
             ],
-            "TimeToFullGrownMinutes": 90
+            "TimeToFullGrownMinutes": 180
           }
         ]
+      }
+    },
+    "Tamed_Moose_Cow": {
+      "Pairing": {
+        "RoleCompatibility": "DifferentFamilyRole"
+      },
+      "Cooldowns": {
+        "BaseCooldownMinutes": 100,
+        "MinDelaySeconds": 300,
+        "MaxDelaySeconds": 900
+      },
+      "OffspringLifecycle": {
+        "Families": [
+          {
+            "AdultRoles": [
+              {
+                "RoleId": "Tamed_Moose_Bull",
+                "Gender": "Male",
+                "Weight": 1.0
+              },
+              {
+                "RoleId": "Tamed_Moose_Cow",
+                "Gender": "Female",
+                "Weight": 1.0
+              }
+            ],
+            "TimeToFullGrownMinutes": 180
+          }
+        ]
+      }
+    },
+    "Tamed_Penguin": {
+      "Cooldowns": {
+        "BaseCooldownMinutes": 55,
+        "MinDelaySeconds": 165,
+        "MaxDelaySeconds": 495
+      },
+      "OffspringLifecycle": {
+        "TimeToFullGrownMinutes": 75
+      }
+    },
+    "Tamed_Spark_Living": {
+      "Cooldowns": {
+        "BaseCooldownMinutes": 120,
+        "MinDelaySeconds": 360,
+        "MaxDelaySeconds": 1080
+      },
+      "OffspringLifecycle": {
+        "TimeToFullGrownMinutes": 220
+      }
+    },
+    "Tamed_Tetrabird": {
+      "Cooldowns": {
+        "BaseCooldownMinutes": 90,
+        "MinDelaySeconds": 270,
+        "MaxDelaySeconds": 810
+      },
+      "OffspringLifecycle": {
+        "TimeToFullGrownMinutes": 150
+      }
+    },
+    "Tamed_Tortoise": {
+      "Cooldowns": {
+        "BaseCooldownMinutes": 90,
+        "MinDelaySeconds": 270,
+        "MaxDelaySeconds": 810
+      },
+      "OffspringLifecycle": {
+        "TimeToFullGrownMinutes": 160
+      }
+    },
+    "Tamed_Trillodon": {
+      "Cooldowns": {
+        "BaseCooldownMinutes": 110,
+        "MinDelaySeconds": 330,
+        "MaxDelaySeconds": 990
+      },
+      "OffspringLifecycle": {
+        "TimeToFullGrownMinutes": 200
+      }
+    },
+    "Tamed_Cactee": {
+      "Cooldowns": {
+        "BaseCooldownMinutes": 90,
+        "MinDelaySeconds": 270,
+        "MaxDelaySeconds": 810
+      },
+      "OffspringLifecycle": {
+        "TimeToFullGrownMinutes": 150
+      }
+    },
+    "Tamed_Frog_Blue": {
+      "Cooldowns": {
+        "BaseCooldownMinutes": 40,
+        "MinDelaySeconds": 120,
+        "MaxDelaySeconds": 360
+      },
+      "OffspringLifecycle": {
+        "TimeToFullGrownMinutes": 45
+      }
+    },
+    "Tamed_Frog_Green": {
+      "Cooldowns": {
+        "BaseCooldownMinutes": 40,
+        "MinDelaySeconds": 120,
+        "MaxDelaySeconds": 360
+      },
+      "OffspringLifecycle": {
+        "TimeToFullGrownMinutes": 45
+      }
+    },
+    "Tamed_Frog_Orange": {
+      "Cooldowns": {
+        "BaseCooldownMinutes": 45,
+        "MinDelaySeconds": 135,
+        "MaxDelaySeconds": 405
+      },
+      "OffspringLifecycle": {
+        "TimeToFullGrownMinutes": 50
+      }
+    },
+    "Tamed_Gecko": {
+      "Cooldowns": {
+        "BaseCooldownMinutes": 40,
+        "MinDelaySeconds": 120,
+        "MaxDelaySeconds": 360
+      },
+      "OffspringLifecycle": {
+        "TimeToFullGrownMinutes": 45
+      }
+    },
+    "Tamed_Meerkat": {
+      "Cooldowns": {
+        "BaseCooldownMinutes": 45,
+        "MinDelaySeconds": 135,
+        "MaxDelaySeconds": 405
+      },
+      "OffspringLifecycle": {
+        "TimeToFullGrownMinutes": 55
+      }
+    },
+    "Tamed_Mouse": {
+      "Cooldowns": {
+        "BaseCooldownMinutes": 35,
+        "MinDelaySeconds": 105,
+        "MaxDelaySeconds": 315
+      },
+      "OffspringLifecycle": {
+        "TimeToFullGrownMinutes": 40
+      }
+    },
+    "Tamed_Squirrel": {
+      "Cooldowns": {
+        "BaseCooldownMinutes": 40,
+        "MinDelaySeconds": 120,
+        "MaxDelaySeconds": 360
+      },
+      "OffspringLifecycle": {
+        "TimeToFullGrownMinutes": 50
+      }
+    },
+    "Tamed_Snail_Frost": {
+      "Cooldowns": {
+        "BaseCooldownMinutes": 90,
+        "MinDelaySeconds": 270,
+        "MaxDelaySeconds": 810
+      },
+      "OffspringLifecycle": {
+        "TimeToFullGrownMinutes": 140
+      }
+    },
+    "Tamed_Snail_Magma": {
+      "Cooldowns": {
+        "BaseCooldownMinutes": 95,
+        "MinDelaySeconds": 285,
+        "MaxDelaySeconds": 855
+      },
+      "OffspringLifecycle": {
+        "TimeToFullGrownMinutes": 150
+      }
+    },
+    "Tamed_Sparrow": {
+      "Cooldowns": {
+        "BaseCooldownMinutes": 35,
+        "MinDelaySeconds": 105,
+        "MaxDelaySeconds": 315
+      },
+      "OffspringLifecycle": {
+        "TimeToFullGrownMinutes": 40
+      }
+    },
+    "Tamed_Parrot": {
+      "Cooldowns": {
+        "BaseCooldownMinutes": 50,
+        "MinDelaySeconds": 150,
+        "MaxDelaySeconds": 450
+      },
+      "OffspringLifecycle": {
+        "TimeToFullGrownMinutes": 65
+      }
+    },
+    "Tamed_Raven": {
+      "Cooldowns": {
+        "BaseCooldownMinutes": 50,
+        "MinDelaySeconds": 150,
+        "MaxDelaySeconds": 450
+      },
+      "OffspringLifecycle": {
+        "TimeToFullGrownMinutes": 65
+      }
+    },
+    "Tamed_Crow": {
+      "Cooldowns": {
+        "BaseCooldownMinutes": 45,
+        "MinDelaySeconds": 135,
+        "MaxDelaySeconds": 405
+      },
+      "OffspringLifecycle": {
+        "TimeToFullGrownMinutes": 60
+      }
+    },
+    "Tamed_Finch_Green": {
+      "Cooldowns": {
+        "BaseCooldownMinutes": 35,
+        "MinDelaySeconds": 105,
+        "MaxDelaySeconds": 315
+      },
+      "OffspringLifecycle": {
+        "TimeToFullGrownMinutes": 40
+      }
+    },
+    "Tamed_Woodpecker": {
+      "Cooldowns": {
+        "BaseCooldownMinutes": 45,
+        "MinDelaySeconds": 135,
+        "MaxDelaySeconds": 405
+      },
+      "OffspringLifecycle": {
+        "TimeToFullGrownMinutes": 55
+      }
+    },
+    "Tamed_Owl_Brown": {
+      "Cooldowns": {
+        "BaseCooldownMinutes": 60,
+        "MinDelaySeconds": 180,
+        "MaxDelaySeconds": 540
+      },
+      "OffspringLifecycle": {
+        "TimeToFullGrownMinutes": 80
+      }
+    },
+    "Tamed_Owl_Snow": {
+      "Cooldowns": {
+        "BaseCooldownMinutes": 60,
+        "MinDelaySeconds": 180,
+        "MaxDelaySeconds": 540
+      },
+      "OffspringLifecycle": {
+        "TimeToFullGrownMinutes": 80
+      }
+    },
+    "Tamed_Bat": {
+      "Cooldowns": {
+        "BaseCooldownMinutes": 45,
+        "MinDelaySeconds": 135,
+        "MaxDelaySeconds": 405
+      },
+      "OffspringLifecycle": {
+        "TimeToFullGrownMinutes": 55
+      }
+    },
+    "Tamed_Bat_Ice": {
+      "Cooldowns": {
+        "BaseCooldownMinutes": 60,
+        "MinDelaySeconds": 180,
+        "MaxDelaySeconds": 540
+      },
+      "OffspringLifecycle": {
+        "TimeToFullGrownMinutes": 80
+      }
+    },
+    "Tamed_Pigeon": {
+      "Cooldowns": {
+        "BaseCooldownMinutes": 40,
+        "MinDelaySeconds": 120,
+        "MaxDelaySeconds": 360
+      },
+      "OffspringLifecycle": {
+        "TimeToFullGrownMinutes": 45
+      }
+    },
+    "Tamed_Duck": {
+      "Cooldowns": {
+        "BaseCooldownMinutes": 50,
+        "MinDelaySeconds": 150,
+        "MaxDelaySeconds": 450
+      },
+      "OffspringLifecycle": {
+        "TimeToFullGrownMinutes": 60
+      }
+    },
+    "Tamed_Archaeopteryx": {
+      "Cooldowns": {
+        "BaseCooldownMinutes": 90,
+        "MinDelaySeconds": 270,
+        "MaxDelaySeconds": 810
+      },
+      "OffspringLifecycle": {
+        "TimeToFullGrownMinutes": 140
+      }
+    },
+    "Tamed_Hawk": {
+      "Cooldowns": {
+        "BaseCooldownMinutes": 60,
+        "MinDelaySeconds": 180,
+        "MaxDelaySeconds": 540
+      },
+      "OffspringLifecycle": {
+        "TimeToFullGrownMinutes": 85
+      }
+    },
+    "Tamed_Pterodactyl": {
+      "Cooldowns": {
+        "BaseCooldownMinutes": 110,
+        "MinDelaySeconds": 330,
+        "MaxDelaySeconds": 990
+      },
+      "OffspringLifecycle": {
+        "TimeToFullGrownMinutes": 200
+      }
+    },
+    "Tamed_Vulture": {
+      "Cooldowns": {
+        "BaseCooldownMinutes": 65,
+        "MinDelaySeconds": 195,
+        "MaxDelaySeconds": 585
+      },
+      "OffspringLifecycle": {
+        "TimeToFullGrownMinutes": 90
       }
     }
   }
