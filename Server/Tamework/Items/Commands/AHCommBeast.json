@@ -195,6 +195,53 @@
           "State": "Idle"
         }
       ]
+    },
+    {
+      "Id": "SetHome",
+      "ShowInRadial": false,
+      "DisplayName": "animalhusbandry.commands.setHome.name",
+      "Feedback": {
+        "ChatMessage": "animalhusbandry.commands.setHome.chat",
+        "HudMessage": "animalhusbandry.commands.setHome.hud",
+        "SoundEvent": "SFX_AnimalHusbandry_Shakuhachi_SE_12"
+      },
+      "Steps": [
+        {
+          "Type": "StoreHome",
+          "Source": "RaycastHit",
+          "FailurePolicy": "AbortAll"
+        }
+      ]
+    },
+    {
+      "Id": "ReturnHome",
+      "ShowInRadial": false,
+      "DisplayName": "animalhusbandry.commands.returnHome.name",
+      "Feedback": {
+        "HudMessage": "animalhusbandry.commands.returnHome.hud",
+        "SoundEvent": "SFX_AnimalHusbandry_Shakuhachi_SE_14"
+      },
+      "Steps": [
+        {
+          "Type": "MoveToPosition",
+          "Source": "StoredHome",
+          "FailurePolicy": "AbortCommandForNpc"
+        }
+      ]
+    },
+    {
+      "Id": "ToggleFrostDragonAirborneMode",
+      "ShowInRadial": false,
+      "DisplayName": "Toggle Flight Mode",
+      "Feedback": {
+        "HudMessage": "Flight mode toggled"
+      },
+      "Steps": [
+        {
+          "Type": "TriggerHook",
+          "HookId": "AnimalHusbandry.Command.ToggleFrostDragonAirborneMode"
+        }
+      ]
     }
   ]
 }

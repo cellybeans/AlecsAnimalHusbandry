@@ -264,6 +264,20 @@
           "State": "Idle"
         }
       ]
+    },
+    {
+      "Id": "ToggleAirborneMode",
+      "ShowInRadial": false,
+      "DisplayName": "Toggle Flight Mode",
+      "Feedback": {
+        "HudMessage": "Flight mode toggled"
+      },
+      "Steps": [
+        {
+          "Type": "TriggerHook",
+          "HookId": "AnimalHusbandry.Command.ToggleAirborneMode"
+        }
+      ]
     }
   ]
 }
