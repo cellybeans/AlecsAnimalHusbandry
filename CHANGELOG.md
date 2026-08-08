@@ -1,11 +1,26 @@
 # Changelog
 
+## 2.1.0 - Command Flute Hotswaps and Companion Balance - Unreleased
+
+### Added
+- Added assignable command hotswaps to the Animal Control Flute and Combat
+  Beast Flute.
+- Added a flute-playing animation when either command flute is used.
+
+### Changed
+- Added explicit breeding times for livestock and neutral companion groups.
+- Updated the required Alec's Tamework version to `>=3.1.0 <4.0`.
+
+### Fixed
+- Added a consistent Dragon Flute sound cue when command flutes toggle a
+  companion's flight mode.
+- Fixed supported companions failing to target hostile Void Grubs.
+- Fixed the saddle model not appearing in the player's hand.
+
 ## 2.0.2 - Tranquilized Frost Dragon Hotfix - Unreleased
 
 ### Fixed
 
-- Added the shared Dragon Flute sound cue when the Animal Control Flute or
-  Combat Beast Flute toggles a companion's flight mode.
 - Fixed tranquilized Frost Dragons remaining suspended in midair. They now
   immediately leave flight and fall to the ground.
 - Fixed tranquilized Frost Dragons and predator companions leaving their sleep
