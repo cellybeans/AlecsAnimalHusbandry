@@ -4,6 +4,8 @@
 
 ### Fixed
 
+- Added distinct Shakuhachi sound cues when the Animal Control Flute or Combat
+  Beast Flute toggles a companion's flight mode.
 - Fixed tranquilized Frost Dragons remaining suspended in midair. They now
   immediately leave flight and fall to the ground.
 - Fixed tranquilized Frost Dragons and predator companions leaving their sleep

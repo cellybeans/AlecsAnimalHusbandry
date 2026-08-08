@@ -234,7 +234,8 @@
       "ShowInRadial": false,
       "DisplayName": "Toggle Flight Mode",
       "Feedback": {
-        "HudMessage": "Flight mode toggled"
+        "HudMessage": "Flight mode toggled",
+        "SoundEvent": "SFX_AnimalHusbandry_Shakuhachi_SE_15"
       },
       "Steps": [
         {
