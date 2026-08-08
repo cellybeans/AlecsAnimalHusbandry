@@ -4,13 +4,16 @@
     "Description": "server.items.AnimalHusbandry_Command_Item_Shakuhachi.description"
   },
   "Quality": "Rare",
-  "PlayerAnimationsId": "Item",
+  "PlayerAnimationsId": "Flute",
   "Interactions": {
     "Primary": {
       "RequireNewClick": true,
       "Interactions": [
         {
-          "Type": "TameworkCommand"
+          "Type": "TameworkCommand",
+          "Effects": {
+            "ItemAnimationId": "PlayFlute"
+          }
         }
       ]
     },
@@ -18,7 +21,10 @@
       "Interactions": [
         {
           "Type": "TameworkCommand",
-          "CommandId": "OpenSelectionMenu"
+          "CommandId": "OpenSelectionMenu",
+          "Effects": {
+            "ItemAnimationId": "PlayFlute"
+          }
         }
       ]
     },
@@ -26,7 +32,10 @@
       "Interactions": [
         {
           "Type": "TameworkCommandHotswap",
-          "Slot": "Q"
+          "Slot": "Q",
+          "Effects": {
+            "ItemAnimationId": "PlayFlute"
+          }
         }
       ]
     },
@@ -34,7 +43,10 @@
       "Interactions": [
         {
           "Type": "TameworkCommandHotswap",
-          "Slot": "E"
+          "Slot": "E",
+          "Effects": {
+            "ItemAnimationId": "PlayFlute"
+          }
         }
       ]
     },
@@ -42,7 +54,10 @@
       "Interactions": [
         {
           "Type": "TameworkCommandHotswap",
-          "Slot": "R"
+          "Slot": "R",
+          "Effects": {
+            "ItemAnimationId": "PlayFlute"
+          }
         }
       ]
     }
