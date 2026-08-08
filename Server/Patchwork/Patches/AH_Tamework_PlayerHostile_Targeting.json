@@ -1,0 +1,15 @@
+{
+  "Id": "AH_Tamework_PlayerHostile_Targeting",
+  "Target": "Server/NPC/Attitude/Roles/AH_Predator_Tamed.json",
+  "Priority": 0,
+  "Enabled": true,
+  "Operations": [
+    {
+      "Id": "include-tamework-player-hostile",
+      "Op": "Insert",
+      "Path": "/Groups/Hostile",
+      "Position": "End",
+      "Value": "Tamework_PlayerHostile"
+    }
+  ]
+}
