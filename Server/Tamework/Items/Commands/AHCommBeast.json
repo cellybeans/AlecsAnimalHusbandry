@@ -232,9 +232,9 @@
     {
       "Id": "ToggleFrostDragonAirborneMode",
       "ShowInRadial": false,
-      "DisplayName": "Toggle Flight Mode",
+      "DisplayName": "animalhusbandry.commands.toggleFlightMode.name",
       "Feedback": {
-        "HudMessage": "Flight mode toggled",
+        "HudMessage": "animalhusbandry.commands.toggleFlightMode.hud",
         "SoundEvent": "SFX_AnimalHusbandry_Shakuhachi_SE_13"
       },
       "Steps": [

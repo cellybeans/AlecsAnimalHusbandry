@@ -222,6 +222,8 @@ animalhusbandry.commands.setHome.hud=Casa Definida
 animalhusbandry.commands.setHome.chat=Casa definida para esta flauta de comando.
 animalhusbandry.commands.returnHome.name=Voltar para Casa
 animalhusbandry.commands.returnHome.hud=Voltar para Casa: {count}
+animalhusbandry.commands.toggleFlightMode.name=Alternar Modo de Voo
+animalhusbandry.commands.toggleFlightMode.hud=Modo de voo alternado
 
 # Interactions
 animalhusbandry.interactions.applySaddle=Pressione [{key}] para equipar a sela

@@ -222,6 +222,8 @@ animalhusbandry.commands.setHome.hud=Zuhause gesetzt
 animalhusbandry.commands.setHome.chat=Zuhause für diese Befehlsflöte gesetzt.
 animalhusbandry.commands.returnHome.name=Nach Hause
 animalhusbandry.commands.returnHome.hud=Nach Hause: {count}
+animalhusbandry.commands.toggleFlightMode.name=Flugmodus umschalten
+animalhusbandry.commands.toggleFlightMode.hud=Flugmodus umgeschaltet
 
 # Interactions
 animalhusbandry.interactions.applySaddle=Drücke [{key}], um den Sattel auszurüsten

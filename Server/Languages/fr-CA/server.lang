@@ -222,6 +222,8 @@ animalhusbandry.commands.setHome.hud=Foyer défini
 animalhusbandry.commands.setHome.chat=Foyer défini pour cette flûte de commande.
 animalhusbandry.commands.returnHome.name=Rentrer au foyer
 animalhusbandry.commands.returnHome.hud=Rentrer au foyer : {count}
+animalhusbandry.commands.toggleFlightMode.name=Basculer le mode de vol
+animalhusbandry.commands.toggleFlightMode.hud=Mode de vol basculé
 
 # Interactions
 animalhusbandry.interactions.applySaddle=Appuyez sur [{key}] pour équiper la selle
