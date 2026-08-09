@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.1.0 - Command Flute Hotswaps and Companion Balance - Unreleased
+## 2.1.0 - Command Flute Hotswaps and Companion Balance - 2026-08-08
 
 ### Added
 - Added assignable command hotswaps to the Animal Control Flute and Combat
