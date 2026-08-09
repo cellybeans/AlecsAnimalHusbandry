@@ -1,0 +1,49 @@
+{
+  "Id": "AH_Tamework_Scarecrow_Recipe",
+  "$Comment": "Makes Tamework's spawn-suppressing scarecrow craftable through Animal Husbandry progression.",
+  "Target": "Server/Item/Items/Tamework/Tamework_Scarecrow.json",
+  "When": {
+    "TargetExists": true
+  },
+  "Priority": 100,
+  "Enabled": true,
+  "Operations": [
+    {
+      "Id": "add-scarecrow-recipe",
+      "Op": "Add",
+      "Path": "/Recipe",
+      "Value": {
+        "Input": [
+          {
+            "ItemId": "Ingredient_Life_Essence_Concentrated",
+            "Quantity": 1
+          },
+          {
+            "ItemId": "Ingredient_Fibre",
+            "Quantity": 10
+          },
+          {
+            "ResourceTypeId": "Wood_All",
+            "Quantity": 10
+          }
+        ],
+        "Output": [
+          {
+            "ItemId": "Tamework_Scarecrow",
+            "Quantity": 1
+          }
+        ],
+        "BenchRequirement": [
+          {
+            "Type": "Crafting",
+            "Id": "Farmingbench",
+            "Categories": [
+              "Farming"
+            ]
+          }
+        ],
+        "TimeSeconds": 3
+      }
+    }
+  ]
+}

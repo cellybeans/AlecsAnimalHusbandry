@@ -6,6 +6,8 @@
 - Added assignable command hotswaps to the Animal Control Flute and Combat
   Beast Flute.
 - Added a flute-playing animation when either command flute is used.
+- Added a Farming Bench recipe for Tamework's spawn-suppressing scarecrow using
+  one Greater Essence of Life, ten Plant Fiber, and ten Wood.
 
 ### Changed
 - Added explicit breeding times for livestock and neutral companion groups.
