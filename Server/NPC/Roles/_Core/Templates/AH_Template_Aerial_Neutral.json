@@ -19,7 +19,7 @@
       "Description": "The wander radius of the NPC."
     },
     "ViewRange": {
-      "Value": 16,
+      "Value": 32,
       "Description": "The view distance of the NPC, in blocks."
     },
     "ViewSector": {
