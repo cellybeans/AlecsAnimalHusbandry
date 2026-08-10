@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.1.1 - Mosshorn Blanket Hotfix - Unreleased
+
+### Fixed
+
+- Disabled blanket equipment for Mosshorns and plain Mosshorns; their saddle
+  equipment remains supported.
+
 ## 2.1.0 - Command Flute Hotswaps and Companion Balance - 2026-08-08
 
 ### Added
@@ -27,8 +34,6 @@
   immediately leave flight and fall to the ground.
 - Fixed tranquilized Frost Dragons and predator companions leaving their sleep
   animation when hit again, including by zero-damage tranquilizer arrows.
-- Disabled blanket equipment for Mosshorns and plain Mosshorns; their saddle
-  equipment remains supported.
 
 ## 2.0.1 - Saddle and Blanket Compatibility Hotfix - Unreleased
 
