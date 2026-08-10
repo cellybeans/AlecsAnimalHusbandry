@@ -6,6 +6,9 @@ server.mods.alecs_animal_husbandry.status.scaffold=Tierhaltungs-Gerüst initiali
 
 # NPC roles
 server.npcRoles.Fox_Arctic.name=Polarfuchs
+server.npcRoles.Frog_Blue.name=Blauer Frosch
+server.npcRoles.Frog_Green.name=Grüner Frosch
+server.npcRoles.Frog_Orange.name=Oranger Frosch
 
 # Items
 items.AH_Saddle.name=Sattel

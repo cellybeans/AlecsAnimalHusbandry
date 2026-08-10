@@ -6,6 +6,7 @@
 
 - Disabled blanket equipment for Mosshorns and plain Mosshorns; their saddle
   equipment remains supported.
+- Added missing frog name translations in every supported language.
 
 ## 2.1.0 - Command Flute Hotswaps and Companion Balance - 2026-08-08
 

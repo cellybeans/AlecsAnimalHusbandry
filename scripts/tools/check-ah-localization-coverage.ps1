@@ -1,10 +1,14 @@
 param(
-    [string]$Root = (Resolve-Path "$PSScriptRoot\..\..").Path
+    [string]$Root = (Resolve-Path "$PSScriptRoot\..\..").Path,
+    [string]$VanillaLanguagePath = ""
 )
 
 $ErrorActionPreference = "Stop"
 
 $requiredLanguages = @("en-US", "de-DE", "fr-FR", "fr-CA", "pt-BR")
+if ([string]::IsNullOrWhiteSpace($VanillaLanguagePath)) {
+    $VanillaLanguagePath = Join-Path ([Environment]::GetFolderPath([Environment+SpecialFolder]::ApplicationData)) "Hytale\install\release\package\game\latest\Assets\Server\Languages\en-US\server.lang"
+}
 $playerFacingFields = [System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::OrdinalIgnoreCase)
 @(
     "Name",
@@ -94,14 +98,19 @@ function Add-JsonLocalizationReferences {
     }
 
     if ($Node -is [System.Management.Automation.PSCustomObject]) {
+        $isNpcOrItemDefinition = $RelativePath -like "Server\NPC\Roles\*" -or $RelativePath -like "Server\Item\*"
         foreach ($property in $Node.PSObject.Properties) {
             $field = $property.Name
             $value = $property.Value
             $childPath = "$JsonPath.$field"
 
-            if (($value -is [string]) -and $playerFacingFields.Contains($field)) {
+            if ($value -is [string]) {
                 $trimmedValue = $value.Trim()
-                if (Test-LanguageKeyShape -Value $trimmedValue) {
+                $isLocalizationReference = (Test-LanguageKeyShape -Value $trimmedValue) -and (
+                    $playerFacingFields.Contains($field) -or
+                    ($isNpcOrItemDefinition -and $trimmedValue -like "server.*")
+                )
+                if ($isLocalizationReference) {
                     $keyReferences.Add([pscustomobject]@{
                         Key = Normalize-LanguageKey -Value $trimmedValue
                         File = $RelativePath
@@ -151,6 +160,12 @@ if ($requiredKeys.Count -eq 0) {
     throw "No language key references were found in Server JSON files."
 }
 
+if (-not (Test-Path -LiteralPath $VanillaLanguagePath)) {
+    throw "Base-game en-US language file was not found: $VanillaLanguagePath"
+}
+$vanillaLanguageKeys = Read-LanguageKeys -Path $VanillaLanguagePath
+$modOwnedKeys = @($requiredKeys | Where-Object { -not $vanillaLanguageKeys.Contains($_) })
+
 $languageRoot = Join-Path $serverRoot "Languages"
 foreach ($language in $requiredLanguages) {
     $languagePath = Join-Path $languageRoot "$language/server.lang"
@@ -159,7 +174,7 @@ foreach ($language in $requiredLanguages) {
     }
 
     $languageKeys = Read-LanguageKeys -Path $languagePath
-    $missingKeys = @($requiredKeys | Where-Object { -not $languageKeys.Contains($_) })
+    $missingKeys = @($modOwnedKeys | Where-Object { -not $languageKeys.Contains($_) })
     if ($missingKeys.Count -gt 0) {
         Write-Host "$language is missing localization keys:"
         $missingKeys |
@@ -168,7 +183,7 @@ foreach ($language in $requiredLanguages) {
         throw "$language is missing $($missingKeys.Count) referenced localization keys."
     }
 
-    Write-Host "$language localization coverage: $($requiredKeys.Count) referenced keys, $($languageKeys.Count) available keys."
+    Write-Host "$language localization coverage: $($modOwnedKeys.Count) Animal Husbandry keys, $($languageKeys.Count) available keys, $($requiredKeys.Count - $modOwnedKeys.Count) base-game references."
 }
 
-Write-Host "Animal Husbandry localization coverage passed for $($requiredKeys.Count) referenced keys across $($requiredLanguages.Count) languages."
+Write-Host "Animal Husbandry localization coverage passed for $($modOwnedKeys.Count) Animal Husbandry keys across $($requiredLanguages.Count) languages."
