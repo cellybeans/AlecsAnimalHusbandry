@@ -27,6 +27,8 @@
   immediately leave flight and fall to the ground.
 - Fixed tranquilized Frost Dragons and predator companions leaving their sleep
   animation when hit again, including by zero-damage tranquilizer arrows.
+- Disabled blanket equipment for Mosshorns and plain Mosshorns; their saddle
+  equipment remains supported.
 
 ## 2.0.1 - Saddle and Blanket Compatibility Hotfix - Unreleased
 

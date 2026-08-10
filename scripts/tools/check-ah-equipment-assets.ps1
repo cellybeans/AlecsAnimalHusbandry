@@ -170,9 +170,7 @@ $expectedBlanketPatches = @(
     "AH_Saddle_Deer.json",
     "AH_Saddle_Horse.json",
     "AH_Saddle_Horse_Skeleton.json",
-    "AH_Saddle_Moose.json",
-    "AH_Saddle_Mosshorn.json",
-    "AH_Saddle_Mosshorn_Plain.json"
+    "AH_Saddle_Moose.json"
 )
 $expectedBlanketTextures = @{
     Black = "Blanket_Black.png"
@@ -263,4 +261,4 @@ Require-Condition ($saddleItem.Recipe.Output[0].ItemId -eq "AH_Saddle") "AH_Sadd
 Require-Condition ((Test-Path -LiteralPath (Join-Path $Root "Common/$($saddleItem.Model)"))) "AH_Saddle model reference does not exist."
 Require-Condition ((Test-Path -LiteralPath (Join-Path $Root "Common/$($saddleItem.Texture)"))) "AH_Saddle texture reference does not exist."
 
-Write-Host "Animal Husbandry equipment asset checks passed: bound-key prompt glyphs, atomic equip/replacement, Pet-first Saddle/Blanket removal, exact refunds, non-heritable equipment sets, 20 blanket colors, 32 model targets, 5 blanket patches, and AH_Saddle."
+Write-Host "Animal Husbandry equipment asset checks passed: bound-key prompt glyphs, atomic equip/replacement, Pet-first Saddle/Blanket removal, exact refunds, non-heritable equipment sets, 20 blanket colors, 32 model targets, 4 blanket patches, and AH_Saddle."

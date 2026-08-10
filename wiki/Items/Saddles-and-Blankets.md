@@ -37,4 +37,4 @@ Petting takes priority over empty-hand removal. If Pet is ready, the first inter
 
 Saddles are supported on every animal listed in the [Mountable Mobs Reference](/mod/alecs-animal-husbandry/mountable-mobs-reference), including alternate models such as polar bears, plain mosshorns, armored skeleton horses, cave spiders, and the wolf-family big cats.
 
-Blankets are supported on horses, deer and antelope, moose, mosshorns, and skeleton horses. The equipment interaction appears only when the animal's current model exposes the matching attachment slot, so unsupported blanket models do not show a misleading prompt.
+Blankets are supported on horses, deer and antelope, moose, and skeleton horses. Mosshorns support saddles but not blankets. The equipment interaction appears only when the animal's current model exposes the matching attachment slot, so unsupported blanket models do not show a misleading prompt.
