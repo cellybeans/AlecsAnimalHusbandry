@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.1.2 - Frost Dragon Breeding Hotfix - Unreleased
+## 2.1.2 - Frost Dragon Breeding Hotfix - 2026-08-11
 
 ### Fixed
 
