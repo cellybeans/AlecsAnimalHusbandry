@@ -236,6 +236,7 @@ animalhusbandry.interactions.removeBlanket=Press [{key}] to remove Blanket
 animalhusbandry.interactions.message.following=Following
 animalhusbandry.interactions.message.staying=Staying
 animalhusbandry.interactions.message.wandering=Wandering
+animalhusbandry.interactions.message.flightmastersTalismanRequired=You need a Flightmaster's Talisman to mount.
 
 # Happiness
 animalhusbandry.happiness.hunger.wellFed=Well-fed

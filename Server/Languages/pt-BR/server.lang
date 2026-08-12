@@ -236,6 +236,7 @@ animalhusbandry.interactions.removeBlanket=Pressione [{key}] para remover a mant
 animalhusbandry.interactions.message.following=Seguindo
 animalhusbandry.interactions.message.staying=Ficando
 animalhusbandry.interactions.message.wandering=Vagando
+animalhusbandry.interactions.message.flightmastersTalismanRequired=Você precisa de um Talismã de Mestre de Voo para montar.
 
 # Happiness
 animalhusbandry.happiness.hunger.wellFed=Bem alimentado

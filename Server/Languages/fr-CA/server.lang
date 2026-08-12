@@ -236,6 +236,7 @@ animalhusbandry.interactions.removeBlanket=Appuyez sur [{key}] pour retirer la c
 animalhusbandry.interactions.message.following=Suit
 animalhusbandry.interactions.message.staying=Reste
 animalhusbandry.interactions.message.wandering=Vagabonde
+animalhusbandry.interactions.message.flightmastersTalismanRequired=Vous avez besoin d’un talisman de maître de vol pour monter.
 
 # Happiness
 animalhusbandry.happiness.hunger.wellFed=Bien nourri

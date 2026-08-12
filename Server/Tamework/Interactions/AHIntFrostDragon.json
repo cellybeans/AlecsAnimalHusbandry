@@ -177,7 +177,7 @@
       },
       "Effects": {
         "ShowFloatingText": {
-          "Message": "You need a Flightmaster's Talisman to mount."
+          "Message": "animalhusbandry.interactions.message.flightmastersTalismanRequired"
         }
       }
     },

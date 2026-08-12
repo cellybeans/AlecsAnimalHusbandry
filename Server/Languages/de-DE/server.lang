@@ -236,6 +236,7 @@ animalhusbandry.interactions.removeBlanket=Drücke [{key}], um die Decke abzuneh
 animalhusbandry.interactions.message.following=Folgt
 animalhusbandry.interactions.message.staying=Bleibt
 animalhusbandry.interactions.message.wandering=Wandert
+animalhusbandry.interactions.message.flightmastersTalismanRequired=Du benötigst einen Flugmeister-Talisman zum Aufsitzen.
 
 # Happiness
 animalhusbandry.happiness.hunger.wellFed=Gut gefüttert
