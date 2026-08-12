@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.1.3 - Flightmaster's Talisman Mount Notice - 2026-08-11
+
+### Added
+
+- Added a floating notice when crouch-interacting with a Frost Dragon without
+  a Flightmaster's Talisman.
+
 ## 2.1.2 - Frost Dragon Breeding Hotfix - 2026-08-11
 
 ### Fixed
