@@ -14,7 +14,7 @@ Check these first:
 2. Happiness is above threshold.
 3. Breeding is toggled on for both animals.
 4. They are not sleeping or in combat.
-5. Cooldown + random delay window has elapsed.
+5. The breeding cooldown, including its random added time, has elapsed.
 6. Nearby same-type limits are not exceeded.
 
 ## "They keep getting unhappy"
@@ -55,6 +55,5 @@ Recipe details:
 4. Re-test with one species before scaling.
 
 > [Screenshot Placeholder: Example server error line and corrected config snippet]
-
 
 

@@ -161,7 +161,7 @@
     },
     "Tamed_Dragon_Frost": {
       "Pairing": {
-        "MaxNearbySameType": 2
+        "MaxNearbySameType": 4
       },
       "Cooldowns": {
         "BaseCooldownMinutes": 180,

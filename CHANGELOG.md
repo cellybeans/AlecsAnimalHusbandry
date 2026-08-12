@@ -7,6 +7,8 @@
 - Disabled blanket equipment for Mosshorns and plain Mosshorns; their saddle
   equipment remains supported.
 - Added missing frog name translations in every supported language.
+- Fixed the Frost Dragon nearby-population limit blocking every two-parent
+  breeding attempt. One pair can now produce offspring up to a local limit of four.
 
 ## 2.1.0 - Command Flute Hotswaps and Companion Balance - 2026-08-08
 
