@@ -50,7 +50,7 @@
       "Ingredient_Ice_Essence"
     ],
     "AttractiveItemSetParticles": "AH_Dragon_Frost_Want_Food_Ice_Essence",
-    "InteractionConfigId": "AHIntBeast",
+    "InteractionConfigId": "AHIntFrostDragon",
     "MountMode": "TameworkAvatarFlight",
     "AvatarFlightConfig": "AHAvatarFlight",
     "NeedsSeekConsumeAnimation": "",
