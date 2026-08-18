@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 2.1.4 - Wild Flying Animal Food Scan Hotfix - 2026-08-18
 
 ### Changed
 

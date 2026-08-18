@@ -6,8 +6,11 @@ param(
 $ErrorActionPreference = "Stop"
 
 $requiredLanguages = @("en-US", "de-DE", "fr-FR", "fr-CA", "pt-BR")
+$vanillaAssetsZipPath = ""
 if ([string]::IsNullOrWhiteSpace($VanillaLanguagePath)) {
-    $VanillaLanguagePath = Join-Path ([Environment]::GetFolderPath([Environment+SpecialFolder]::ApplicationData)) "Hytale\install\release\package\game\latest\Assets\Server\Languages\en-US\server.lang"
+    $gameRoot = Join-Path ([Environment]::GetFolderPath([Environment+SpecialFolder]::ApplicationData)) "Hytale\install\release\package\game\latest"
+    $VanillaLanguagePath = Join-Path $gameRoot "Assets\Server\Languages\en-US\server.lang"
+    $vanillaAssetsZipPath = Join-Path $gameRoot "Assets.zip"
 }
 $playerFacingFields = [System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::OrdinalIgnoreCase)
 @(
@@ -73,6 +76,42 @@ function Read-LanguageKeys {
     }
 
     return ,$keys
+}
+
+function Read-ZippedLanguageKeys {
+    param(
+        [string]$ZipPath,
+        [string]$EntryPath
+    )
+
+    $archive = [IO.Compression.ZipFile]::OpenRead($ZipPath)
+    try {
+        $entry = $archive.GetEntry($EntryPath)
+        if ($null -eq $entry) {
+            throw "Language entry '$EntryPath' was not found in '$ZipPath'."
+        }
+
+        $reader = [IO.StreamReader]::new($entry.Open())
+        try {
+            $keys = [System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::Ordinal)
+            while (-not $reader.EndOfStream) {
+                $trimmed = $reader.ReadLine().Trim()
+                if ([string]::IsNullOrWhiteSpace($trimmed) -or $trimmed.StartsWith("#")) {
+                    continue
+                }
+                $separator = $trimmed.IndexOf("=")
+                if ($separator -le 0) {
+                    continue
+                }
+                [void]$keys.Add((Normalize-LanguageKey -Value $trimmed.Substring(0, $separator)))
+            }
+            return ,$keys
+        } finally {
+            $reader.Dispose()
+        }
+    } finally {
+        $archive.Dispose()
+    }
 }
 
 $keyReferences = [System.Collections.Generic.List[object]]::new()
@@ -160,10 +199,15 @@ if ($requiredKeys.Count -eq 0) {
     throw "No language key references were found in Server JSON files."
 }
 
-if (-not (Test-Path -LiteralPath $VanillaLanguagePath)) {
+if (Test-Path -LiteralPath $VanillaLanguagePath) {
+    $vanillaLanguageKeys = Read-LanguageKeys -Path $VanillaLanguagePath
+} elseif (-not [string]::IsNullOrWhiteSpace($vanillaAssetsZipPath) -and (Test-Path -LiteralPath $vanillaAssetsZipPath)) {
+    $vanillaLanguageKeys = Read-ZippedLanguageKeys `
+        -ZipPath $vanillaAssetsZipPath `
+        -EntryPath "Server/Languages/en-US/server.lang"
+} else {
     throw "Base-game en-US language file was not found: $VanillaLanguagePath"
 }
-$vanillaLanguageKeys = Read-LanguageKeys -Path $VanillaLanguagePath
 $modOwnedKeys = @($requiredKeys | Where-Object { -not $vanillaLanguageKeys.Contains($_) })
 
 $languageRoot = Join-Path $serverRoot "Languages"
