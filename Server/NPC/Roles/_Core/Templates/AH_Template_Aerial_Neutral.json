@@ -109,13 +109,9 @@
       "Value": "Grass",
       "Description": "The type of block that this NPC will graze on top of."
     },
-    "FoodBlockSet": {
-      "Value": "Hay",
-      "Description": "The type of block that this NPC will occasionally seek out to munch on."
-    },
     "FoodTargetSlot": {
       "Value": "AHFoodTarget",
-      "Description": "Stored target used while seeking a food block or dropped food item."
+      "Description": "Stored target used while seeking a dropped food item."
     },
     "DayTimePeriod": {
       "Value": [
@@ -1045,45 +1041,23 @@
                 },
                 {
                   "Enabled": {
-                    "Compute": "!isEmpty(FoodBlockSet) || !isEmptyStringArray(AttractiveItemSet)"
+                    "Compute": "!isEmptyStringArray(AttractiveItemSet)"
                   },
                   "Weight": 10,
                   "Instructions": [
                     {
                       "Sensor": {
-                        "Type": "Or",
-                        "Sensors": [
-                          {
-                            "Enabled": {
-                              "Compute": "!isEmptyStringArray(AttractiveItemSet)"
-                            },
-                            "Type": "DroppedItem",
-                            "Range": {
-                              "Compute": "ViewRange"
-                            },
-                            "Items": {
-                              "Compute": "AttractiveItemSet"
-                            },
-                            "ViewSector": {
-                              "Compute": "ViewSector"
-                            },
-                            "LineOfSight": true
-                          },
-                          {
-                            "Enabled": {
-                              "Compute": "!isEmpty(FoodBlockSet)"
-                            },
-                            "Type": "TameworkReachableBlockTarget",
-                            "BlockSet": {
-                              "Compute": "FoodBlockSet"
-                            },
-                            "Range": {
-                              "Compute": "ViewRange"
-                            },
-                            "VerticalRadius": 4,
-                            "Label": "AH_FoodBlock"
-                          }
-                        ]
+                        "Type": "DroppedItem",
+                        "Range": {
+                          "Compute": "ViewRange"
+                        },
+                        "Items": {
+                          "Compute": "AttractiveItemSet"
+                        },
+                        "ViewSector": {
+                          "Compute": "ViewSector"
+                        },
+                        "LineOfSight": true
                       },
                       "Actions": [
                         {

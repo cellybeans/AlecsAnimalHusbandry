@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+### Changed
+
+- Wild flying animals no longer search for nearby hay blocks. They still seek
+  dropped favorite items when configured to do so.
+
 ## 2.1.3 - Flightmaster's Talisman Mount Notice - 2026-08-11
 
 ### Added
