@@ -22,8 +22,8 @@
     "gameVersionTypeIds": [65437],
     "requiredProjects": [
       { "id": 1447962, "slug": "alecs-tamework", "type": "requiredDependency" },
-      { "id": 1464844, "slug": "alecs-nametags", "type": "optionalDependency" },
-      { "id": 1502528, "slug": "alecs-coops", "type": "optionalDependency" },
+      { "id": 1464844, "slug": "alecs-nametags", "type": "requiredDependency" },
+      { "id": 1502528, "slug": "alecs-coops", "type": "requiredDependency" },
       { "id": 1454078, "slug": "docs", "type": "optionalDependency" },
       { "id": 1511473, "slug": "cellys-wildlife-skins", "type": "optionalDependency" },
       { "id": 1524169, "slug": "cellys-baby-animals", "type": "optionalDependency" },
@@ -37,7 +37,7 @@
   "modtale": {
     "projectId": "24ddb6d2-ec47-4efb-b95d-b4a3c5ff8e45",
     "releaseChannel": "stable",
-    "gameVersions": ["0.5.7"],
+    "gameVersions": ["0.5.9"],
     "versionFieldName": "versionNumber",
     "changelogFieldName": "changelog",
     "channelFieldName": "channel",
@@ -47,12 +47,12 @@
     "projectSlug": "alecs-animal-husbandry",
     "releaseChannel": "release",
     "versionPrefix": "v",
-    "gameVersions": ["0.5.7", "0.5.6", "0.5.5", "0.5.4", "0.5.3", "0.5.2", "0.5.1", "0.5.0"],
+    "gameVersions": ["0.5.9", "0.5.8", "0.5.7", "0.5.6", "0.5.5", "0.5.4", "0.5.3", "0.5.2", "0.5.1", "0.5.0"],
     "loaders": ["Vanilla"],
     "dependencies": [
       { "slug": "alecs-tamework", "type": "required" },
-      { "slug": "alecs-nametags", "type": "optional" },
-      { "slug": "alecs-coops", "type": "optional" }
+      { "slug": "alecs-nametags", "type": "required" },
+      { "slug": "alecs-coops", "type": "required" }
     ]
   }
 }
