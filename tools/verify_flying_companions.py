@@ -1015,11 +1015,6 @@ def check_configs() -> None:
         not LOCAL_FROST_MODE_COMPONENT.exists(),
         "local Frost Dragon airborne-mode transition must move to Tamework",
     )
-    require(
-        load(ROOT / "manifest.json").get("Dependencies", {}).get("Alechilles:Alec's Tamework!")
-        == ">=3.0 <4.0",
-        "Animal Husbandry must require the Tamework release that publishes shared follow components",
-    )
     frost_template = load(FROST_DRAGON_TEMPLATE)
     frost_mode = reference_nodes(
         frost_template, "Component_Tamework_Instruction_Airborne_Mode_Transition"

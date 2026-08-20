@@ -10,7 +10,7 @@ Parent: [Start Here](/mod/alecs-animal-husbandry/start-here) | [Home](/mod/alecs
 
 ## Required Mods
 - [Alec's Animal Husbandry!](https://www.curseforge.com/hytale/mods/alecs-animal-husbandry)
-- [Alec's Tamework!](https://www.curseforge.com/hytale/mods/alecs-tamework) `v3.x`
+- [Alec's Tamework!](https://www.curseforge.com/hytale/mods/alecs-tamework) `v3.2.0` or later in the `3.x` series
 - [Alec's Nametags!](https://www.curseforge.com/hytale/mods/alecs-nametags)
 
 ## Installation Steps
