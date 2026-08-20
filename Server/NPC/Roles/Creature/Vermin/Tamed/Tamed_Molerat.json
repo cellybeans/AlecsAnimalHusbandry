@@ -25,7 +25,6 @@
       2,
       2
     ],
-    "ThreatenAnimation": "",
     "FleeIfNotThreatened": true,
     "FleeRange": 15,
     "HardLeashDistance": 60,
@@ -44,7 +43,6 @@
     "ChaseRelativeSpeed": 0.6,
     "CombatMovingRelativeSpeed": 0.3,
     "AlwaysSleepAtNight": false,
-    "NightFlavorAnimation": "",
     "DayTimeNapWeight": 0,
     "IsMemory": false,
     "MemoriesCategory": "Critter",

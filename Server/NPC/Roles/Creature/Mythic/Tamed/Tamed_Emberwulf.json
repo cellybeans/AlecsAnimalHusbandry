@@ -40,7 +40,6 @@
     "CombatStrafingDurationRange": [3, 3],
     "CombatStrafingFrequencyRange": [2, 2],
     "AlwaysSleepAtNight": false,
-    "NightFlavorAnimation": "",
     "DayTimeNapWeight": 0,
     "TimidDuringDay": false,
     "IsMemory": false,

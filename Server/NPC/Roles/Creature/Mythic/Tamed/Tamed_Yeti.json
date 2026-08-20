@@ -26,7 +26,6 @@
       2,
       2
     ],
-    "ThreatenAnimation": "",
     "FleeIfNotThreatened": false,
     "FleeRange": 11,
     "HardLeashDistance": 60,
@@ -59,7 +58,6 @@
     "TargetRange": 3.25,
     "ChaseRelativeSpeed": 0.8,
     "AlwaysSleepAtNight": true,
-    "DayFlavorAnimation": "",
     "DayTimeNapWeight": 0,
     "TimidDuringDay": false,
     "NameTranslationKey": {

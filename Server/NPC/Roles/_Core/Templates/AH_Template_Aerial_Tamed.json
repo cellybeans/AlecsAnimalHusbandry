@@ -4,7 +4,7 @@
   "InitialMotionController": "Walk",
   "Parameters": {
     "Appearance": {
-      "Value": "Deer_Stag",
+      "Value": "Cow",
       "Description": "The NPC's model."
     },
     "ParticleOffset": {

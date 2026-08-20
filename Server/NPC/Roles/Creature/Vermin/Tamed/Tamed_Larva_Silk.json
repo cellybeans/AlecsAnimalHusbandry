@@ -35,8 +35,6 @@
     "AlwaysSleepAtNight": false,
     "DayTimeNapWeight": 0,
     "TimidDuringDay": true,
-    "DayFlavorAnimation": "",
-    "NightFlavorAnimation": "",
     "IsMemory": false,
     "MemoriesCategory": "Critter",
     "NameTranslationKey": {
@@ -69,9 +67,6 @@
     "CanRecall": true,
     "CanSetHome": true,
     "CanBreedPair": true,
-    "SleepAnimation": "",
-    "SleepEnterAnimation": "",
-    "WakeAnimation": "",
     "NeedsSeekConsumeAnimation": ""
   },
   "Parameters": {

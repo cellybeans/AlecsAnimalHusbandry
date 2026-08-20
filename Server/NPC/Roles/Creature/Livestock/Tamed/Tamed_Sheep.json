@@ -34,7 +34,6 @@
     ],
     "HarvestModelSlot": "Fleece",
     "HarvestModelAttachmentHarvestable": "Wool",
-    "HarvestModelAttachmentHarvested": "",
     "HarvestTimeout": [
       "PT11H",
       "PT14H"

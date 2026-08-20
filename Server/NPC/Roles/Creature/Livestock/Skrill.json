@@ -31,8 +31,7 @@
     "MemoriesNameOverride": "Skrill",
     "NameTranslationKey": {
       "Compute": "NameTranslationKey"
-    },
-    "NeedsSeekConsumeAnimation": ""
+    }
   },
   "Parameters": {
     "NameTranslationKey": {

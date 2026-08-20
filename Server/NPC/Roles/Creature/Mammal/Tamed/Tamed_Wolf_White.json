@@ -79,9 +79,6 @@
     "MountAnchorX": 0,
     "MountAnchorY": 1,
     "MountAnchorZ": 0,
-    "SleepAnimation": "",
-    "SleepEnterAnimation": "",
-    "WakeAnimation": "",
     "NeedsSeekConsumeAnimation": ""
   },
   "Parameters": {

@@ -111,12 +111,7 @@
     },
     "TameRoleChange": {
       "Compute": "TameRoleChange"
-    },
-    "SleepAnimation": "",
-    "SleepEnterAnimation": "",
-    "WakeAnimation": "",
-    "NeedsSeekConsumeAnimation": "",
-    "CuriousAnimation": ""
+    }
   },
   "Parameters": {
     "NameTranslationKey": {

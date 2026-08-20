@@ -31,12 +31,7 @@
     "MemoriesNameOverride": "Chicken_Chick",
     "NameTranslationKey": {
       "Compute": "NameTranslationKey"
-    },
-    "SleepAnimation": "",
-    "SleepEnterAnimation": "",
-    "WakeAnimation": "",
-    "NeedsSeekConsumeAnimation": "",
-    "CuriousAnimation": ""
+    }
   },
   "Parameters": {
     "NameTranslationKey": {

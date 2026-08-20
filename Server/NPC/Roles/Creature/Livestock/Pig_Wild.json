@@ -31,13 +31,7 @@
     "MemoriesNameOverride": "Pig_Wild",
     "NameTranslationKey": {
       "Compute": "NameTranslationKey"
-    },
-    "SleepAnimation": "",
-    "SleepEnterAnimation": "",
-    "WakeAnimation": "",
-    "NeedsSeekConsumeAnimation": "",
-    "AlertedAnimation": "",
-    "CuriousAnimation": ""
+    }
   },
   "Parameters": {
     "NameTranslationKey": {

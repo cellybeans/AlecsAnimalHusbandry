@@ -31,7 +31,6 @@
     "DayTimeNapWeight": 0,
     "TimidDuringDay": true,
     "DayFlavorAnimation": "",
-    "NightFlavorAnimation": "",
     "_CombatConfig": {
       "EntityEffect": "Immunity_Fire"
     },

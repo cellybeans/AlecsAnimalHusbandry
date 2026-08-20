@@ -62,7 +62,6 @@
       2
     ],
     "AlwaysSleepAtNight": false,
-    "NightFlavorAnimation": "",
     "DayTimeNapWeight": 0,
     "_InteractionVars": {
       "Melee_Start": {

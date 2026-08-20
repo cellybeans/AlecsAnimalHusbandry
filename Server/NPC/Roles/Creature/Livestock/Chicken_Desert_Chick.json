@@ -31,13 +31,7 @@
     "MemoriesNameOverride": "Chicken_Desert_Chick",
     "NameTranslationKey": {
       "Compute": "NameTranslationKey"
-    },
-    "SleepAnimation": "",
-    "SleepEnterAnimation": "",
-    "WakeAnimation": "",
-    "NeedsSeekConsumeAnimation": "",
-    "AlertedAnimation": "",
-    "CuriousAnimation": ""
+    }
   },
   "Parameters": {
     "NameTranslationKey": {

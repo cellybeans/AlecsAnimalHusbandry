@@ -93,11 +93,7 @@
     "IsMountable": true,
     "MountAnchorX": 0,
     "MountAnchorY": 1.7,
-    "MountAnchorZ": 0.1,
-    "SleepAnimation": "",
-    "SleepEnterAnimation": "",
-    "WakeAnimation": "",
-    "NeedsSeekConsumeAnimation": ""
+    "MountAnchorZ": 0.1
   },
   "Parameters": {
     "NameTranslationKey": {

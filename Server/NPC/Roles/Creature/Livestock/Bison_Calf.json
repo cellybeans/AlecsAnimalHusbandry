@@ -30,13 +30,7 @@
     "MemoriesNameOverride": "Bison_Calf",
     "NameTranslationKey": {
       "Compute": "NameTranslationKey"
-    },
-    "SleepAnimation": "",
-    "SleepEnterAnimation": "",
-    "WakeAnimation": "",
-    "NeedsSeekConsumeAnimation": "",
-    "AlertedAnimation": "",
-    "CuriousAnimation": ""
+    }
   },
   "Parameters": {
     "NameTranslationKey": {

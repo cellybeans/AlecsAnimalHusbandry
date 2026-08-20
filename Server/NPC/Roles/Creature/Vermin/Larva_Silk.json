@@ -32,8 +32,6 @@
     "AlwaysSleepAtNight": false,
     "DayTimeNapWeight": 0,
     "TimidDuringDay": true,
-    "DayFlavorAnimation": "",
-    "NightFlavorAnimation": "",
     "IsMemory": true,
     "MemoriesCategory": "Critter",
     "NameTranslationKey": {

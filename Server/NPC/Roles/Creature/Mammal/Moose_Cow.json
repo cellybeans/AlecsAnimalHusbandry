@@ -112,9 +112,7 @@
     },
     "TameRoleChange": {
       "Compute": "TameRoleChange"
-    },
-    "NeedsSeekConsumeAnimation": "",
-    "CuriousAnimation": ""
+    }
   },
   "Parameters": {
     "NameTranslationKey": {

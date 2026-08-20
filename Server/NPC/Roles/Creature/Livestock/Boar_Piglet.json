@@ -29,8 +29,7 @@
     "MemoriesNameOverride": "Boar_Piglet",
     "NameTranslationKey": {
       "Compute": "NameTranslationKey"
-    },
-    "CuriousAnimation": ""
+    }
   },
   "Parameters": {
     "NameTranslationKey": {
