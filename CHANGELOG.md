@@ -1,13 +1,5 @@
 # Changelog
 
-## Unreleased
-
-### Fixed
-
-- Flying companions can drink from natural water when used with the required
-  Alec's Tamework 3.2.0 or later. Older Tamework 3.1 releases could find the
-  water but reject its approach target.
-
 ## 2.1.4 - Wild Flying Animal Food Scan Hotfix - 2026-08-18
 
 ### Changed
