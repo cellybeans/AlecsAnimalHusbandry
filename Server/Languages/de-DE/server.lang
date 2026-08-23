@@ -250,3 +250,7 @@ animalhusbandry.happiness.thirst.dehydrated=Dehydriert
 animalhusbandry.happiness.population.lonely=Einsam
 animalhusbandry.happiness.population.social=Gesellig
 animalhusbandry.happiness.population.crowded=Überfüllt
+
+# Butcher's Knife
+items.AH_Butchers_Knife.name=Metzgermesser
+items.AH_Butchers_Knife.description=Halte die Primäraktion auf einem eigenen, gezähmten Tier, um es zu töten. Diese Aktion kann nicht rückgängig gemacht werden.

@@ -1,0 +1,9 @@
+{
+  "Type": "Charging",
+  "DisplayProgress": true,
+  "Next": {
+    "0.8": {
+      "Type": "TameworkCullNpc"
+    }
+  }
+}

@@ -40,6 +40,7 @@ These items are useful for both livestock and Beast management.
 | Item | Use |
 |---|---|
 | [Soul Lantern](/mod/alecs-animal-husbandry/soul-lantern) | Captures and re-places a tamed livestock animal or Beast companion |
+| [Butcher's Knife](/mod/alecs-animal-husbandry/butchers-knife) | Hold to cull an owned, tamed animal through its normal death path |
 | [Nametag](/mod/alecs-animal-husbandry/nametag) | Names tamed companions for easier command/control management |
 | [Saddles and Blankets](/mod/alecs-animal-husbandry/saddles-and-blankets) | Equips or removes persistent saddles and 20 wool blanket colors, refunding replaced equipment |
 

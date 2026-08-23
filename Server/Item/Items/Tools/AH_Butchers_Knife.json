@@ -1,0 +1,19 @@
+{
+  "TranslationProperties": {
+    "Name": "items.AH_Butchers_Knife.name",
+    "Description": "items.AH_Butchers_Knife.description"
+  },
+  "Categories": [
+    "Items.Tools"
+  ],
+  "Quality": "Uncommon",
+  "PlayerAnimationsId": "Item",
+  "UsePlayerAnimations": true,
+  "Interactions": {
+    "Primary": "Root_AH_Butchers_Knife_Cull"
+  },
+  "Model": "NPC/Intelligent/Goblin/Models/Weapons/Sword/Scrap.blockymodel",
+  "Texture": "NPC/Intelligent/Goblin/Models/Weapons/Sword/Scrap_Texture.png",
+  "Icon": "Icons/ItemsGenerated/Weapon_Sword_Scrap_Goblin.png",
+  "MaxStack": 1
+}
