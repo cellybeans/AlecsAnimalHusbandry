@@ -10,9 +10,16 @@ Parent: [Items Index](/mod/alecs-animal-husbandry/items-index) | [Animal Husband
 
 The Flightmaster's Talisman is a tool from Alec's Tamework. You must hold it to mount and fly a tamed Frost Dragon that you own.
 
-## Obtain the Talisman
+## Craft the Talisman
 
-Animal Husbandry does not add a recipe for this item. Obtain it through the Tamework content supplied by your server or mod pack.
+Craft the Flightmaster's Talisman at a Tier 6 Farming Bench using:
+
+- 10 Gold Ingots
+- 3 Zephyr gems
+
+Crafting takes 4 seconds.
+
+If HyDragon is installed, its Draconic Altar also offers this recipe.
 
 ## Mount a Frost Dragon
 

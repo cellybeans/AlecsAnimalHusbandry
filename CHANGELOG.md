@@ -1,5 +1,16 @@
 # Changelog
 
+## 2.1.5 - Flightmaster's Talisman Crafting Hotfix - 2026-08-23
+
+### Added
+
+- Added a Tier 6 Farming Bench recipe for Tamework's Flightmaster's Talisman.
+  The recipe uses 10 Gold Ingots and 3 Zephyr gems.
+
+### Fixed
+
+- Corrected the Flightmaster's Talisman crafting documentation.
+
 ## 2.1.4 - Wild Flying Animal Food Scan Hotfix - 2026-08-18
 
 ### Changed
