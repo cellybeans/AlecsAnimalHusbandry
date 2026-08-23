@@ -3,6 +3,8 @@ title: "Glowing Purple Mushroom Spores"
 order: 4
 published: true
 draft: false
+published: true
+draft: false
 ---
 # Glowing Purple Mushroom Spores
 

@@ -3,6 +3,8 @@ title: "Items Index"
 order: 4
 published: true
 draft: false
+published: true
+draft: false
 ---
 # Items Index
 
@@ -43,6 +45,7 @@ These items are useful for both livestock and Beast management.
 | [Butcher's Knife](/mod/alecs-animal-husbandry/butchers-knife) | Hold to cull an owned, tamed animal through its normal death path |
 | [Nametag](/mod/alecs-animal-husbandry/nametag) | Names tamed companions for easier command/control management |
 | [Saddles and Blankets](/mod/alecs-animal-husbandry/saddles-and-blankets) | Equips or removes persistent saddles and 20 wool blanket colors, refunding replaced equipment |
+| [Flightmaster's Talisman](/mod/alecs-animal-husbandry/flightmasters-talisman) | Required to mount and fly a tamed Frost Dragon |
 
 ## Feed and Care Items
 
@@ -63,6 +66,7 @@ These items are useful for both livestock and Beast management.
 4. Craft a Soul Lantern when you need to transport or reorganize valuable companions.
 5. Apply Nametags to distinguish and organize specific companions.
 6. Craft saddles and use colored wool blocks to customize supported owned animals.
+7. Carry a Flightmaster's Talisman before you ride a Frost Dragon.
 
 > [Screenshot Placeholder: Item progression row (animal control flute -> tranquilizer kit -> combat beast flute)]
 

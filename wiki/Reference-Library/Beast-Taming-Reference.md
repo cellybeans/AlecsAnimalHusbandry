@@ -3,6 +3,8 @@ title: "Beast Taming Reference"
 order: 2
 published: true
 draft: false
+published: true
+draft: false
 ---
 # Beast Taming Reference
 

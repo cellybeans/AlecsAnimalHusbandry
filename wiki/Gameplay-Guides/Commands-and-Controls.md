@@ -3,6 +3,8 @@ title: "Commands and Controls"
 order: 4
 published: true
 draft: false
+published: true
+draft: false
 ---
 # Commands and Controls
 

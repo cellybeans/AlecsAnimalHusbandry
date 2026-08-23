@@ -3,6 +3,8 @@ title: "Combat Beast Flute"
 order: 7
 published: true
 draft: false
+published: true
+draft: false
 ---
 # Combat Beast Flute
 

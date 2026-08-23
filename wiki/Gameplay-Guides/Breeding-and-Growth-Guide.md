@@ -3,6 +3,8 @@ title: "Breeding and Growth Guide"
 order: 5
 published: true
 draft: false
+published: true
+draft: false
 ---
 # Breeding and Growth Guide
 

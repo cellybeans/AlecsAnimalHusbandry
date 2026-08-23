@@ -3,6 +3,8 @@ title: "Configuration Index"
 order: 6
 published: true
 draft: false
+published: true
+draft: false
 ---
 # Configuration Index
 

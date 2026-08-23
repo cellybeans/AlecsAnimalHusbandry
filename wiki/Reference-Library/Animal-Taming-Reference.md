@@ -3,6 +3,8 @@ title: "Animal Taming Reference"
 order: 3
 published: true
 draft: false
+published: true
+draft: false
 ---
 # Animal Taming Reference
 

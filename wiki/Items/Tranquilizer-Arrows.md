@@ -3,6 +3,8 @@ title: "Tranquilizer Arrows"
 order: 5
 published: true
 draft: false
+published: true
+draft: false
 ---
 # Tranquilizer Arrows
 

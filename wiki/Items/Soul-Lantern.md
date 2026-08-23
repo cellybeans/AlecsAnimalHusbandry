@@ -3,6 +3,8 @@ title: "Soul Lantern"
 order: 8
 published: true
 draft: false
+published: true
+draft: false
 ---
 # Soul Lantern
 

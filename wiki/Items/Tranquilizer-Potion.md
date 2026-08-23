@@ -3,6 +3,8 @@ title: "Tranquilizer Potion"
 order: 3
 published: true
 draft: false
+published: true
+draft: false
 ---
 # Tranquilizer Potion
 

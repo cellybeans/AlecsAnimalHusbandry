@@ -3,6 +3,8 @@ title: "Home"
 order: 1
 published: true
 draft: false
+published: true
+draft: false
 is_index: true
 ---
 # Animal Husbandry Wiki
@@ -34,6 +36,7 @@ is_index: true
 - [Feed Trough](/mod/alecs-animal-husbandry/feed-trough)
 - [Soul Lantern](/mod/alecs-animal-husbandry/soul-lantern)
 - [Nametag](/mod/alecs-animal-husbandry/nametag)
+- [Flightmaster's Talisman](/mod/alecs-animal-husbandry/flightmasters-talisman)
 
 ## 4) Reference Library
 - [Reference Library Index](/mod/alecs-animal-husbandry/reference-library-index)

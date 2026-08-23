@@ -3,6 +3,8 @@ title: "Gameplay Guides Index"
 order: 3
 published: true
 draft: false
+published: true
+draft: false
 ---
 # Gameplay Guides Index
 

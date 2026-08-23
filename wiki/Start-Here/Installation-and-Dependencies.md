@@ -3,6 +3,8 @@ title: "Installation and Dependencies"
 order: 2
 published: true
 draft: false
+published: true
+draft: false
 ---
 # Installation and Dependencies
 

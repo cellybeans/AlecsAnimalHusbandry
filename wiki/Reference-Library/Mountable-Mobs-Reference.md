@@ -3,6 +3,8 @@ title: "Mountable Mobs Reference"
 order: 4
 published: true
 draft: false
+published: true
+draft: false
 ---
 # Mountable Mobs Reference
 
@@ -14,6 +16,8 @@ This page is a quick-reference for mobs that are currently configured as mountab
 ## How To Mount
 1. Make sure the mob is tamed and owned by you.
 2. Hold crouch and press `F` (Interact) on the companion.
+
+The Frost Dragon also requires the [Flightmaster's Talisman](/mod/alecs-animal-husbandry/flightmasters-talisman) to be selected before you mount. See that page for flight controls.
 
 ## Mountable Livestock
 | Animal |

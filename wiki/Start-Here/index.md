@@ -3,6 +3,8 @@ title: "Start Here"
 order: 2
 published: true
 draft: false
+published: true
+draft: false
 ---
 # Start Here
 

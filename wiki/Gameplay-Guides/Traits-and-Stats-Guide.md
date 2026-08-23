@@ -3,6 +3,8 @@ title: "Traits and Stats Guide"
 order: 6
 published: true
 draft: false
+published: true
+draft: false
 ---
 # Traits and Stats Guide
 

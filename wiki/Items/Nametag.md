@@ -3,6 +3,8 @@ title: "Nametag"
 order: 9
 published: true
 draft: false
+published: true
+draft: false
 ---
 # Nametag
 

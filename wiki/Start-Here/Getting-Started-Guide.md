@@ -3,6 +3,8 @@ title: "Getting Started Guide"
 order: 3
 published: true
 draft: false
+published: true
+draft: false
 ---
 # Getting Started Guide
 

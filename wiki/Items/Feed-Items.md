@@ -3,6 +3,8 @@ title: "Feed Items"
 order: 10
 published: true
 draft: false
+published: true
+draft: false
 ---
 # Feed Items
 
