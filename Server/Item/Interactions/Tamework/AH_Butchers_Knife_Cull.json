@@ -1,7 +1,0 @@
-{
-  "Type": "Charging",
-  "DisplayProgress": true,
-  "Next": {
-    "0.8": "AH_Butchers_Knife_Cull_Complete"
-  }
-}

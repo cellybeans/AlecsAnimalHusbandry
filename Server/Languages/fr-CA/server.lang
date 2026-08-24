@@ -250,7 +250,3 @@ animalhusbandry.happiness.thirst.dehydrated=Déshydraté
 animalhusbandry.happiness.population.lonely=Seul
 animalhusbandry.happiness.population.social=Sociable
 animalhusbandry.happiness.population.crowded=Surpeuplé
-
-# Butcher's Knife
-items.AH_Butchers_Knife.name=Couteau de boucher
-items.AH_Butchers_Knife.description=Maintenez l’action principale sur un animal apprivoisé qui vous appartient pour l’abattre. Cette action est irréversible.

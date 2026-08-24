@@ -14,7 +14,7 @@
   "Website": "",
   "ServerVersion": "0.5.x",
   "Dependencies": {
-    "Alechilles:Alec's Tamework!": ">=3.2.1 <4.0"
+    "Alechilles:Alec's Tamework!": ">=3.2.0 <4.0"
   },
   "OptionalDependencies": {
     "Alechilles:Alec's Coops!": "*",
