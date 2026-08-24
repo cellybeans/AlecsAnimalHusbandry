@@ -1,5 +1,16 @@
 # Changelog
 
+## 2.1.6 - Tamework Compatibility Hotfix - 2026-08-24
+
+### Changed
+
+- Set the required Alec's Tamework version to `>=3.2.0 <4.0`.
+
+### Fixed
+
+- Removed unreleased Butcher's Knife assets that required unavailable Tamework
+  code and could prevent Animal Husbandry from loading.
+
 ## 2.1.5 - Flightmaster's Talisman Crafting Hotfix - 2026-08-23
 
 ### Added
