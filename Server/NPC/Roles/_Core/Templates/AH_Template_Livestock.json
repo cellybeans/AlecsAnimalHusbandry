@@ -798,6 +798,29 @@
       ]
     },
     {
+      "$Comment": "Restore the harvested attachment once when an NPC loads during an active harvest cooldown",
+      "Enabled": { "Compute": "IsHarvestable" },
+      "Continue": true,
+      "Sensor": {
+        "Type": "TameworkAlarm",
+        "Name": "Harvest_Ready",
+        "State": "Active"
+      },
+      "Instructions": [
+        {
+          "Enabled": { "Compute": "!isEmpty(HarvestModelSlot)" },
+          "Sensor": { "Type": "Any", "Once": true },
+          "Actions": [
+            {
+              "Type": "ModelAttachment",
+              "Slot": { "Compute": "HarvestModelSlot" },
+              "Attachment": { "Compute": "HarvestModelAttachmentHarvested" }
+            }
+          ]
+        }
+      ]
+    },
+    {
       "$Comment": "If there are configured attachments for the 'harvestable' state, apply them",
       "Enabled": { "Compute": "IsHarvestable" },
       "Continue": true,
