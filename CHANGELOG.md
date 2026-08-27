@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.1.7 - Stable 0.6 Compatibility Hotfix - 2026-08-27
+
+### Changed
+
+- Expanded declared Hytale Server compatibility to `>=0.5.0 <0.7.0`.
+
 ## 2.1.6 - Tamework Compatibility Hotfix - 2026-08-24
 
 ### Changed
