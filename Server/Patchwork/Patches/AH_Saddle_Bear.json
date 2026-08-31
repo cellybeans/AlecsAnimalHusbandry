@@ -30,8 +30,6 @@
       "Value": {
         "AH_Saddle": {
           "None": {
-            "Model": "NPC/Beast/Bear_Grizzly/Models/Attachments/Saddle_Bear.blockymodel",
-            "Texture": "NPC/Wildlife/Moose/Models/Empty.png",
             "Weight": 1
           },
           "Yes": {

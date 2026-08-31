@@ -30,8 +30,6 @@
       "Value": {
         "AH_Saddle": {
           "None": {
-            "Model": "NPC/Beast/Spider/Models/Attachments/Saddle_Spider.blockymodel",
-            "Texture": "NPC/Wildlife/Moose/Models/Empty.png",
             "Weight": 1
           },
           "Yes": {

@@ -27,8 +27,6 @@
       "Value": {
         "AH_Saddle": {
           "None": {
-            "Model": "NPC/Swimming_Beast/Crab/Models/Attachments/Saddle_Crab.blockymodel",
-            "Texture": "NPC/Wildlife/Moose/Models/Empty.png",
             "Weight": 1
           },
           "Yes": {

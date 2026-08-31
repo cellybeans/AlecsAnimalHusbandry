@@ -29,8 +29,6 @@
       "Value": {
         "AH_Saddle": {
           "None": {
-            "Model": "NPC/Wildlife/Tortoise/Models/Attachments/Saddle_Tortoise.blockymodel",
-            "Texture": "NPC/Wildlife/Moose/Models/Empty.png",
             "Weight": 1
           },
           "Yes": {

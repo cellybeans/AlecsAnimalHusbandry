@@ -29,8 +29,6 @@
       "Value": {
         "AH_Saddle": {
           "None": {
-            "Model": "NPC/Beast/Emberwulf/Models/Attachments/Saddle_Emberwulf.blockymodel",
-            "Texture": "NPC/Wildlife/Moose/Models/Empty.png",
             "Weight": 1
           },
           "Yes": {

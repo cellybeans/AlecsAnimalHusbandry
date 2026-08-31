@@ -32,8 +32,6 @@
       "Value": {
         "AH_Saddle": {
           "None": {
-            "Model": "NPC/Beast/Wolf/Models/Attachments/Saddle_Wolf.blockymodel",
-            "Texture": "NPC/Wildlife/Moose/Models/Empty.png",
             "Weight": 1
           },
           "Yes": {

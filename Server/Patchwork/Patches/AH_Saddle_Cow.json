@@ -27,8 +27,6 @@
       "Value": {
         "AH_Saddle": {
           "None": {
-            "Model": "NPC/Livestock/Cow/Models/Attachments/Saddle_Cow.blockymodel",
-            "Texture": "NPC/Wildlife/Moose/Models/Empty.png",
             "Weight": 1
           },
           "Yes": {

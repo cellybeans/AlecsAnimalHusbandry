@@ -33,8 +33,6 @@
       "Value": {
         "AH_Saddle": {
           "None": {
-            "Model": "NPC/Wildlife/Deer/Models/Attachments/Saddle_Deer.blockymodel",
-            "Texture": "NPC/Wildlife/Deer/Models/Empty.png",
             "Weight": 1
           },
           "Yes": {
@@ -45,8 +43,6 @@
         },
         "AH_SaddleBlanket": {
           "None": {
-            "Model": "NPC/Wildlife/Deer/Models/Attachments/Blanket_Deer.blockymodel",
-            "Texture": "NPC/Wildlife/Deer/Models/Empty.png",
             "Weight": 1
           },
           "Canada": {

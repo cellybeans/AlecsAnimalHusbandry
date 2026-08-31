@@ -29,8 +29,6 @@
       "Value": {
         "AH_Saddle": {
           "None": {
-            "Model": "NPC/Livestock/Camel/Models/Attachments/Saddle_Camel.blockymodel",
-            "Texture": "NPC/Wildlife/Moose/Models/Empty.png",
             "Weight": 1
           },
           "Yes": {
