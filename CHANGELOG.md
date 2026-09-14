@@ -1,10 +1,61 @@
 # Changelog
 
-## Unreleased development changes
+## 3.0.0 - Companion UI, Wild Herds, and Bird Formations - 2026-09-14
 
-- Added a Butcher's Knife with a custom cleaver model and hand-painted texture.
-  Craft it at a tier-1 Farmer's Workbench with 2 Iron Bars and 2 Light Leather.
-  Hold primary use for 0.8 seconds to cull an owned, tamed animal.
+### New Tamework UI
+
+These interface changes come from the accompanying Alec's Tamework update and
+are part of the new experience for Animal Husbandry players. Update both mods together.
+
+- Redesigned the command panel and target HUD with a charcoal theme, animal
+  portraits, clearer health and care meters, and labeled action buttons.
+- Added Linked, Nearby, and Owned views, including owned animals that are
+  unloaded or stored. Available saved details remain visible as last-known values.
+- Replaced the command wheel with a compact command-assignment sidebar, with
+  color-coded group shortcuts and group selection on companion cards.
+- Made breeding and harvest readiness easier to see, added care-based sorting,
+  and refreshed settings, talent trees, and companion removal confirmations.
+
+### Added
+
+- Added effect descriptions to every Animal Husbandry trait tooltip, including
+  the direction and amount of each effect.
+
+- Added a Butcher's Knife with a custom cleaver model, hand-painted texture,
+  and matching inventory icon. Craft it at a tier-1 Farmer's Workbench with
+  2 Iron Bars and 2 Light Leather. Hold primary use for 0.8 seconds to cull
+  an owned, tamed animal.
+- Added default portraits for all supported animals and refreshed Aures/Celly
+  skin variants with 2,410 curated icons. Capture items and companion panels
+  share portraits that reflect supported appearance variants.
+- Added Follow Close to both command flutes for the original follow behavior.
+  Follow and non-combat Defend now use compact formations.
+- Added coordinated wild herd travel for bison, deer, and livestock, with
+  travel and rest phases, local grazing, and bison watering routines.
+- Added larger, weighted herd sizes and species-specific flying bird flock sizes.
+- Added species-specific flying formations, including duck chevrons, loose
+  bluebird, crow, and raven flocks, and widely spaced hawks and vultures.
+- Added extended circling (Kettle) episodes for birds, with individual flight
+  variation and mixed orbit directions. Raptors roam independently between
+  episodes; hawks and vultures also have glide animations.
+- Added idle ground pecking for crows, pigeons, and small songbirds.
+
+### Changed
+
+- Chickens and desert chickens now drop 1-2 Light Feathers alongside their meat.
+
+- Requires Alec's Tamework `>=4.0.0 <5.0`. Update both mods together.
+- Completed in-game localization coverage for English, German, Spanish (Spain), French (France), French (Canada), and Brazilian Portuguese. All Animal Husbandry items, roles, talents, traits, commands, interactions, happiness labels, and equipment attachment labels now use translated language keys.
+- Removed animal talent level gates; talent purchases still use talent points.
+- Expanded wild flock leaders' home radius from 40 to 80 blocks on the ground
+  and in flight, reducing frequent boundary turns.
+
+### Fixed
+
+- Fixed flock followers crowding the leader's touchdown point. Followers now
+  land beneath their own approach positions.
+- Fixed airborne birds nearly stopping while alerted to nearby targets.
+- Fixed wild Frost Dragons missing from Tamework HUD lookup.
 
 ## 2.2.0 - Wild Flying Flocks - 2026-09-09
 

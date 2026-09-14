@@ -19,7 +19,129 @@ For command-level guidance first, see:
 For complete field-by-field documentation across all config families, use:
 - [Alec's Tamework Config Reference Index](https://wiki.hytalemodding.dev/mod/alecs-tamework/config-reference-index)
 
+## Bird flight formations
+
+The aerial role templates expose these NPC role parameters. They are edited in
+role JSON, rather than through a `Tw*Config` asset.
+
+| Parameter | Default | Meaning |
+| --- | --- | --- |
+| `FlightFormation` | `None` | `None`, `Loose`, `Cluster`, `Boid`, or `Chevron`. Ducks select `Chevron`; bluebirds select `Loose`; hawks and vultures retain `Loose` as their alert-flight fallback; pigeons, sparrows, and green finches select `Cluster`. |
+| `FlightFormationSpacing` | `3` | Distance between formation positions in blocks; must be positive. |
+| `FlightFormationTightness` | `0.6` | How strongly birds return to their positions; greater than zero and at most one. |
+| `FlockLeaderLeashDistance` | `80` blocks, wild only | Shared home radius for wild flock leaders during idle flight, airborne target watching, and grounded home checks. Ordinary `WanderRadius` still controls lone birds. A larger leader radius reduces forced boundary turns without making the flock walk back to a smaller home area after landing. |
+| `FlightCruiseRelativeSpeed` | `0.25` wild / `0.3` tamed | Ambient flight speed as a fraction of `MaxSpeed`. Cruise steering uses `max(FlightCruiseRelativeSpeed, 4 / MaxSpeed)` to preserve the original 4 blocks/second level-flight minimum when formation steering allows lower speeds. Faster species settings remain in effect. Ducks use about `0.667` with `MaxSpeed: 6`. |
+| `FlightCruiseMaxHeadingChange` | `60` wild / `90` tamed | Maximum turn angle between ambient flight segments. Ducks use `30` for gentler routes. |
+| `FlightCruiseMinSegmentTime` / `FlightCruiseMaxSegmentTime` | `6` / `10` seconds | Time per ambient flight segment before choosing another direction. Obstacles and the wander boundary can shorten a segment. |
+
+Set these values in the species role's `Modify` map. `Loose` produces a compact
+group with gentle drift and staggered heights above and below the leader;
+`Cluster` produces a denser irregular group with gentle drift; `Chevron` produces two level arms behind the flock leader. Formation positions
+ease around turns. The formation flight controller caps turning at 90 degrees/second
+(or the configured limit if lower), including during landing and recovery.
+Wild formations retain separate slots during cruising and the leader's descent;
+followers switch to touchdown landing after the leader lands.
+Tamed formations apply during airborne idle. Both also keep flying in formation
+while alerted to a target that has not triggered fleeing; leaders and lone birds
+continue cruising. Close-threat fleeing and obstacle recovery take priority.
+Grounded birds retain their watch behavior, and individual commands keep their
+existing movement. Both require a flying flock leader and the matching Tamework
+build with flight formation support. Formation-enabled species have a lower
+minimum airspeed, allowing followers to catch up or slow down into position.
+Wild and tamed hawks and vultures enable `IndependentFlightRoaming`. During idle
+flight, leaders and followers share the leader's home leash point and choose independent waypoints
+around that home using
+`IndependentFlightRoamRadiusRange` (default `[40, 70]` blocks) and
+`IndependentFlightRetargetTimeRange` (default `[10, 20]` seconds). This takes
+priority over formation slots while retaining flock membership, normal flight
+pace, and obstacle avoidance. Other birds keep their configured formations.
+Leaders use the same roaming range and waypoint timing as followers; each bird
+chooses its own route around the shared home. Raptors gather around that home point
+specifically for Kettle episodes; alerts retain the existing Loose fallback.
+Follower catch-up leashes track the live leader, including on the ground.
+Independent roaming and Kettle read the leader's home directly, so home distance
+does not keep a nearby follower stuck in catch-up.
+Visual spacing and terrain behavior still need in-game tuning.
+
+See Tamework's [Flight Formation Guide](https://wiki.hytalemodding.dev/mod/alecs-tamework/flight-formation-guide)
+for integration details.
+
+## Thermal circling (Kettle)
+
+Wild and tamed hawks and vultures can enter daytime Kettle episodes during idle
+flight. Kettle uses a base pace of about 3.2 blocks/second on level flight,
+with each bird flying at 70–115% of that pace (capped at maximum flight speed).
+Hawks and vultures glide for 10.5 seconds, then flap for 1.5
+seconds, with flock members offset so they do not all flap together.
+The leader circles around its home point. Nearby flock members begin joining
+after individual 2–20 second delays,
+using individual radii of 65–150% of the configured radius and distinct height
+bands across the configured altitude range. Members alternate clockwise and
+counterclockwise orbit directions, keeping their direction while membership is stable.
+Height differences persist for the
+whole episode instead of every bird eventually reaching the same ceiling.
+During the final 30 seconds, followers depart after individual 2–25 second
+delays and resume roaming; they cannot rejoin the same ending episode. The
+leader continues circling until the episode ends. Kettle beacon checks are
+non-consuming so landing, join-delay, and orbit checks can read the same signal. Landing,
+threat responses, recovery, and companion commands retain priority.
+
+The aerial templates expose `KettleEnabled` (default `false`),
+`KettleRelativeSpeed` (default `0.8` of maximum flight speed), `KettleRadius`
+(default `18` blocks), `KettleAltitudeRange` (default `[15, 28]` above the leader's
+home point), `KettleCooldownRange` (default `[120, 240]` seconds of cooldown after an episode), and `KettleDurationRange` (default `[180, 420]` seconds).
+
+The initial wait is 60–120 seconds. Later episodes last 3–7 minutes, with
+a 2–4 minute cooldown afterward. The cooldown is paused during circling and
+resumes when eligible idle flight next checks that the episode has ended. Wild birds defer their normal timed landing while
+a Kettle episode is running. Threats, recovery, nighttime, and companion
+commands can still interrupt an episode.
+
+## Wild bird flock sizes
+
+Natural world spawns use species-specific weighted flock assets under
+`Server/NPC/Flocks/AH_Flock_*.json`. These ranges include the leader. Small and
+medium groups are more common than the largest groups; hawks have an 85% chance
+of spawning alone or as a pair. Terrain and spawn limits can produce fewer birds.
+Existing birds are not resized, and tamed group limits are unchanged.
+
+| Bird | Initial group range |
+| --- | --- |
+| Sparrow | 4–12 |
+| Green finch, pigeon | 3–10 |
+| Crow | 2–7 |
+| Raven | 1–4 |
+| Bluebird, parrot | 2–6 |
+| Duck | 2–8 |
+| Flamingo | 4–12 |
+| Penguin | 5–14 |
+| Hawk | 1–4, usually 1–2 |
+| Vulture | 2–7 |
+| Brown owl, snowy owl | 1–2, usually 1 |
+| Woodpecker | 1–3, usually 1 |
+| Chicken | 3–8 |
+| Desert chicken | 3–7 |
+| Turkey | 3–9 |
+
+These are game-scale choices informed by bird social behavior, not literal
+wild flock measurements. Social birds receive larger ranges, while solitary
+and pair-oriented birds receive smaller ranges. See Cornell's
+[hawk flocking overview](https://www.allaboutbirds.org/news/do-hawks-flock-together/),
+[raven life history](https://www.allaboutbirds.org/guide/Common_Raven/lifehistory),
+and San Diego Zoo's [flamingo guide](https://animals.sandiegozoo.org/animals/flamingo).
+
+Archaeopteryx retains its parent-and-young spawning, Tetrabird retains 2–4,
+and Pterodactyl and Skrill retain singleton spawning. Bats are unchanged.
+
+`MinSize` sets the first size and successive `SizeWeights` entries weight each
+next size. For example, `MinSize: 1` with `SizeWeights: [55, 30, 10, 5]` means
+55% one bird, 30% two, 10% three, and 5% four. Natural spawn overrides change
+only the selected bird entries' `Flock` references; other spawn settings retain
+their release 0.6.3 values. Mods overriding the same world spawn assets may
+conflict with these assignments.
+
 ## Active Animal Husbandry Config Files
+
 These are the current (non-deprecated) `AH*` config assets in this repo.
 
 ### Core Family Files
@@ -63,3 +185,5 @@ Older `Tw*Config_AnimalHusbandry_*` asset ids/names are deprecated and were repl
 - Leveling too slow/fast: tune BaseXp, GrowthFactor, and each XpSources section.
 - Talents too strong/weak: tune TalentPoints and the multipliers in the active AHTalent config.
 - Overcrowding: lower MaxNearbySameType on sensitive species.
+
+`Pigeon_Boid` is an experimental spawnable pigeon variant using local Boid steering instead of Cluster slots. Its flock membership is restricted to other `Pigeon_Boid` birds; natural pigeon spawns remain unchanged.

@@ -30,7 +30,9 @@
     "MemoriesNameOverride": "Bison_Calf",
     "NameTranslationKey": {
       "Compute": "NameTranslationKey"
-    }
+    },
+    "HerdRoamingEnabled": true,
+    "LeashDistance": 300
   },
   "Parameters": {
     "NameTranslationKey": {

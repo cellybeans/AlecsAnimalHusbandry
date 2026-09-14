@@ -14,6 +14,10 @@
       "Value": 7,
       "Description": "The wander radius of the NPC."
     },
+    "HerdRoamingEnabled": {
+      "Value": false,
+      "Description": "Travel with the native flock, using ground formation slots and shared rest breaks."
+    },
     "ViewRange": {
       "Value": 16,
       "Description": "The view distance of the NPC, in blocks."
@@ -732,6 +736,232 @@
               ]
             },
             {
+              "$Comment": "Leaders travel steadily, then rest locally; followers share the travel phase in separate ground slots.",
+              "Enabled": {
+                "Compute": "HerdRoamingEnabled"
+              },
+              "TreeMode": true,
+              "Sensor": {
+                "Type": "Time",
+                "Period": {
+                  "Compute": "DayTimePeriod"
+                },
+                "CheckDay": true
+              },
+              "Instructions": [
+                {
+                  "TreeMode": true,
+                  "Sensor": {
+                    "Type": "Self",
+                    "Filters": [
+                      {
+                        "Type": "Flock",
+                        "FlockStatus": "Leader"
+                      }
+                    ]
+                  },
+                  "Instructions": [
+                    {
+                      "Continue": true,
+                      "Sensor": {
+                        "Type": "Flag",
+                        "Name": "AH_Herd_Initialized",
+                        "Set": false
+                      },
+                      "Actions": [
+                        {
+                          "Type": "TimerStart",
+                          "Name": "AH_Herd_Travel",
+                          "StartValueRange": [
+                            60,
+                            120
+                          ],
+                          "RestartValueRange": [
+                            60,
+                            120
+                          ]
+                        },
+                        {
+                          "Type": "TimerRestart",
+                          "Name": "AH_Herd_Travel"
+                        },
+                        {
+                          "Type": "SetFlag",
+                          "Name": "AH_Herd_Travel",
+                          "SetTo": true
+                        },
+                        {
+                          "Type": "SetFlag",
+                          "Name": "AH_Herd_Initialized",
+                          "SetTo": true
+                        }
+                      ]
+                    },
+                    {
+                      "Continue": true,
+                      "Sensor": {
+                        "Type": "And",
+                        "Sensors": [
+                          {
+                            "Type": "Timer",
+                            "Name": "AH_Herd_Travel",
+                            "State": "Stopped"
+                          },
+                          {
+                            "Type": "Flag",
+                            "Name": "AH_Herd_Travel",
+                            "Set": true
+                          }
+                        ]
+                      },
+                      "Actions": [
+                        {
+                          "Type": "SetFlag",
+                          "Name": "AH_Herd_Travel",
+                          "SetTo": false
+                        },
+                        {
+                          "Type": "TimerStart",
+                          "Name": "AH_Herd_Rest",
+                          "StartValueRange": [
+                            25,
+                            40
+                          ],
+                          "RestartValueRange": [
+                            25,
+                            40
+                          ]
+                        },
+                        {
+                          "Type": "TimerRestart",
+                          "Name": "AH_Herd_Rest"
+                        }
+                      ]
+                    },
+                    {
+                      "Continue": true,
+                      "Sensor": {
+                        "Type": "And",
+                        "Sensors": [
+                          {
+                            "Type": "Timer",
+                            "Name": "AH_Herd_Rest",
+                            "State": "Stopped"
+                          },
+                          {
+                            "Type": "Flag",
+                            "Name": "AH_Herd_Travel",
+                            "Set": false
+                          }
+                        ]
+                      },
+                      "Actions": [
+                        {
+                          "Type": "TimerStart",
+                          "Name": "AH_Herd_Travel",
+                          "StartValueRange": [
+                            60,
+                            120
+                          ],
+                          "RestartValueRange": [
+                            60,
+                            120
+                          ]
+                        },
+                        {
+                          "Type": "TimerRestart",
+                          "Name": "AH_Herd_Travel"
+                        },
+                        {
+                          "Type": "SetFlag",
+                          "Name": "AH_Herd_Travel",
+                          "SetTo": true
+                        }
+                      ]
+                    },
+                    {
+                      "Sensor": {
+                        "Type": "Flag",
+                        "Name": "AH_Herd_Travel",
+                        "Set": true
+                      },
+                      "Actions": [
+                        {
+                          "Type": "Crouch",
+                          "Crouch": false
+                        },
+                        {
+                          "Type": "PlayAnimation",
+                          "Slot": "Status"
+                        },
+                        {
+                          "Type": "FlockBeacon",
+                          "Message": "AH_Herd_Travel",
+                          "SendToSelf": false,
+                          "ExpirationTime": 1
+                        }
+                      ],
+                      "BodyMotion": {
+                        "Type": "TameworkGroundFormation",
+                        "Lead": true,
+                        "HomeRange": 200,
+                        "RelativeSpeed": 0.18
+                      }
+                    }
+                  ]
+                },
+                {
+                  "Sensor": {
+                    "Type": "And",
+                    "Sensors": [
+                      {
+                        "Type": "FlockLeader"
+                      },
+                      {
+                        "Type": "Self",
+                        "Filters": [
+                          {
+                            "Type": "Flock",
+                            "FlockStatus": "Follower"
+                          }
+                        ]
+                      },
+                      {
+                        "Type": "Beacon",
+                        "Message": "AH_Herd_Travel",
+                        "Range": 128
+                      }
+                    ]
+                  },
+                  "Actions": [
+                    {
+                      "Type": "Crouch",
+                      "Crouch": false
+                    },
+                    {
+                      "Type": "PlayAnimation",
+                      "Slot": "Status"
+                    }
+                  ],
+                  "BodyMotion": {
+                    "Type": "TameworkGroundFormation",
+                    "Spacing": 5,
+                    "Tightness": 0.15,
+                    "SlotTolerance": 2.5,
+                    "RelativeSpeed": 0.25
+                  }
+                },
+                {
+                  "Reference": "Component_Instruction_Leash_To_Flock_Leader",
+                  "Modify": {
+                    "WanderRadius": 12,
+                    "StopDistance": 7,
+                    "RelativeSpeed": 0.3
+                  }
+                }
+              ]
+            },
+            {
               "$Comment": "Execute daytime idle behaviors.",
               "Type": "Random",
               "ExecuteFor": [ 20, 30 ],
@@ -763,29 +993,77 @@
                       }
                     },
                     {
-                      "BodyMotion": {
-                        "Type": "Sequence",
-                        "Looped": true,
-                        "Motions": [
-                          {
-                            "Type": "Timer",
-                            "Time": [ 1, 5 ],
-                            "Motion": {
-                              "Type": "WanderInCircle",
-                              "Radius": { "Compute": "WanderRadius" },
-                              "MaxHeadingChange": 60,
-                              "RelativeSpeed": 0.18
-                            }
+                      "Instructions": [
+                        {
+                          "Enabled": {
+                            "Compute": "HerdRoamingEnabled"
                           },
-                          {
-                            "Type": "Timer",
-                            "Time": [ 3, 8 ],
-                            "Motion": {
-                              "Type": "Nothing"
-                            }
+                          "BodyMotion": {
+                            "Type": "Sequence",
+                            "Looped": true,
+                            "Motions": [
+                              {
+                                "Type": "Timer",
+                                "Time": [
+                                  1,
+                                  5
+                                ],
+                                "Motion": {
+                                  "Type": "Wander",
+                                  "MaxHeadingChange": 60,
+                                  "RelativeSpeed": 0.18
+                                }
+                              },
+                              {
+                                "Type": "Timer",
+                                "Time": [
+                                  3,
+                                  8
+                                ],
+                                "Motion": {
+                                  "Type": "Nothing"
+                                }
+                              }
+                            ]
                           }
-                        ]
-                      }
+                        },
+                        {
+                          "Enabled": {
+                            "Compute": "!HerdRoamingEnabled"
+                          },
+                          "BodyMotion": {
+                            "Type": "Sequence",
+                            "Looped": true,
+                            "Motions": [
+                              {
+                                "Type": "Timer",
+                                "Time": [
+                                  1,
+                                  5
+                                ],
+                                "Motion": {
+                                  "Type": "WanderInCircle",
+                                  "Radius": {
+                                    "Compute": "WanderRadius"
+                                  },
+                                  "MaxHeadingChange": 60,
+                                  "RelativeSpeed": 0.18
+                                }
+                              },
+                              {
+                                "Type": "Timer",
+                                "Time": [
+                                  3,
+                                  8
+                                ],
+                                "Motion": {
+                                  "Type": "Nothing"
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      ]
                     }
                   ]
                 },

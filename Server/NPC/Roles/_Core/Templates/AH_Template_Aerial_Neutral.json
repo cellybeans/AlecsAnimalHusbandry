@@ -279,12 +279,95 @@
       "Description": "Maximum flight height over ground."
     },
     "FlockLeaderLeashDistance": {
-      "Value": 40,
-      "Description": "Home radius for a wild flock leader, in blocks."
+      "Value": 80,
+      "Description": "Home radius for a wild flock leader in flight and on the ground, in blocks."
     },
     "FlockFollowDistance": {
       "Value": 8,
       "Description": "Distance at which wild followers move back toward their flock leader, in blocks."
+    },
+    "FlightCruiseRelativeSpeed": {
+      "Value": 0.25,
+      "Description": "Relative speed during ambient airborne wandering, with the original 4 blocks/second minimum cruise pace."
+    },
+    "FlightCruiseMinSegmentTime": {
+      "Value": 6,
+      "Description": "Minimum seconds per ambient flight segment before choosing a new direction."
+    },
+    "FlightCruiseMaxSegmentTime": {
+      "Value": 10,
+      "Description": "Maximum seconds per ambient flight segment; obstacles and wander bounds can shorten it."
+    },
+    "FlightCruiseMaxHeadingChange": {
+      "Value": 60,
+      "Description": "Maximum heading change in degrees between ambient flight segments."
+    },
+    "IndependentFlightRoaming": {
+      "Value": false,
+      "Description": "Wander independently around the flock leader between kettle episodes instead of holding formation."
+    },
+    "IndependentFlightRoamRadiusRange": {
+      "Value": [
+        40,
+        70
+      ],
+      "Description": "Inner and outer radii for independent flight around the leader, in blocks."
+    },
+    "IndependentFlightRetargetTimeRange": {
+      "Value": [
+        10,
+        20
+      ],
+      "Description": "Seconds between independent flight waypoint selections."
+    },
+    "FlightFormation": {
+      "Value": "None",
+      "Description": "Ambient flock flight formation: None, Loose, Cluster, Boid, or Chevron."
+    },
+    "FlightFormationSpacing": {
+      "Value": 3,
+      "Description": "Distance between flight formation positions in blocks. Must be positive."
+    },
+    "FlightFormationTightness": {
+      "Value": 0.6,
+      "Description": "Flight formation position correction strength, greater than zero and at most one."
+    },
+    "GroundPeckEnabled": {
+      "Value": false,
+      "Description": "Pause idle ground wandering to play Eat every 5-15 seconds."
+    },
+    "KettleEnabled": {
+      "Value": false,
+      "Description": "Allow occasional ambient thermal circling."
+    },
+    "KettleRadius": {
+      "Value": 18,
+      "Description": "Base thermal orbit radius in blocks."
+    },
+    "KettleAltitudeRange": {
+      "Value": [
+        15,
+        28
+      ],
+      "Description": "Altitude above the native flock leader home point."
+    },
+    "KettleCooldownRange": {
+      "Value": [
+        120,
+        240
+      ],
+      "Description": "Seconds of cooldown after a thermal episode finishes."
+    },
+    "KettleDurationRange": {
+      "Value": [
+        180,
+        420
+      ],
+      "Description": "Seconds spent in a thermal episode."
+    },
+    "KettleRelativeSpeed": {
+      "Value": 0.8,
+      "Description": "Flight speed during thermal circling as a fraction of maximum flight speed."
     }
   },
   "IsMemory": {
@@ -328,7 +411,10 @@
   "KnockbackScale": 0.5,
   "MotionControllerList": [
     {
-      "Type": "Fly",
+      "Type": "TameworkFormationFly",
+      "Formation": {
+        "Compute": "FlightFormation"
+      },
       "MaxHorizontalSpeed": {
         "Compute": "MaxSpeed"
       },
@@ -513,6 +599,11 @@
         {
           "Type": "PlayAnimation",
           "Slot": "Status"
+        },
+        {
+          "Type": "SetFlag",
+          "Name": "AH_GroundPeckActive",
+          "SetTo": false
         }
       ]
     }
@@ -543,7 +634,74 @@
       "Continue": true,
       "Instructions": [
         {
-          "$Comment": "Track the live flock leader without replacing the threat or food target.",
+          "$Comment": "Initialize the cosmetic ground-peck timer once per role.",
+          "Enabled": {
+            "Compute": "GroundPeckEnabled"
+          },
+          "Continue": true,
+          "Sensor": {
+            "Type": "Any",
+            "Once": true
+          },
+          "Actions": [
+            {
+              "Type": "TimerStart",
+              "Name": "AH_GroundPeckCooldown",
+              "StartValueRange": [
+                5,
+                15
+              ],
+              "RestartValueRange": [
+                5,
+                15
+              ]
+            }
+          ]
+        },
+        {
+          "$Comment": "Clear an interrupted peck when physical ground contact or the walking controller is lost without leaving Idle.",
+          "Enabled": {
+            "Compute": "GroundPeckEnabled"
+          },
+          "Continue": true,
+          "Sensor": {
+            "Type": "And",
+            "Sensors": [
+              {
+                "Type": "Flag",
+                "Name": "AH_GroundPeckActive"
+              },
+              {
+                "Type": "Not",
+                "Sensor": {
+                  "Type": "And",
+                  "Sensors": [
+                    {
+                      "Type": "MotionController",
+                      "MotionController": "Walk"
+                    },
+                    {
+                      "Type": "OnGround"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "Actions": [
+            {
+              "Type": "PlayAnimation",
+              "Slot": "Status"
+            },
+            {
+              "Type": "SetFlag",
+              "Name": "AH_GroundPeckActive",
+              "SetTo": false
+            }
+          ]
+        },
+        {
+          "$Comment": "Track the live leader and measure follower catch-up from that same target. Independent flight reads the leader home directly.",
           "Enabled": {
             "Compute": "!isEmptyStringArray(FlockArray)"
           },
@@ -585,23 +743,37 @@
             "Type": "And",
             "Sensors": [
               {
-                "Type": "Mob",
-                "Range": 20,
-                "ExcludeOwnType": false,
-                "LockOnTarget": false,
-                "Filters": [
+                "Type": "Or",
+                "Sensors": [
                   {
-                    "Type": "NPCGroup",
-                    "IncludeGroups": [
-                      "Self"
-                    ]
-                  },
-                  {
-                    "Type": "Or",
+                    "Type": "Mob",
+                    "Range": 20,
+                    "ExcludeOwnType": false,
+                    "LockOnTarget": false,
                     "Filters": [
+                      {
+                        "Type": "NPCGroup",
+                        "IncludeGroups": [
+                          "Self"
+                        ]
+                      },
                       {
                         "Type": "Flock",
                         "FlockStatus": "NotMember"
+                      }
+                    ]
+                  },
+                  {
+                    "Type": "Mob",
+                    "Range": 20,
+                    "ExcludeOwnType": false,
+                    "LockOnTarget": false,
+                    "Filters": [
+                      {
+                        "Type": "NPCGroup",
+                        "IncludeGroups": [
+                          "Self"
+                        ]
                       },
                       {
                         "Type": "Flock",
@@ -1483,6 +1655,36 @@
               "ExpirationTime": 1
             }
           ]
+        },
+        {
+          "$Comment": "Clear only the follower landing target while grounded so every flight chooses fresh terrain.",
+          "Continue": true,
+          "Sensor": {
+            "Type": "And",
+            "Sensors": [
+              {
+                "Type": "MotionController",
+                "MotionController": "Walk"
+              },
+              {
+                "Type": "Self",
+                "Filters": [
+                  {
+                    "Type": "Flock",
+                    "FlockStatus": "Follower"
+                  }
+                ]
+              }
+            ]
+          },
+          "Actions": [
+            {
+              "Type": "ResetSearchRays",
+              "Names": [
+                "AH_Flock_Landing"
+              ]
+            }
+          ]
         }
       ]
     },
@@ -1902,6 +2104,92 @@
                       }
                     },
                     {
+                      "Reference": "Component_Tamework_Instruction_Flight_Kettle",
+                      "Modify": {
+                        "KettleEnabled": {
+                          "Compute": "KettleEnabled"
+                        },
+                        "KettleRadius": {
+                          "Compute": "KettleRadius"
+                        },
+                        "KettleAltitudeRange": {
+                          "Compute": "KettleAltitudeRange"
+                        },
+                        "KettleCooldownRange": {
+                          "Compute": "KettleCooldownRange"
+                        },
+                        "KettleDurationRange": {
+                          "Compute": "KettleDurationRange"
+                        },
+                        "DayTimePeriod": {
+                          "Compute": "DayTimePeriod"
+                        },
+                        "KettleRelativeSpeed": {
+                          "Compute": "KettleRelativeSpeed"
+                        }
+                      }
+                    },
+                    {
+                      "$Comment": "Independent raptors roam around the leader home point between shared thermal episodes.",
+                      "Enabled": {
+                        "Compute": "IndependentFlightRoaming"
+                      },
+                      "Sensor": {
+                        "Type": "And",
+                        "Sensors": [
+                          {
+                            "Type": "FlockLeader"
+                          },
+                          {
+                            "Type": "MotionController",
+                            "MotionController": "Fly"
+                          },
+                          {
+                            "Type": "Not",
+                            "Sensor": {
+                              "Type": "OnGround"
+                            }
+                          }
+                        ]
+                      },
+                      "BodyMotion": {
+                        "Type": "TameworkFlyingOrbit",
+                        "Mode": "WANDER_TARGET",
+                        "WanderRadiusRange": {
+                          "Compute": "IndependentFlightRoamRadiusRange"
+                        },
+                        "WanderRetargetTimeRange": {
+                          "Compute": "IndependentFlightRetargetTimeRange"
+                        },
+                        "RelativeSpeed": {
+                          "Compute": "max(FlightCruiseRelativeSpeed, 4 / MaxSpeed)"
+                        },
+                        "DesiredAltitudeRange": [
+                          0,
+                          8
+                        ],
+                        "ClimbRelativeSpeed": 0.12,
+                        "SinkRelativeSpeed": 0.12,
+                        "WanderStopDistance": 5,
+                        "AvoidObstacles": true,
+                        "UseTargetLeashPoint": true
+                      }
+                    },
+                    {
+                      "Reference": "Component_Tamework_Instruction_Flight_Formation",
+                      "Modify": {
+                        "FlightFormation": {
+                          "Compute": "FlightFormation"
+                        },
+                        "FlightFormationSpacing": {
+                          "Compute": "FlightFormationSpacing"
+                        },
+                        "FlightFormationTightness": {
+                          "Compute": "FlightFormationTightness"
+                        }
+                      }
+                    },
+                    {
                       "$Comment": "Start catching up outside the flock radius.",
                       "Continue": true,
                       "Sensor": {
@@ -2007,6 +2295,7 @@
                       }
                     },
                     {
+                      "$Comment": "After leader touchdown, land below each follower instead of converging on the leader.",
                       "Sensor": {
                         "Type": "And",
                         "Sensors": [
@@ -2016,16 +2305,51 @@
                           {
                             "Type": "Beacon",
                             "Message": "AH_Flock_Touchdown",
-                            "Range": 256
+                            "Range": 256,
+                            "ConsumeMessage": false
                           }
                         ]
                       },
-                      "BodyMotion": {
-                        "Type": "Land",
-                        "RelativeSpeed": 0.4,
-                        "SlowDownDistance": 1,
-                        "StopDistance": 0.5,
-                        "UsePathfinder": true
+                      "Instructions": [
+                        {
+                          "Sensor": {
+                            "Type": "AdjustPosition",
+                            "Offset": [
+                              0,
+                              1,
+                              0
+                            ],
+                            "Sensor": {
+                              "Type": "SearchRay",
+                              "Name": "AH_Flock_Landing",
+                              "Range": 64,
+                              "Angle": 90,
+                              "Blocks": "StoneAndSoil"
+                            }
+                          },
+                          "BodyMotion": {
+                            "Type": "Land",
+                            "RelativeSpeed": 0.4,
+                            "SlowDownDistance": 1,
+                            "StopDistance": 0.5,
+                            "UsePathfinder": true
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "$Comment": "Keep separate formation slots while the leader descends; touchdown landing above takes priority.",
+                      "Reference": "Component_Tamework_Instruction_Flight_Formation",
+                      "Modify": {
+                        "FlightFormation": {
+                          "Compute": "FlightFormation"
+                        },
+                        "FlightFormationSpacing": {
+                          "Compute": "FlightFormationSpacing"
+                        },
+                        "FlightFormationTightness": {
+                          "Compute": "FlightFormationTightness"
+                        }
                       }
                     },
                     {
@@ -2437,6 +2761,80 @@
               },
               "Instructions": [
                 {
+                  "$Comment": "Pause ground wandering for a short cosmetic peck, then wait 5-15 seconds before pecking again.",
+                  "Enabled": {
+                    "Compute": "GroundPeckEnabled"
+                  },
+                  "Sensor": {
+                    "Type": "And",
+                    "Sensors": [
+                      {
+                        "Type": "MotionController",
+                        "MotionController": "Walk"
+                      },
+                      {
+                        "Type": "OnGround"
+                      },
+                      {
+                        "Type": "Timer",
+                        "Name": "AH_GroundPeckCooldown",
+                        "State": "Stopped"
+                      }
+                    ]
+                  },
+                  "BodyMotion": {
+                    "Type": "Nothing"
+                  },
+                  "HeadMotion": {
+                    "Type": "Nothing"
+                  },
+                  "ActionsBlocking": true,
+                  "Actions": [
+                    {
+                      "Type": "SetFlag",
+                      "Name": "AH_GroundPeckActive",
+                      "SetTo": true
+                    },
+                    {
+                      "Type": "PlayAnimation",
+                      "Slot": "Status",
+                      "Animation": "Eat"
+                    },
+                    {
+                      "Type": "Timeout",
+                      "Delay": [
+                        1.5,
+                        1.5
+                      ]
+                    },
+                    {
+                      "Type": "PlayAnimation",
+                      "Slot": "Status"
+                    },
+                    {
+                      "Type": "SetFlag",
+                      "Name": "AH_GroundPeckActive",
+                      "SetTo": false
+                    },
+                    {
+                      "Type": "TimerStart",
+                      "Name": "AH_GroundPeckCooldown",
+                      "StartValueRange": [
+                        5,
+                        15
+                      ],
+                      "RestartValueRange": [
+                        5,
+                        15
+                      ]
+                    },
+                    {
+                      "Type": "TimerRestart",
+                      "Name": "AH_GroundPeckCooldown"
+                    }
+                  ]
+                },
+                {
                   "Sensor": {
                     "Type": "And",
                     "Sensors": [
@@ -2553,6 +2951,25 @@
                   },
                   "Instructions": [
                     {
+                      "$Comment": "Clear an active ground peck before the scheduled takeoff.",
+                      "Continue": true,
+                      "Sensor": {
+                        "Type": "Flag",
+                        "Name": "AH_GroundPeckActive"
+                      },
+                      "Actions": [
+                        {
+                          "Type": "PlayAnimation",
+                          "Slot": "Status"
+                        },
+                        {
+                          "Type": "SetFlag",
+                          "Name": "AH_GroundPeckActive",
+                          "SetTo": false
+                        }
+                      ]
+                    },
+                    {
                       "$Comment": "Grounded flight resumes through the native takeoff motion.",
                       "Sensor": {
                         "Type": "MotionController",
@@ -2578,20 +2995,101 @@
                     "Type": "State",
                     "State": ".Grounded"
                   },
-                  "BodyMotion": {
-                    "Type": "Wander",
-                    "RelativeSpeed": 0.25
-                  },
-                  "Actions": [
+                  "Instructions": [
                     {
-                      "Type": "Timeout",
-                      "Delay": [
-                        45,
-                        90
-                      ],
-                      "Action": {
-                        "Type": "State",
-                        "State": ".TakeOff"
+                      "Continue": true,
+                      "Actions": [
+                        {
+                          "Type": "Timeout",
+                          "Delay": [
+                            45,
+                            90
+                          ],
+                          "Action": {
+                            "Type": "State",
+                            "State": ".TakeOff"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "$Comment": "Pause ground wandering for a short cosmetic peck, then wait 5-15 seconds before pecking again.",
+                      "Enabled": {
+                        "Compute": "GroundPeckEnabled"
+                      },
+                      "Sensor": {
+                        "Type": "And",
+                        "Sensors": [
+                          {
+                            "Type": "MotionController",
+                            "MotionController": "Walk"
+                          },
+                          {
+                            "Type": "OnGround"
+                          },
+                          {
+                            "Type": "Timer",
+                            "Name": "AH_GroundPeckCooldown",
+                            "State": "Stopped"
+                          }
+                        ]
+                      },
+                      "BodyMotion": {
+                        "Type": "Nothing"
+                      },
+                      "HeadMotion": {
+                        "Type": "Nothing"
+                      },
+                      "ActionsBlocking": true,
+                      "Actions": [
+                        {
+                          "Type": "SetFlag",
+                          "Name": "AH_GroundPeckActive",
+                          "SetTo": true
+                        },
+                        {
+                          "Type": "PlayAnimation",
+                          "Slot": "Status",
+                          "Animation": "Eat"
+                        },
+                        {
+                          "Type": "Timeout",
+                          "Delay": [
+                            1.5,
+                            1.5
+                          ]
+                        },
+                        {
+                          "Type": "PlayAnimation",
+                          "Slot": "Status"
+                        },
+                        {
+                          "Type": "SetFlag",
+                          "Name": "AH_GroundPeckActive",
+                          "SetTo": false
+                        },
+                        {
+                          "Type": "TimerStart",
+                          "Name": "AH_GroundPeckCooldown",
+                          "StartValueRange": [
+                            5,
+                            15
+                          ],
+                          "RestartValueRange": [
+                            5,
+                            15
+                          ]
+                        },
+                        {
+                          "Type": "TimerRestart",
+                          "Name": "AH_GroundPeckCooldown"
+                        }
+                      ]
+                    },
+                    {
+                      "BodyMotion": {
+                        "Type": "Wander",
+                        "RelativeSpeed": 0.25
                       }
                     }
                   ]
@@ -2603,11 +3101,44 @@
                   },
                   "Instructions": [
                     {
-                      "$Comment": "An expired flight interval remains due while threats interrupt idle; land as soon as idle is safe again.",
+                      "$Comment": "Timed landing waits for an active thermal episode to finish; threats and recovery retain priority.",
                       "Sensor": {
-                        "Type": "Timer",
-                        "Name": "AH_WildFlightDuration",
-                        "State": "Stopped"
+                        "Type": "And",
+                        "Sensors": [
+                          {
+                            "Type": "Timer",
+                            "Name": "AH_WildFlightDuration",
+                            "State": "Stopped"
+                          },
+                          {
+                            "Type": "Not",
+                            "Sensor": {
+                              "Type": "Timer",
+                              "Name": "Tw_Kettle_Duration",
+                              "State": "Running"
+                            }
+                          },
+                          {
+                            "Type": "Not",
+                            "Sensor": {
+                              "Type": "Or",
+                              "Sensors": [
+                                {
+                                  "Type": "Beacon",
+                                  "Message": "Tw_Kettle_Active",
+                                  "ConsumeMessage": false,
+                                  "Range": 160
+                                },
+                                {
+                                  "Type": "Beacon",
+                                  "Message": "Tw_Kettle_Ending",
+                                  "ConsumeMessage": false,
+                                  "Range": 160
+                                }
+                              ]
+                            }
+                          }
+                        ]
                       },
                       "Actions": [
                         {
@@ -2712,6 +3243,78 @@
                       "$Comment": "Leash must provide the seek position before the self flock-status filter."
                     },
                     {
+                      "Reference": "Component_Tamework_Instruction_Flight_Kettle",
+                      "Modify": {
+                        "KettleEnabled": {
+                          "Compute": "KettleEnabled"
+                        },
+                        "KettleRadius": {
+                          "Compute": "KettleRadius"
+                        },
+                        "KettleAltitudeRange": {
+                          "Compute": "KettleAltitudeRange"
+                        },
+                        "KettleCooldownRange": {
+                          "Compute": "KettleCooldownRange"
+                        },
+                        "KettleDurationRange": {
+                          "Compute": "KettleDurationRange"
+                        },
+                        "DayTimePeriod": {
+                          "Compute": "DayTimePeriod"
+                        },
+                        "KettleRelativeSpeed": {
+                          "Compute": "KettleRelativeSpeed"
+                        }
+                      }
+                    },
+                    {
+                      "$Comment": "Independent raptors roam around the leader home point between shared thermal episodes.",
+                      "Enabled": {
+                        "Compute": "IndependentFlightRoaming"
+                      },
+                      "Sensor": {
+                        "Type": "And",
+                        "Sensors": [
+                          {
+                            "Type": "FlockLeader"
+                          },
+                          {
+                            "Type": "MotionController",
+                            "MotionController": "Fly"
+                          },
+                          {
+                            "Type": "Not",
+                            "Sensor": {
+                              "Type": "OnGround"
+                            }
+                          }
+                        ]
+                      },
+                      "BodyMotion": {
+                        "Type": "TameworkFlyingOrbit",
+                        "Mode": "WANDER_TARGET",
+                        "WanderRadiusRange": {
+                          "Compute": "IndependentFlightRoamRadiusRange"
+                        },
+                        "WanderRetargetTimeRange": {
+                          "Compute": "IndependentFlightRetargetTimeRange"
+                        },
+                        "RelativeSpeed": {
+                          "Compute": "max(FlightCruiseRelativeSpeed, 4 / MaxSpeed)"
+                        },
+                        "DesiredAltitudeRange": [
+                          0,
+                          8
+                        ],
+                        "ClimbRelativeSpeed": 0.12,
+                        "SinkRelativeSpeed": 0.12,
+                        "WanderStopDistance": 5,
+                        "AvoidObstacles": true,
+                        "UseTargetLeashPoint": true
+                      }
+                    },
+                    {
                       "Sensor": {
                         "Type": "Self",
                         "Filters": [
@@ -2726,8 +3329,14 @@
                         "Radius": {
                           "Compute": "FlockLeaderLeashDistance"
                         },
-                        "MaxHeadingChange": 60,
-                        "RelativeSpeed": 0.25
+                        "MaxHeadingChange": {
+                          "Compute": "FlightCruiseMaxHeadingChange"
+                        },
+                        "MinWalkTime": { "Compute": "FlightCruiseMinSegmentTime" },
+                        "MaxWalkTime": { "Compute": "FlightCruiseMaxSegmentTime" },
+                        "RelativeSpeed": {
+                          "Compute": "max(FlightCruiseRelativeSpeed, 4 / MaxSpeed)"
+                        }
                       }
                     },
                     {
@@ -2736,8 +3345,14 @@
                         "Radius": {
                           "Compute": "WanderRadius"
                         },
-                        "MaxHeadingChange": 60,
-                        "RelativeSpeed": 0.25
+                        "MaxHeadingChange": {
+                          "Compute": "FlightCruiseMaxHeadingChange"
+                        },
+                        "MinWalkTime": { "Compute": "FlightCruiseMinSegmentTime" },
+                        "MaxWalkTime": { "Compute": "FlightCruiseMaxSegmentTime" },
+                        "RelativeSpeed": {
+                          "Compute": "max(FlightCruiseRelativeSpeed, 4 / MaxSpeed)"
+                        }
                       }
                     }
                   ]
@@ -3439,6 +4054,176 @@
                       "State": "Flee.Switch"
                     }
                   ]
+                },
+                {
+                  "$Comment": "Keep flying while observing a target; close-threat reactions above retain priority.",
+                  "Sensor": {
+                    "Type": "And",
+                    "Sensors": [
+                      {
+                        "Type": "MotionController",
+                        "MotionController": "Fly"
+                      },
+                      {
+                        "Type": "Target"
+                      }
+                    ]
+                  },
+                  "Instructions": [
+                    {
+                      "Sensor": {
+                        "Type": "Eval",
+                        "Expression": "blocked"
+                      },
+                      "BodyMotion": {
+                        "Type": "Wander",
+                        "MinHeadingChange": 150,
+                        "MaxHeadingChange": 180,
+                        "RelativeSpeed": 1
+                      }
+                    },
+                    {
+                      "Reference": "Component_Tamework_Instruction_Flight_Formation",
+                      "Modify": {
+                        "FlightFormation": {
+                          "Compute": "FlightFormation"
+                        },
+                        "FlightFormationSpacing": {
+                          "Compute": "FlightFormationSpacing"
+                        },
+                        "FlightFormationTightness": {
+                          "Compute": "FlightFormationTightness"
+                        }
+                      }
+                    },
+                    {
+                      "BodyMotion": {
+                        "Type": "WanderInCircle",
+                        "Radius": {
+                          "Compute": "FlockLeaderLeashDistance"
+                        },
+                        "MaxHeadingChange": {
+                          "Compute": "FlightCruiseMaxHeadingChange"
+                        },
+                        "MinWalkTime": { "Compute": "FlightCruiseMinSegmentTime" },
+                        "MaxWalkTime": { "Compute": "FlightCruiseMaxSegmentTime" },
+                        "RelativeSpeed": {
+                          "Compute": "max(FlightCruiseRelativeSpeed, 4 / MaxSpeed)"
+                        }
+                      },
+                      "$Comment": "Use the flock leader home radius while watching a target, matching idle flight.",
+                      "Sensor": {
+                        "Type": "Self",
+                        "Filters": [
+                          {
+                            "Type": "Flock",
+                            "FlockStatus": "Leader"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "BodyMotion": {
+                        "Type": "WanderInCircle",
+                        "Radius": {
+                          "Compute": "WanderRadius"
+                        },
+                        "MaxHeadingChange": {
+                          "Compute": "FlightCruiseMaxHeadingChange"
+                        },
+                        "MinWalkTime": { "Compute": "FlightCruiseMinSegmentTime" },
+                        "MaxWalkTime": { "Compute": "FlightCruiseMaxSegmentTime" },
+                        "RelativeSpeed": {
+                          "Compute": "max(FlightCruiseRelativeSpeed, 4 / MaxSpeed)"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "$Comment": "Keep flying while observing a target; close-threat reactions above retain priority.",
+              "Sensor": {
+                "Type": "And",
+                "Sensors": [
+                  {
+                    "Type": "MotionController",
+                    "MotionController": "Fly"
+                  },
+                  {
+                    "Type": "Target"
+                  }
+                ]
+              },
+              "Instructions": [
+                {
+                  "Sensor": {
+                    "Type": "Eval",
+                    "Expression": "blocked"
+                  },
+                  "BodyMotion": {
+                    "Type": "Wander",
+                    "MinHeadingChange": 150,
+                    "MaxHeadingChange": 180,
+                    "RelativeSpeed": 1
+                  }
+                },
+                {
+                  "Reference": "Component_Tamework_Instruction_Flight_Formation",
+                  "Modify": {
+                    "FlightFormation": {
+                      "Compute": "FlightFormation"
+                    },
+                    "FlightFormationSpacing": {
+                      "Compute": "FlightFormationSpacing"
+                    },
+                    "FlightFormationTightness": {
+                      "Compute": "FlightFormationTightness"
+                    }
+                  }
+                },
+                {
+                  "BodyMotion": {
+                    "Type": "WanderInCircle",
+                    "Radius": {
+                      "Compute": "FlockLeaderLeashDistance"
+                    },
+                    "MaxHeadingChange": {
+                      "Compute": "FlightCruiseMaxHeadingChange"
+                    },
+                    "MinWalkTime": { "Compute": "FlightCruiseMinSegmentTime" },
+                    "MaxWalkTime": { "Compute": "FlightCruiseMaxSegmentTime" },
+                    "RelativeSpeed": {
+                      "Compute": "max(FlightCruiseRelativeSpeed, 4 / MaxSpeed)"
+                    }
+                  },
+                  "$Comment": "Use the flock leader home radius while watching a target, matching idle flight.",
+                  "Sensor": {
+                    "Type": "Self",
+                    "Filters": [
+                      {
+                        "Type": "Flock",
+                        "FlockStatus": "Leader"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "BodyMotion": {
+                    "Type": "WanderInCircle",
+                    "Radius": {
+                      "Compute": "WanderRadius"
+                    },
+                    "MaxHeadingChange": {
+                      "Compute": "FlightCruiseMaxHeadingChange"
+                    },
+                    "MinWalkTime": { "Compute": "FlightCruiseMinSegmentTime" },
+                    "MaxWalkTime": { "Compute": "FlightCruiseMaxSegmentTime" },
+                    "RelativeSpeed": {
+                      "Compute": "max(FlightCruiseRelativeSpeed, 4 / MaxSpeed)"
+                    }
+                  }
                 }
               ]
             },
@@ -3702,7 +4487,7 @@
               }
             },
             {
-              "$Comment": "Grounded flock leaders use the same forty-unit home area as flight, rather than walking back to the lone-animal inner radius.",
+              "$Comment": "Grounded flock leaders retain their flight home radius instead of walking back to the lone-animal inner radius.",
               "Sensor": {
                 "Type": "Self",
                 "Filters": [

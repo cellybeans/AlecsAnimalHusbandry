@@ -1,0 +1,261 @@
+{
+  "RoleIds": [
+    "Mouse",
+    "Tamed_Mouse"
+  ],
+  "IconOverrides": [
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysCritterSkins/Mouse/base-2000__tail-2000.png",
+      "Attachments": {
+        "Base": "2000",
+        "Tail": "2000"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysCritterSkins/Mouse/base-2000__tail-2001.png",
+      "Attachments": {
+        "Base": "2000",
+        "Tail": "2001"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysCritterSkins/Mouse/base-2000__tail-2002.png",
+      "Attachments": {
+        "Base": "2000",
+        "Tail": "2002"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysCritterSkins/Mouse/base-2001__tail-2000.png",
+      "Attachments": {
+        "Base": "2001",
+        "Tail": "2000"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysCritterSkins/Mouse/base-2001__tail-2001.png",
+      "Attachments": {
+        "Base": "2001",
+        "Tail": "2001"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysCritterSkins/Mouse/base-2001__tail-2002.png",
+      "Attachments": {
+        "Base": "2001",
+        "Tail": "2002"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysCritterSkins/Mouse/base-2002__tail-2000.png",
+      "Attachments": {
+        "Base": "2002",
+        "Tail": "2000"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysCritterSkins/Mouse/base-2002__tail-2001.png",
+      "Attachments": {
+        "Base": "2002",
+        "Tail": "2001"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysCritterSkins/Mouse/base-2002__tail-2002.png",
+      "Attachments": {
+        "Base": "2002",
+        "Tail": "2002"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysCritterSkins/Mouse/base-2003__tail-2000.png",
+      "Attachments": {
+        "Base": "2003",
+        "Tail": "2000"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysCritterSkins/Mouse/base-2003__tail-2001.png",
+      "Attachments": {
+        "Base": "2003",
+        "Tail": "2001"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysCritterSkins/Mouse/base-2003__tail-2002.png",
+      "Attachments": {
+        "Base": "2003",
+        "Tail": "2002"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysCritterSkins/Mouse/base-2004__tail-2000.png",
+      "Attachments": {
+        "Base": "2004",
+        "Tail": "2000"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysCritterSkins/Mouse/base-2004__tail-2001.png",
+      "Attachments": {
+        "Base": "2004",
+        "Tail": "2001"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysCritterSkins/Mouse/base-2004__tail-2002.png",
+      "Attachments": {
+        "Base": "2004",
+        "Tail": "2002"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysCritterSkins/Mouse/base-2005__tail-2000.png",
+      "Attachments": {
+        "Base": "2005",
+        "Tail": "2000"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysCritterSkins/Mouse/base-2005__tail-2001.png",
+      "Attachments": {
+        "Base": "2005",
+        "Tail": "2001"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysCritterSkins/Mouse/base-2005__tail-2002.png",
+      "Attachments": {
+        "Base": "2005",
+        "Tail": "2002"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysCritterSkins/Mouse/base-2006__tail-2000.png",
+      "Attachments": {
+        "Base": "2006",
+        "Tail": "2000"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysCritterSkins/Mouse/base-2006__tail-2001.png",
+      "Attachments": {
+        "Base": "2006",
+        "Tail": "2001"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysCritterSkins/Mouse/base-2006__tail-2002.png",
+      "Attachments": {
+        "Base": "2006",
+        "Tail": "2002"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysCritterSkins/Mouse/base-2007__tail-2000.png",
+      "Attachments": {
+        "Base": "2007",
+        "Tail": "2000"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysCritterSkins/Mouse/base-2007__tail-2001.png",
+      "Attachments": {
+        "Base": "2007",
+        "Tail": "2001"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysCritterSkins/Mouse/base-2007__tail-2002.png",
+      "Attachments": {
+        "Base": "2007",
+        "Tail": "2002"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysCritterSkins/Mouse/base-2008__tail-2000.png",
+      "Attachments": {
+        "Base": "2008",
+        "Tail": "2000"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysCritterSkins/Mouse/base-2008__tail-2001.png",
+      "Attachments": {
+        "Base": "2008",
+        "Tail": "2001"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysCritterSkins/Mouse/base-2008__tail-2002.png",
+      "Attachments": {
+        "Base": "2008",
+        "Tail": "2002"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysCritterSkins/Mouse/base-2009__tail-2000.png",
+      "Attachments": {
+        "Base": "2009",
+        "Tail": "2000"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysCritterSkins/Mouse/base-2009__tail-2001.png",
+      "Attachments": {
+        "Base": "2009",
+        "Tail": "2001"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysCritterSkins/Mouse/base-2009__tail-2002.png",
+      "Attachments": {
+        "Base": "2009",
+        "Tail": "2002"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysCritterSkins/Mouse/base-2010__tail-2000.png",
+      "Attachments": {
+        "Base": "2010",
+        "Tail": "2000"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysCritterSkins/Mouse/base-2010__tail-2001.png",
+      "Attachments": {
+        "Base": "2010",
+        "Tail": "2001"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysCritterSkins/Mouse/base-2010__tail-2002.png",
+      "Attachments": {
+        "Base": "2010",
+        "Tail": "2002"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysCritterSkins/Mouse/base-2011__tail-2000.png",
+      "Attachments": {
+        "Base": "2011",
+        "Tail": "2000"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysCritterSkins/Mouse/base-2011__tail-2001.png",
+      "Attachments": {
+        "Base": "2011",
+        "Tail": "2001"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysCritterSkins/Mouse/base-2011__tail-2002.png",
+      "Attachments": {
+        "Base": "2011",
+        "Tail": "2002"
+      }
+    }
+  ],
+  "IconDefault": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/BaseGame/Defaults/Mouse.png"
+}

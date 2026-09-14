@@ -465,6 +465,89 @@
     "MaxHeightOverGround": {
       "Value": 14,
       "Description": "Maximum flight height over ground."
+    },
+    "FlightCruiseRelativeSpeed": {
+      "Value": 0.3,
+      "Description": "Relative speed during ambient airborne wandering, with the original 4 blocks/second minimum cruise pace."
+    },
+    "FlightCruiseMinSegmentTime": {
+      "Value": 6,
+      "Description": "Minimum seconds per ambient flight segment before choosing a new direction."
+    },
+    "FlightCruiseMaxSegmentTime": {
+      "Value": 10,
+      "Description": "Maximum seconds per ambient flight segment; obstacles and wander bounds can shorten it."
+    },
+    "FlightCruiseMaxHeadingChange": {
+      "Value": 90,
+      "Description": "Maximum heading change in degrees between ambient flight segments."
+    },
+    "IndependentFlightRoaming": {
+      "Value": false,
+      "Description": "Wander independently around the flock leader between kettle episodes instead of holding formation."
+    },
+    "IndependentFlightRoamRadiusRange": {
+      "Value": [
+        40,
+        70
+      ],
+      "Description": "Inner and outer radii for independent flight around the leader, in blocks."
+    },
+    "IndependentFlightRetargetTimeRange": {
+      "Value": [
+        10,
+        20
+      ],
+      "Description": "Seconds between independent flight waypoint selections."
+    },
+    "FlightFormation": {
+      "Value": "None",
+      "Description": "Ambient flock flight formation: None, Loose, Cluster, Boid, or Chevron."
+    },
+    "FlightFormationSpacing": {
+      "Value": 3,
+      "Description": "Distance between flight formation positions in blocks. Must be positive."
+    },
+    "FlightFormationTightness": {
+      "Value": 0.6,
+      "Description": "Flight formation position correction strength, greater than zero and at most one."
+    },
+    "GroundPeckEnabled": {
+      "Value": false,
+      "Description": "Pause idle ground wandering to play Eat every 5-15 seconds."
+    },
+    "KettleRelativeSpeed": {
+      "Value": 0.8,
+      "Description": "Flight speed during thermal circling as a fraction of maximum flight speed."
+    },
+    "KettleEnabled": {
+      "Value": false,
+      "Description": "Allow occasional ambient thermal circling."
+    },
+    "KettleRadius": {
+      "Value": 18,
+      "Description": "Base thermal orbit radius in blocks."
+    },
+    "KettleAltitudeRange": {
+      "Value": [
+        15,
+        28
+      ],
+      "Description": "Altitude above the native flock leader home point."
+    },
+    "KettleCooldownRange": {
+      "Value": [
+        120,
+        240
+      ],
+      "Description": "Seconds of cooldown after a thermal episode finishes."
+    },
+    "KettleDurationRange": {
+      "Value": [
+        180,
+        420
+      ],
+      "Description": "Seconds spent in a thermal episode."
     }
   },
   "IsMemory": {
@@ -515,7 +598,8 @@
   "KnockbackScale": 0.5,
   "MotionControllerList": [
     {
-      "Type": "Fly",
+      "Type": "TameworkFormationFly",
+      "Formation": { "Compute": "FlightFormation" },
       "MaxHorizontalSpeed": {
         "Compute": "MaxSpeed"
       },
@@ -565,6 +649,7 @@
           "From": [
             "Idle",
             "Follow",
+            "FollowClose",
             "Hold",
             "HoldGrounded"
           ],
@@ -604,7 +689,8 @@
         {
           "From": [
             "Idle",
-            "Follow"
+            "Follow",
+            "FollowClose"
           ],
           "To": [
             "Sleep"
@@ -631,6 +717,7 @@
             "SleepWakeResolve",
             "Idle",
             "Follow",
+            "FollowClose",
             "Hold",
             "Defend",
             "CommandMove"
@@ -650,6 +737,7 @@
           ],
           "To": [
             "Follow",
+            "FollowClose",
             "Defend",
             "CommandMove"
           ]
@@ -725,6 +813,11 @@
         {
           "Type": "PlayAnimation",
           "Slot": "Status"
+        },
+        {
+          "Type": "SetFlag",
+          "Name": "AH_GroundPeckActive",
+          "SetTo": false
         }
       ]
     }
@@ -972,7 +1065,10 @@
         "LandingSearchAngle": 90,
         "LandingSlowDownDistance": 5,
         "LandingStopDistance": 0.5,
-        "LandingHeightDifference": [-3, 2],
+        "LandingHeightDifference": [
+          -3,
+          2
+        ],
         "LandingGoalLenience": 3,
         "LandingDesiredAltitudeWeight": 0
       }
@@ -1027,8 +1123,17 @@
                 "State": "Hold"
               },
               {
-                "Type": "State",
-                "State": "Follow"
+                "Type": "Or",
+                "Sensors": [
+                  {
+                    "Type": "State",
+                    "State": "Follow"
+                  },
+                  {
+                    "Type": "State",
+                    "State": "FollowClose"
+                  }
+                ]
               }
             ]
           },
@@ -1094,8 +1199,17 @@
                 "State": "Hold"
               },
               {
-                "Type": "State",
-                "State": "Follow"
+                "Type": "Or",
+                "Sensors": [
+                  {
+                    "Type": "State",
+                    "State": "Follow"
+                  },
+                  {
+                    "Type": "State",
+                    "State": "FollowClose"
+                  }
+                ]
               }
             ]
           },
@@ -1293,6 +1407,10 @@
         },
         {
           "Type": "State",
+          "State": "FollowClose"
+        },
+        {
+          "Type": "State",
           "State": "Hold"
         },
         {
@@ -1329,6 +1447,73 @@
       "$Comment": "This is separate so it can run all the time regardless of the rest of the script",
       "Continue": true,
       "Instructions": [
+        {
+          "$Comment": "Initialize the cosmetic ground-peck timer once per role.",
+          "Enabled": {
+            "Compute": "GroundPeckEnabled"
+          },
+          "Continue": true,
+          "Sensor": {
+            "Type": "Any",
+            "Once": true
+          },
+          "Actions": [
+            {
+              "Type": "TimerStart",
+              "Name": "AH_GroundPeckCooldown",
+              "StartValueRange": [
+                5,
+                15
+              ],
+              "RestartValueRange": [
+                5,
+                15
+              ]
+            }
+          ]
+        },
+        {
+          "$Comment": "Clear an interrupted peck when physical ground contact or the walking controller is lost without leaving Idle.",
+          "Enabled": {
+            "Compute": "GroundPeckEnabled"
+          },
+          "Continue": true,
+          "Sensor": {
+            "Type": "And",
+            "Sensors": [
+              {
+                "Type": "Flag",
+                "Name": "AH_GroundPeckActive"
+              },
+              {
+                "Type": "Not",
+                "Sensor": {
+                  "Type": "And",
+                  "Sensors": [
+                    {
+                      "Type": "MotionController",
+                      "MotionController": "Walk"
+                    },
+                    {
+                      "Type": "OnGround"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "Actions": [
+            {
+              "Type": "PlayAnimation",
+              "Slot": "Status"
+            },
+            {
+              "Type": "SetFlag",
+              "Name": "AH_GroundPeckActive",
+              "SetTo": false
+            }
+          ]
+        },
         {
           "$Comment": "Update flock member leash positions to match the leader.",
           "Enabled": {
@@ -1983,6 +2168,78 @@
               ]
             },
             {
+              "Reference": "Component_Tamework_Instruction_Flight_Kettle",
+              "Modify": {
+                "KettleRelativeSpeed": {
+                  "Compute": "KettleRelativeSpeed"
+                },
+                "KettleEnabled": {
+                  "Compute": "KettleEnabled"
+                },
+                "KettleRadius": {
+                  "Compute": "KettleRadius"
+                },
+                "KettleAltitudeRange": {
+                  "Compute": "KettleAltitudeRange"
+                },
+                "KettleCooldownRange": {
+                  "Compute": "KettleCooldownRange"
+                },
+                "KettleDurationRange": {
+                  "Compute": "KettleDurationRange"
+                },
+                "DayTimePeriod": {
+                  "Compute": "DayTimePeriod"
+                }
+              }
+            },
+            {
+              "$Comment": "Independent raptors roam around the leader home point between shared thermal episodes.",
+              "Enabled": {
+                "Compute": "IndependentFlightRoaming"
+              },
+              "Sensor": {
+                "Type": "And",
+                "Sensors": [
+                  {
+                    "Type": "FlockLeader"
+                  },
+                  {
+                    "Type": "MotionController",
+                    "MotionController": "Fly"
+                  },
+                  {
+                    "Type": "Not",
+                    "Sensor": {
+                      "Type": "OnGround"
+                    }
+                  }
+                ]
+              },
+              "BodyMotion": {
+                "Type": "TameworkFlyingOrbit",
+                "Mode": "WANDER_TARGET",
+                "WanderRadiusRange": {
+                  "Compute": "IndependentFlightRoamRadiusRange"
+                },
+                "WanderRetargetTimeRange": {
+                  "Compute": "IndependentFlightRetargetTimeRange"
+                },
+                "RelativeSpeed": {
+                  "Compute": "max(FlightCruiseRelativeSpeed, 4 / MaxSpeed)"
+                },
+                "DesiredAltitudeRange": [
+                  0,
+                  8
+                ],
+                "ClimbRelativeSpeed": 0.12,
+                "SinkRelativeSpeed": 0.12,
+                "WanderStopDistance": 5,
+                "AvoidObstacles": true,
+                "UseTargetLeashPoint": true
+              }
+            },
+            {
               "$Comment": "Execute daytime idle behaviors.",
               "Type": "Random",
               "ExecuteFor": [
@@ -2087,6 +2344,80 @@
                       },
                       "Instructions": [
                         {
+                          "$Comment": "Pause ground wandering for a short cosmetic peck, then wait 5-15 seconds before pecking again.",
+                          "Enabled": {
+                            "Compute": "GroundPeckEnabled"
+                          },
+                          "Sensor": {
+                            "Type": "And",
+                            "Sensors": [
+                              {
+                                "Type": "MotionController",
+                                "MotionController": "Walk"
+                              },
+                              {
+                                "Type": "OnGround"
+                              },
+                              {
+                                "Type": "Timer",
+                                "Name": "AH_GroundPeckCooldown",
+                                "State": "Stopped"
+                              }
+                            ]
+                          },
+                          "BodyMotion": {
+                            "Type": "Nothing"
+                          },
+                          "HeadMotion": {
+                            "Type": "Nothing"
+                          },
+                          "ActionsBlocking": true,
+                          "Actions": [
+                            {
+                              "Type": "SetFlag",
+                              "Name": "AH_GroundPeckActive",
+                              "SetTo": true
+                            },
+                            {
+                              "Type": "PlayAnimation",
+                              "Slot": "Status",
+                              "Animation": "Eat"
+                            },
+                            {
+                              "Type": "Timeout",
+                              "Delay": [
+                                1.5,
+                                1.5
+                              ]
+                            },
+                            {
+                              "Type": "PlayAnimation",
+                              "Slot": "Status"
+                            },
+                            {
+                              "Type": "SetFlag",
+                              "Name": "AH_GroundPeckActive",
+                              "SetTo": false
+                            },
+                            {
+                              "Type": "TimerStart",
+                              "Name": "AH_GroundPeckCooldown",
+                              "StartValueRange": [
+                                5,
+                                15
+                              ],
+                              "RestartValueRange": [
+                                5,
+                                15
+                              ]
+                            },
+                            {
+                              "Type": "TimerRestart",
+                              "Name": "AH_GroundPeckCooldown"
+                            }
+                          ]
+                        },
+                        {
                           "Reference": "Component_Instruction_Leash_To_Flock_Leader",
                           "Modify": {
                             "Enabled": {
@@ -2149,13 +2480,38 @@
                           }
                         ]
                       },
-                      "BodyMotion": {
-                        "Type": "WanderInCircle",
-                        "Radius": {
-                          "Compute": "WanderRadius"
+                      "Instructions": [
+                        {
+                          "Reference": "Component_Tamework_Instruction_Flight_Formation",
+                          "Modify": {
+                            "FlightFormation": {
+                              "Compute": "FlightFormation"
+                            },
+                            "FlightFormationSpacing": {
+                              "Compute": "FlightFormationSpacing"
+                            },
+                            "FlightFormationTightness": {
+                              "Compute": "FlightFormationTightness"
+                            }
+                          }
                         },
-                        "RelativeSpeed": 0.3
-                      }
+                        {
+                          "BodyMotion": {
+                            "Type": "WanderInCircle",
+                            "Radius": {
+                              "Compute": "WanderRadius"
+                            },
+                            "MaxHeadingChange": {
+                              "Compute": "FlightCruiseMaxHeadingChange"
+                            },
+                            "MinWalkTime": { "Compute": "FlightCruiseMinSegmentTime" },
+                            "MaxWalkTime": { "Compute": "FlightCruiseMaxSegmentTime" },
+                            "RelativeSpeed": {
+                              "Compute": "max(FlightCruiseRelativeSpeed, 4 / MaxSpeed)"
+                            }
+                          }
+                        }
+                      ]
                     }
                   ]
                 },
@@ -2533,8 +2889,17 @@
             "Compute": "CanFollow || CanRecall"
           },
           "Sensor": {
-            "Type": "State",
-            "State": "Follow"
+            "Type": "Or",
+            "Sensors": [
+              {
+                "Type": "State",
+                "State": "Follow"
+              },
+              {
+                "Type": "State",
+                "State": "FollowClose"
+              }
+            ]
           },
           "Instructions": [
             {
@@ -2817,6 +3182,65 @@
                 {
                   "Type": "State",
                   "State": "Flee.Switch"
+                }
+              ]
+            },
+            {
+              "$Comment": "Keep flying while observing a target; close-threat reactions above retain priority.",
+              "Sensor": {
+                "Type": "And",
+                "Sensors": [
+                  {
+                    "Type": "MotionController",
+                    "MotionController": "Fly"
+                  },
+                  {
+                    "Type": "Target"
+                  }
+                ]
+              },
+              "Instructions": [
+                {
+                  "Sensor": {
+                    "Type": "Eval",
+                    "Expression": "blocked"
+                  },
+                  "BodyMotion": {
+                    "Type": "Wander",
+                    "MinHeadingChange": 150,
+                    "MaxHeadingChange": 180,
+                    "RelativeSpeed": 1
+                  }
+                },
+                {
+                  "Reference": "Component_Tamework_Instruction_Flight_Formation",
+                  "Modify": {
+                    "FlightFormation": {
+                      "Compute": "FlightFormation"
+                    },
+                    "FlightFormationSpacing": {
+                      "Compute": "FlightFormationSpacing"
+                    },
+                    "FlightFormationTightness": {
+                      "Compute": "FlightFormationTightness"
+                    }
+                  }
+                },
+                {
+                  "BodyMotion": {
+                    "Type": "WanderInCircle",
+                    "Radius": {
+                      "Compute": "WanderRadius"
+                    },
+                    "MaxHeadingChange": {
+                      "Compute": "FlightCruiseMaxHeadingChange"
+                    },
+                    "MinWalkTime": { "Compute": "FlightCruiseMinSegmentTime" },
+                    "MaxWalkTime": { "Compute": "FlightCruiseMaxSegmentTime" },
+                    "RelativeSpeed": {
+                      "Compute": "max(FlightCruiseRelativeSpeed, 4 / MaxSpeed)"
+                    }
+                  }
                 }
               ]
             },

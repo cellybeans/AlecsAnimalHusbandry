@@ -1,0 +1,345 @@
+{
+  "RoleIds": [
+    "Fox",
+    "Tamed_Fox"
+  ],
+  "IconOverrides": [
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysBeastSkins/Fox/base-2000__paws-2000.png",
+      "Attachments": {
+        "Base": "2000",
+        "Paws": "2000"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysBeastSkins/Fox/base-2000__paws-2001.png",
+      "Attachments": {
+        "Base": "2000",
+        "Paws": "2001"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysBeastSkins/Fox/base-2000__paws-2002.png",
+      "Attachments": {
+        "Base": "2000",
+        "Paws": "2002"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysBeastSkins/Fox/base-2000__paws-2500.png",
+      "Attachments": {
+        "Base": "2000",
+        "Paws": "2500"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysBeastSkins/Fox/base-2000__paws-2501.png",
+      "Attachments": {
+        "Base": "2000",
+        "Paws": "2501"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysBeastSkins/Fox/base-2000__paws-2502.png",
+      "Attachments": {
+        "Base": "2000",
+        "Paws": "2502"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysBeastSkins/Fox/base-2001__paws-2000.png",
+      "Attachments": {
+        "Base": "2001",
+        "Paws": "2000"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysBeastSkins/Fox/base-2001__paws-2001.png",
+      "Attachments": {
+        "Base": "2001",
+        "Paws": "2001"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysBeastSkins/Fox/base-2001__paws-2002.png",
+      "Attachments": {
+        "Base": "2001",
+        "Paws": "2002"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysBeastSkins/Fox/base-2001__paws-2500.png",
+      "Attachments": {
+        "Base": "2001",
+        "Paws": "2500"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysBeastSkins/Fox/base-2001__paws-2501.png",
+      "Attachments": {
+        "Base": "2001",
+        "Paws": "2501"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysBeastSkins/Fox/base-2001__paws-2502.png",
+      "Attachments": {
+        "Base": "2001",
+        "Paws": "2502"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysBeastSkins/Fox/base-2002__paws-2000.png",
+      "Attachments": {
+        "Base": "2002",
+        "Paws": "2000"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysBeastSkins/Fox/base-2002__paws-2001.png",
+      "Attachments": {
+        "Base": "2002",
+        "Paws": "2001"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysBeastSkins/Fox/base-2002__paws-2002.png",
+      "Attachments": {
+        "Base": "2002",
+        "Paws": "2002"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysBeastSkins/Fox/base-2002__paws-2500.png",
+      "Attachments": {
+        "Base": "2002",
+        "Paws": "2500"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysBeastSkins/Fox/base-2002__paws-2501.png",
+      "Attachments": {
+        "Base": "2002",
+        "Paws": "2501"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysBeastSkins/Fox/base-2002__paws-2502.png",
+      "Attachments": {
+        "Base": "2002",
+        "Paws": "2502"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysBeastSkins/Fox/base-2003__paws-2000.png",
+      "Attachments": {
+        "Base": "2003",
+        "Paws": "2000"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysBeastSkins/Fox/base-2003__paws-2001.png",
+      "Attachments": {
+        "Base": "2003",
+        "Paws": "2001"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysBeastSkins/Fox/base-2003__paws-2002.png",
+      "Attachments": {
+        "Base": "2003",
+        "Paws": "2002"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysBeastSkins/Fox/base-2003__paws-2500.png",
+      "Attachments": {
+        "Base": "2003",
+        "Paws": "2500"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysBeastSkins/Fox/base-2003__paws-2501.png",
+      "Attachments": {
+        "Base": "2003",
+        "Paws": "2501"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysBeastSkins/Fox/base-2003__paws-2502.png",
+      "Attachments": {
+        "Base": "2003",
+        "Paws": "2502"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysBeastSkins/Fox/base-2004__paws-2000.png",
+      "Attachments": {
+        "Base": "2004",
+        "Paws": "2000"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysBeastSkins/Fox/base-2004__paws-2001.png",
+      "Attachments": {
+        "Base": "2004",
+        "Paws": "2001"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysBeastSkins/Fox/base-2004__paws-2002.png",
+      "Attachments": {
+        "Base": "2004",
+        "Paws": "2002"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysBeastSkins/Fox/base-2004__paws-2500.png",
+      "Attachments": {
+        "Base": "2004",
+        "Paws": "2500"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysBeastSkins/Fox/base-2004__paws-2501.png",
+      "Attachments": {
+        "Base": "2004",
+        "Paws": "2501"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysBeastSkins/Fox/base-2004__paws-2502.png",
+      "Attachments": {
+        "Base": "2004",
+        "Paws": "2502"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysBeastSkins/Fox/base-2500__paws-2000.png",
+      "Attachments": {
+        "Base": "2500",
+        "Paws": "2000"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysBeastSkins/Fox/base-2500__paws-2001.png",
+      "Attachments": {
+        "Base": "2500",
+        "Paws": "2001"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysBeastSkins/Fox/base-2500__paws-2002.png",
+      "Attachments": {
+        "Base": "2500",
+        "Paws": "2002"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysBeastSkins/Fox/base-2500__paws-2500.png",
+      "Attachments": {
+        "Base": "2500",
+        "Paws": "2500"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysBeastSkins/Fox/base-2500__paws-2501.png",
+      "Attachments": {
+        "Base": "2500",
+        "Paws": "2501"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysBeastSkins/Fox/base-2500__paws-2502.png",
+      "Attachments": {
+        "Base": "2500",
+        "Paws": "2502"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysBeastSkins/Fox/base-2501__paws-2000.png",
+      "Attachments": {
+        "Base": "2501",
+        "Paws": "2000"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysBeastSkins/Fox/base-2501__paws-2001.png",
+      "Attachments": {
+        "Base": "2501",
+        "Paws": "2001"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysBeastSkins/Fox/base-2501__paws-2002.png",
+      "Attachments": {
+        "Base": "2501",
+        "Paws": "2002"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysBeastSkins/Fox/base-2501__paws-2500.png",
+      "Attachments": {
+        "Base": "2501",
+        "Paws": "2500"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysBeastSkins/Fox/base-2501__paws-2501.png",
+      "Attachments": {
+        "Base": "2501",
+        "Paws": "2501"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysBeastSkins/Fox/base-2501__paws-2502.png",
+      "Attachments": {
+        "Base": "2501",
+        "Paws": "2502"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysBeastSkins/Fox/base-2502__paws-2000.png",
+      "Attachments": {
+        "Base": "2502",
+        "Paws": "2000"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysBeastSkins/Fox/base-2502__paws-2001.png",
+      "Attachments": {
+        "Base": "2502",
+        "Paws": "2001"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysBeastSkins/Fox/base-2502__paws-2002.png",
+      "Attachments": {
+        "Base": "2502",
+        "Paws": "2002"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysBeastSkins/Fox/base-2502__paws-2500.png",
+      "Attachments": {
+        "Base": "2502",
+        "Paws": "2500"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysBeastSkins/Fox/base-2502__paws-2501.png",
+      "Attachments": {
+        "Base": "2502",
+        "Paws": "2501"
+      }
+    },
+    {
+      "Icon": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/cellysBeastSkins/Fox/base-2502__paws-2502.png",
+      "Attachments": {
+        "Base": "2502",
+        "Paws": "2502"
+      }
+    }
+  ],
+  "IconDefault": "Icons/ItemsGenerated/AnimalHusbandry/Portraits/BaseGame/Defaults/Fox.png"
+}

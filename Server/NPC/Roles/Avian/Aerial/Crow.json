@@ -1,5 +1,7 @@
 {
   "Modify": {
+    "FlightFormation": "Loose",
+    "FlightFormationSpacing": 6,
     "Appearance": "Crow",
     "AttractiveItemSet": [
       "Plant_Crop_Corn_Item"
@@ -21,7 +23,8 @@
     "TameRoleChange": {
       "Compute": "TameRoleChange"
     },
-    "WanderRadius": 15
+    "WanderRadius": 15,
+    "GroundPeckEnabled": true
   },
   "Parameters": {
     "IsTameable": {
