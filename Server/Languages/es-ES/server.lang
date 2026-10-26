@@ -17,6 +17,14 @@ items.AnimalHusbandry_Command_Item.name=Flauta de control animal
 items.AnimalHusbandry_Command_Item.description=Haz clic izquierdo en un animal domesticado para vincularlo a esta flauta.\nHaz clic derecho para abrir el menú de órdenes.\nHaz clic izquierdo después de seleccionar una orden para darla.\nMira a un animal para inspeccionarlo.
 items.AnimalHusbandry_Command_Item_Shakuhachi.name=Flauta de bestia de combate
 items.AnimalHusbandry_Command_Item_Shakuhachi.description=Haz clic izquierdo en una bestia domesticada para vincularla a esta flauta.\nHaz clic derecho para abrir el menú de órdenes.\nHaz clic izquierdo después de seleccionar una orden para darla.\nMira a un animal para inspeccionarlo.
+items.AnimalHusbandry_Command_Item.icon.redCircle=Círculo rojo
+items.AnimalHusbandry_Command_Item.icon.orangeTriangle=Triángulo naranja
+items.AnimalHusbandry_Command_Item.icon.yellowStar=Estrella amarilla
+items.AnimalHusbandry_Command_Item.icon.greenSquare=Cuadrado verde
+items.AnimalHusbandry_Command_Item.icon.tealDiamond=Rombo turquesa
+items.AnimalHusbandry_Command_Item.icon.blueChevron=Flecha azul
+items.AnimalHusbandry_Command_Item.icon.purpleHexagon=Hexágono morado
+items.AnimalHusbandry_Command_Item.icon.pinkHeart=Corazón rosa
 items.AnimalHusbandry_Soul_Lantern.name=Linterna de almas
 items.AnimalHusbandry_Soul_Lantern.nameFull=Linterna de almas ({npc})
 items.AnimalHusbandry_Soul_Lantern.description=Captura y libera a tus criaturas domesticadas.
@@ -202,6 +210,10 @@ animalhusbandry.traits.swiftness.name=Rapidez
 animalhusbandry.traits.toughness.name=Resistencia
 animalhusbandry.traits.strength.name=Fuerza
 animalhusbandry.traits.bounty.name=Recompensa
+animalhusbandry.traits.appetite.name=Apetito
+animalhusbandry.traits.thirstEfficiency.name=Eficiencia hídrica
+animalhusbandry.traits.regrowth.name=Regeneración
+animalhusbandry.traits.fleeceProductivity.name=Productividad
 
 # Commands
 animalhusbandry.commands.follow.name=Seguir
@@ -257,6 +269,10 @@ animalhusbandry.happiness.population.crowded=Aglomerado
 items.AH_Butchers_Knife.name=Cuchillo de carnicero
 items.AH_Butchers_Knife.description=Mantén pulsado el uso principal para sacrificar un animal domesticado que te pertenezca.
 
+# Eggzooka
+items.AH_Eggzooka.name=Eggzooka
+items.AH_Eggzooka.description=Cárgalo con huevos y dispara. Los impactos salpican yema en la pantalla del objetivo.
+
 # Accesorios de equipo
 animalhusbandry.attachments.saddle.label=Silla de montar
 animalhusbandry.attachments.saddle.none=Sin silla de montar
@@ -284,3 +300,16 @@ animalhusbandry.attachments.blanket.lightRed=Rojo claro
 animalhusbandry.attachments.blanket.red=Rojo
 animalhusbandry.attachments.blanket.lightYellow=Amarillo claro
 animalhusbandry.attachments.blanket.yellow=Amarillo
+
+npcRoles.AH_Chicken_Chick_Boss.name=Lil Cluck
+npcRoles.AH_Raccoon.name=Mapache
+npcRoles.AH_Chicken_Chick_Boss_Minion.name=Pollito fiestero
+npcRoles.AH_Chicken_Ghost.name=Gallina fantasma
+
+animalhusbandry.lilCluck.offerGold=Ofrecer oro
+animalhusbandry.lilCluck.summoned=Has alterado el orden del gallinero.
+items.AH_Bench_Husbandry.name=Banco de ganadería
+items.AH_Bench_Husbandry.description=Fabrica arreos, pienso y herramientas para criar a tus animales.
+benchCategories.ahhusbandrybench.husbandry=Ganadería
+npcRoles.Dragon_Void.name=Dragón del Vacío
+npcRoles.AH_Dragon_Void_Singularity.name=Singularidad del Vacío

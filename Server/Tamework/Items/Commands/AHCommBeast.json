@@ -3,6 +3,16 @@
   "ItemIds": [
     "AnimalHusbandry_Command_Item_Shakuhachi"
   ],
+  "IconOptions": [
+    {"State": "RedCircle", "LabelKey": "server.items.AnimalHusbandry_Command_Item.icon.redCircle"},
+    {"State": "OrangeTriangle", "LabelKey": "server.items.AnimalHusbandry_Command_Item.icon.orangeTriangle"},
+    {"State": "YellowStar", "LabelKey": "server.items.AnimalHusbandry_Command_Item.icon.yellowStar"},
+    {"State": "GreenSquare", "LabelKey": "server.items.AnimalHusbandry_Command_Item.icon.greenSquare"},
+    {"State": "TealDiamond", "LabelKey": "server.items.AnimalHusbandry_Command_Item.icon.tealDiamond"},
+    {"State": "BlueChevron", "LabelKey": "server.items.AnimalHusbandry_Command_Item.icon.blueChevron"},
+    {"State": "PurpleHexagon", "LabelKey": "server.items.AnimalHusbandry_Command_Item.icon.purpleHexagon"},
+    {"State": "PinkHeart", "LabelKey": "server.items.AnimalHusbandry_Command_Item.icon.pinkHeart"}
+  ],
   "Radius": -1,
   "MembershipMode": "LinkedOnly",
   "LinkEnabled": true,
@@ -11,7 +21,7 @@
   "RequireOwner": true,
   "MaxTargets": 25,
   "MaxActive": 3,
-  "CooldownSeconds": 1,
+  "CooldownSeconds": 0.25,
   "RequireLineOfSight": false,
   "AllowedRoles": {
     "Mode": "Allowlist",
@@ -20,6 +30,8 @@
       "Tamed_Bear_Polar",
       "Tamed_Crocodile",
       "Tamed_Dragon_Frost",
+      "Tamed_Dragon_Fire",
+      "Tamed_Dragon_Void",
       "Tamed_Emberwulf",
       "Tamed_Fen_Stalker",
       "Tamed_Fox",
@@ -264,6 +276,36 @@
         {
           "Type": "TriggerHook",
           "HookId": "AnimalHusbandry.Command.ToggleFrostDragonAirborneMode"
+        }
+      ]
+    },
+    {
+      "Id": "ToggleFireDragonAirborneMode",
+      "ShowInRadial": false,
+      "DisplayName": "animalhusbandry.commands.toggleFlightMode.name",
+      "Feedback": {
+        "HudMessage": "animalhusbandry.commands.toggleFlightMode.hud",
+        "SoundEvent": "SFX_AnimalHusbandry_Shakuhachi_SE_13"
+      },
+      "Steps": [
+        {
+          "Type": "TriggerHook",
+          "HookId": "AnimalHusbandry.Command.ToggleFireDragonAirborneMode"
+        }
+      ]
+    },
+    {
+      "Id": "ToggleVoidDragonAirborneMode",
+      "ShowInRadial": false,
+      "DisplayName": "animalhusbandry.commands.toggleFlightMode.name",
+      "Feedback": {
+        "HudMessage": "animalhusbandry.commands.toggleFlightMode.hud",
+        "SoundEvent": "SFX_AnimalHusbandry_Shakuhachi_SE_13"
+      },
+      "Steps": [
+        {
+          "Type": "TriggerHook",
+          "HookId": "AnimalHusbandry.Command.ToggleVoidDragonAirborneMode"
         }
       ]
     }

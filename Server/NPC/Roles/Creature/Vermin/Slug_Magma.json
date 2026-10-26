@@ -2,6 +2,7 @@
   "Type": "Variant",
   "Reference": "AH_Template_Predator",
   "Modify": {
+    "DeathParticles": "Effect_Death_Flames",
     "Appearance": "Slug_Magma",
     "DropList": "Drop_Slug_Magma",
     "Attack": "Larva_Silk_Bite",
@@ -28,7 +29,7 @@
     "DayTimeNapWeight": 0,
     "TimidDuringDay": true,
     "_CombatConfig": {
-      "EntityEffect": "Immunity_Fire"
+      "EntityEffects": ["Immunity_Fire"]
     },
     "IsMemory": true,
     "MemoriesCategory": "Critter",

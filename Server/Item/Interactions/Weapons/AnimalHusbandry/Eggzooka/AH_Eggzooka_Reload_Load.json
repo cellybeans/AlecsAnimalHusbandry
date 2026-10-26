@@ -1,0 +1,12 @@
+{
+  "Type": "Simple",
+  "RunTime": 0.7,
+  "HorizontalSpeedMultiplier": 0.75,
+  "Effects": {
+    "ItemAnimationId": "Reload",
+    "WorldSoundEventId": "SFX_AH_Eggzooka_Load",
+    "LocalSoundEventId": "SFX_AH_Eggzooka_Load",
+    "ClearAnimationOnFinish": true
+  },
+  "Next": "Common_StatAmmoReload_StatModifier"
+}

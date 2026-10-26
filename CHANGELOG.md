@@ -1,5 +1,109 @@
 # Changelog
 
+## 4.1.1 - Wander and Water Fixes - 2026-10-22
+
+Supports Hytale 0.6.7 and later in Update 6, and Hytale 0.7. Requires Alec's Tamework `>=5.4.0 <6.0`.
+
+- Tamed animals no longer drift away while wandering. Their wander area now moves only when you take them out of Follow, Hold, or a move command, not every time they nap, eat, drink, flee, or fight, so they stay near where you told them to wander.
+- When you tell a following animal to wander, its wander area now centers on where you stand, as long as you are within 16 blocks, instead of on the spot where it stopped.
+- Tamed dragons now keep a wander area the same way: it moves to where they leave Follow, Hold, a move command, or being ridden, and to where you stand when they stop following you. Before, they always wandered back to where they were tamed or spawned.
+- Tamed dragons that end up in water while idle, for example after landing in it, now walk back out toward their wander area instead of wading around in it.
+- Tamed predators and small critters that wander into water walk back toward their wander area and no longer settle or sleep underwater. They can still breathe underwater, so they can reach water to drink and follow you through it.
+- Tamed livestock and birds now follow you through water. They only run out of water when they are wandering, so stepping into water no longer drops them out of Follow, Hold, or a move command, or interrupts a trip to drink.
+
+## 4.1.0 - Turning Animations and the Ghost Chicken - 2026-10-17
+
+Supports Hytale 0.6.7 and later in Update 6, and Hytale 0.7. Requires Alec's Tamework `>=5.4.0 <6.0`. Update both mods together.
+
+- Animals now step around when they turn on the spot, instead of spinning in place. Cows, calves, and pigs use the base game's unused turning animations, and every other tameable animal and the Frost Dragon get a new turning animation built from their own walk.
+- Added the Ghost Chicken, an easter egg. On about one new moon in three it appears on top of a chicken coop: it floats about, blinks out of sight every so often, and vanishes when a player comes within 5 blocks. It is see-through and glows, fades away at dawn, and cannot be hurt.
+- Wild Frost Dragons now cruise and soar while idle in flight and keep a level height against flying targets. In flight they wander up to 80 blocks from their home point.
+
+## 4.0.2 - Hytale 0.7.0 Support and Creature Fixes - 2026-10-13
+
+Supports Hytale 0.6.7 and later in Update 6, and Hytale 0.7.0. On Hytale 0.7.0, use Alec's Tamework 5.2.1 or later.
+
+- Fixed servers on Hytale 0.7.0 shutting down at startup with a failed NPC validation for `Spider_Cave_Ambush`.
+- Ambush Cave Spiders stand still while idle, as in the base game.
+- Spiders and Cave Spiders now match their Update 7 stats and are afraid of torches. A spider keeps its distance while its target holds a torch and looks at it.
+- Wild wolf packs take turns attacking again, as in the base game.
+- Raised Eggzooka egg damage from 4 to 15.
+- Tamework's Tranquilizer Dart Rifle and Tranquilizer Darts are now crafted at the Animal Husbandry Workbench instead of the Weapon Bench.
+- Raccoons now keep walking while they sniff their way toward a held egg.
+- Added Curious animations for Cactees, Geckos, Meerkats, Snails, Squirrels, and Magma Slugs, plus Idle and Alerted animations for Magma Slugs.
+- Magma Rhino Toads and Magma Slugs are immune to fire again.
+- Wild and tamed Skrill lay eggs again, as in the base game.
+- Wild snails pause 8-12 seconds between wanders again, as in the base game.
+- Restored base-game death particles: a medium burst for predators, flames for magma creatures, and bones for skeleton horses.
+
+## 4.0.1 - Flute Shortcuts on Update 7 - 2026-10-09
+
+- On Hytale Update 7, the E and R shortcuts on the Animal Control Flute and Combat Beast Flute keep working. The Update 7 client only sends those keys with a weapon in hand, so both flutes count as weapons there. Nothing changes on Update 6.
+
+## 4.0.0 - Husbandry Workbench, Raccoons, and the Eggzooka - 2026-10-05
+
+Requires Hytale 0.6.7 or later in Update 6 and Alec's Tamework `>=5.0.0 <6.0`. Update both mods together.
+
+- Added the Animal Husbandry Workbench. Craft it at a basic Workbench with 6 wood trunks, 2 Light Leather, and 20 Plant Fiber.
+- Moved every Animal Husbandry recipe from the Farming bench to the Animal Husbandry Workbench and removed their tier requirements. This covers both command flutes, the Soul Lantern, saddles, the Butcher's Knife, the Scarecrow, and the Flightmaster's Talisman.
+- Tamework's herbivore feed, carnivore feed, and Feed Trough are now crafted at the Animal Husbandry Workbench too.
+- Added the Raccoon. Raccoons spawn alone or in pairs in Zone 1 forests from evening to morning, sniff their way toward a player holding an egg, and beg once they get close.
+- Raccoons can be tamed with eggs and support the full companion suite: needs, happiness, breeding, leveling, traits, talents, flute commands, Soul Lantern capture, and a portrait icon.
+- Added the Eggzooka, an egg launcher dropped by Lil Cluck. Load it with eggs and fire. Eggs splat on walls, and a hit coats the target in yolk and drips yolk down a player's screen for five seconds.
+- Lil Cluck now also drops 6-10 eggs.
+- Added eating animations for about 30 animals that had none, including wolves, foxes, hyenas, sabertooth tigers, yetis, crocodiles, raptors, snakes, spiders, bats, ducks, and Frost Dragons.
+- Added lie-down, sleep, and wake animations for Magma Slugs, and filled in missing lie-down and wake animations for Cactees and Frost Dragons.
+- Wild Frost Dragons gained Icy Wind, a sustained gale they blow while hovering that pushes targets away.
+- Frost Dragon ground breath now has a wind-up tell, commits to its starting aim, and leaves a line of lingering ice spikes that knock targets up.
+- You can now pet a tamed Frost Dragon.
+- Removed the cat animation patch that replaced the Alec's Cats model.
+
+## 3.3.1 - Frost Dragon Boost Animations - 2026-10-03
+
+Requires Hytale 0.6.7 or later in Update 6 and Alec's Tamework `>=4.3.0 <5.0`.
+
+- Added a dedicated upward-boost animation for Frost Dragon avatar flight: the dragon rears upright and drives its wings down to launch upward. It replaces the reused Icy Wind animation.
+- Added a forward-boost animation for Frost Dragon avatar flight: one hard wing stroke lunges the dragon forward and settles into the glide.
+
+## 3.3.0 - Lil Cluck - 2026-09-28
+
+Requires Hytale 0.6.7 or later in Update 6 and Alec's Tamework `>=4.3.0 <5.0`. Update both mods together.
+
+- Added Lil Cluck, an easter-egg boss wearing sunglasses and a gold chain. Crouch-interact with your own tamed chick while holding a gold ingot to summon him. The ingot is consumed and the chick becomes a hostile boss.
+- Fight pursuing peck combos, a charge that stuns him on wall impact, and marked egg volleys that burst or hatch attacking chicks. Hatchlings remain until killed, and egg volleys cannot repeat consecutively.
+- At 75% health, Lil Cluck unlocks a leap toward your position with a jumpable feather-ring shockwave. At 50%, he unlocks a 10-second red laser with a one-second warning and limited turning speed.
+- Nearby fighters see Lil Cluck's native boss health bar. He does not naturally regenerate health during combat.
+- Wild and tamed beasts and Frost Dragons also stop naturally regenerating health while fighting; normal regeneration resumes after disengaging.
+- Frost Dragons now spawn through distant Zone 3 mountain beacons, with one dragon per beacon, a 1-3 minute initial delay, and a 15-25 minute respawn cooldown.
+- Frost Dragons now react to distant arrow hits and drop 4-6 Ice Essence when killed. Added an icon for their Chilled effect.
+
+## 3.2.0 - Command Flute Badges - 2026-09-23
+
+Requires Alec's Tamework `>=4.2.0 <5.0`.
+
+- Added eight selectable color-and-shape icon badges for both command flutes,
+  making individual flutes easier to tell apart.
+
+## 3.1.0 - Animal Aging, Traits, and Companion Controls - 2026-09-19
+
+Requires Alec's Tamework `>=4.1.0 <5.0`. Update both mods together.
+
+- Added adult aging for livestock, neutral animals, and beasts, using Rune
+  Husbandry's species timings where shared. Animals freeze at Prime by default;
+  full aging and optional old-age death follow `/tw settings`.
+
+- Added Appetite and Thirst Efficiency traits for livestock, plus Regrowth and
+  Productivity for harvest livestock, using Rune Husbandry’s trait ranges.
+
+- Both command flutes now use a 0.25-second command cooldown.
+- Critical hunger and thirst reminders alternate every five seconds.
+- Separated tame birds' ground and flight wander ranges and matched small-bird
+  flight speeds to bluebirds.
+- Centered the Butcher's Knife in its crafting preview.
+- Refreshed companion controls and server preset guides for Tamework 4.1.0:
+  owned animals appear automatically, selection is per flute, and groups are shared.
+  Hardcore disables revives and recall teleportation and enables old-age death.
+
 ## 3.0.0 - Companion UI, Wild Herds, and Bird Formations - 2026-09-14
 
 ### New Tamework UI

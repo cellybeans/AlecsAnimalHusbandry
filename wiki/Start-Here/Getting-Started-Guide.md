@@ -3,8 +3,6 @@ title: "Getting Started Guide"
 order: 3
 published: true
 draft: false
-published: true
-draft: false
 ---
 # Getting Started Guide
 
@@ -13,9 +11,10 @@ Parent: [Start Here](/mod/alecs-animal-husbandry/start-here) | [Home](/mod/alecs
 ## Quickstart Summary
 1. Livestock and neutral wildlife are tamed identically to base Hytale: **feed their [favorite food](/mod/alecs-animal-husbandry/animal-taming-reference).**<br /> Aggressive predators (Beasts) [require more steps](#beast-taming) to weaken and capture, akin to Pokemon or Monster Hunter.
 
-2. After taming, link neutral animals with [Animal Control Flute](/mod/alecs-animal-husbandry/animal-control-flute), and predators with [Combat Beast Flute](/mod/alecs-animal-husbandry/combat-beast-flute), to manage their health and happiness. Craft flutes at a Farming Bench.
+2. After taming, manage neutral animals with [Animal Control Flute](/mod/alecs-animal-husbandry/animal-control-flute), and predators with [Combat Beast Flute](/mod/alecs-animal-husbandry/combat-beast-flute), to manage their health and happiness. Craft flutes at an [Animal Husbandry Workbench](/mod/alecs-animal-husbandry/animal-husbandry-workbench), which you build at a basic Workbench.
    - Right-click with a flute to open the [command interface](#animal-management).
-   - Left-click with a flute to link animals and issue group commands.
+   - Your owned companions appear automatically. Select the animals that this
+     flute should command, then left-click to issue its selected command.
    - Mount rideable animals with Crouch + Interact
    - Interact (default keybind `F`) handles most other interactions.
 
@@ -25,8 +24,8 @@ Parent: [Start Here](/mod/alecs-animal-husbandry/start-here) | [Home](/mod/alecs
    - The command HUD shows each animal's food options and happiness effects.
    - Passive breeding occurs with high happiness and is toggled per animal in the command flute interface.
 
-4. Safely transport animals with the Soul Lantern, crafted at a Farming Bench.
-   * **Do not use the base game Capture Create!** This resets your animal's data.
+4. Safely transport animals with the Soul Lantern, crafted at an Animal Husbandry Workbench.
+   * **Do not use the base game Capture Crate!** This resets your animal's data.
 
 > **Download [Voile](https://www.curseforge.com/hytale/mods/docs) (optional dependency) to view all documentation in game!**
 
@@ -43,18 +42,34 @@ View [Animal Taming Reference](/mod/alecs-animal-husbandry/animal-taming-referen
 
 ## Animal Management
 
-* Interact (default keybind `F`) to cycle animals through `Follow`, `Hold`, and `Recall` states.
+* Interact (default keybind `F`) to cycle animals through `Follow`, `Hold`, and `Idle` states.
 
    <img width="320" height="242" alt="Follow, Stay, and Wander commands" src="https://github.com/user-attachments/assets/e08d486f-fc8d-405f-8ac8-298301a5d8ef" />
 
 * To mount ridable animals, press `F` to interact while crouching.
-* Right-click with a command flute to view your animal's stats, such as happiness, hunger, thirst, traits, and more.
+* Right-click with a command flute to open its owned-companion panel. It shows
+  your animals' stats, such as happiness, hunger, thirst, traits, and more.
 
 <img width="800" alt="Tamework UI Showcase" src="https://github.com/user-attachments/assets/6d6564e7-7183-4843-9740-16374b486f37" />
 
-   * Use per-companion panel actions such as Recall, Set Home, Return Home, Unlink, and Revive when available.
-   * Select a group command from the command wheel, then left-click with a flute to issue commands to all linked and/or nearby animals simultaneously.
-   * Use nearby-only mode to access actions Release and Cull from the Linked panel when needed.
+   * Select recipients with their card checkboxes or by left-clicking an owned
+     animal with the flute. Each flute keeps a separate selection.
+   * Use status tabs, Nearby only, search, and sorting to browse without
+     changing recipients. The tab counts are the number currently shown, not
+     the number selected.
+   * Create shared groups with a name and color. Animals can be in more than
+     one group. Left-click a group to select it for this flute; right-click to
+     add it to the current selection.
+   * Use per-companion panel actions such as Recall, Set Home, Return Home,
+     and Revive when available.
+   * Use `Release` on an eligible owned companion when needed. `Cull` requires
+     an owned, loaded companion nearby.
+
+   Tracked captured companions and compatible filled capture items in your
+   inventory can appear as read-only stored cards. They cannot receive commands
+   until released from their item or coop. A tracked captured card can remain
+   after ownership is cleared for trade; it disappears from the former owner's
+   flute only after another player successfully releases and acquires the animal.
 
 <img width="640" height="484" alt="unlink-cull-process" src="https://github.com/user-attachments/assets/b353fe21-7122-4367-a0ba-952bd68b36e6" />
 
@@ -63,8 +78,8 @@ View [Animal Taming Reference](/mod/alecs-animal-husbandry/animal-taming-referen
 ## Beast Taming
 1. Craft Tranquilizer Potion at Lv2 Alchemy Workbench.
    - (Note: [Glowing Purple Mushrooms](/mod/alecs-animal-husbandry/glowing-purple-mushroom-spores) can be cultivated with seeds crafted at Lv6 Farming Bench)
-2. Craft Tranquilizer Shortbow and Tranquilizer Arrows at Lv2 Weapon Bench.
-3. Weaken the beast to < 20% HP, then shoot tranquilizer arrows until it sleeps.
+2. Craft the Tranquilizer Dart Rifle and Tranquilizer Darts at an Animal Husbandry Workbench (Lv2 Weapon Bench in Animal Husbandry 4.0.0).
+3. Weaken the beast to 20% HP or lower, then shoot tranquilizer darts until it sleeps.
 4. Feed the sleeping beast its preferred food to complete the taming process.
 5. Link beast with [Combat Beast Flute](/mod/alecs-animal-husbandry/combat-beast-flute) to manage health and happiness, and command up to 3 Active beasts at a time in combat.
    - (Note: Flute requires Wild Wisteria wood, grown from Wild Wisteria sapling, Lv6 Farming Bench).

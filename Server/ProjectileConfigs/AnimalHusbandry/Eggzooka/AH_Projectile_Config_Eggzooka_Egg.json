@@ -1,0 +1,93 @@
+{
+  "Model": "Egg",
+  "LaunchForce": 26,
+  "SpawnOffset": {
+    "X": 0.15,
+    "Y": -0.3,
+    "Z": 0.4
+  },
+  "Physics": {
+    "Type": "Standard",
+    "Gravity": 12,
+    "TerminalVelocityAir": 45,
+    "TerminalVelocityWater": 15,
+    "RotationMode": "VelocityDamped",
+    "Bounciness": 0.0,
+    "SticksVertically": true
+  },
+  "LaunchLocalSoundEventId": "SFX_AH_Eggzooka_Fire",
+  "LaunchWorldSoundEventId": "SFX_AH_Eggzooka_Fire",
+  "Interactions": {
+    "ProjectileHit": {
+      "Cooldown": {
+        "Cooldown": 0
+      },
+      "Interactions": [
+        {
+          "Type": "DamageEntity",
+          "DamageCalculator": {
+            "Type": "Absolute",
+            "BaseDamage": {
+              "Projectile": 15
+            },
+            "RandomPercentageModifier": 0.1
+          },
+          "DamageEffects": {
+            "WorldSoundEventId": "SFX_Egg_Hit"
+          }
+        },
+        {
+          "Type": "ApplyEffect",
+          "Entity": "Target",
+          "EffectId": "AH_Eggzooka_Egged"
+        },
+        {
+          "Type": "Explode",
+          "Config": {
+            "DamageEntities": true,
+            "DamageBlocks": false,
+            "Particles": [
+              {
+                "SystemId": "AH_Eggzooka_Yolk_Splat"
+              }
+            ],
+            "SoundEventId": "SFX_AH_Eggzooka_Splat",
+            "EntityDamage": 0,
+            "EntityDamageRadius": 0.01
+          }
+        },
+        "Common_Projectile_Despawn"
+      ]
+    },
+    "ProjectileMiss": {
+      "Cooldown": {
+        "Cooldown": 0
+      },
+      "Interactions": [
+        {
+          "Type": "Simple",
+          "RunTime": 0,
+          "Effects": {
+            "WorldSoundEventId": "SFX_Egg_Miss"
+          }
+        },
+        {
+          "Type": "Explode",
+          "Config": {
+            "DamageEntities": true,
+            "DamageBlocks": false,
+            "Particles": [
+              {
+                "SystemId": "AH_Eggzooka_Yolk_Splat"
+              }
+            ],
+            "SoundEventId": "SFX_AH_Eggzooka_Splat",
+            "EntityDamage": 0,
+            "EntityDamageRadius": 0.01
+          }
+        },
+        "Common_Projectile_Despawn"
+      ]
+    }
+  }
+}

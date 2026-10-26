@@ -26,27 +26,29 @@ Common causes:
 
 ## "Commands don't seem to work"
 Check:
-1. The companion is linked to the item.
+1. The companion is selected on the flute you are holding. Owned animals appear
+   in the panel automatically, but each flute has its own selection.
 2. You are the owner.
 3. The role is allowed by that command item config.
 4. For attack commands, your target is valid.
+5. The companion is not captured or in a coop. Release it from storage first.
 
 ## "Server fails on startup"
 - Read the first SEVERE asset validation line in server log.
 - Most common causes are bad internal references, invalid JSON types, or missing dependency mods.
 
-## "I can't craft tranquilizer bow/arrows/potion"
+## "I can't craft the tranquilizer rifle, darts, or potion"
 Check:
 1. Alec's Tamework is installed and enabled.
-2. The active Tamework global config enables the tranquilizer item sets (shortbow, arrows, and potion).
-3. You are using the right benches: Alchemy Bench Tier 2 for potion, Weapon Bench Tier 2 for arrows, and Weapon Bench Tier 2 + Armory for bow.
+2. The active Tamework global config enables the tranquilizer item sets (dart rifle, darts, and potion).
+3. You are using the right benches: Alchemy Bench Tier 2 for the potion, and the Animal Husbandry Workbench for the dart rifle and darts. In Animal Husbandry 4.0.0, the dart rifle and darts use Weapon Bench Tier 2 instead.
 4. Your server/client has been restarted after config edits.
 5. Logs do not show missing-asset validation errors.
 
 Recipe details:
 - [Tranquilizer Potion](/mod/alecs-animal-husbandry/tranquilizer-potion)
-- [Tranquilizer Arrows](/mod/alecs-animal-husbandry/tranquilizer-arrows)
-- [Tranquilizer Shortbow](/mod/alecs-animal-husbandry/tranquilizer-shortbow)
+- [Tranquilizer Darts](/mod/alecs-animal-husbandry/tranquilizer-arrows)
+- [Tranquilizer Dart Rifle](/mod/alecs-animal-husbandry/tranquilizer-shortbow)
 
 ## Recovery Workflow
 1. Revert last config edit.
@@ -55,5 +57,4 @@ Recipe details:
 4. Re-test with one species before scaling.
 
 > [Screenshot Placeholder: Example server error line and corrected config snippet]
-
 

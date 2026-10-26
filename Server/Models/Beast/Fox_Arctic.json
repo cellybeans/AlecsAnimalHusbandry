@@ -36,6 +36,22 @@
     }
   },
   "AnimationSets": {
+    "TurnLeft": {
+      "Animations": [
+        {
+          "Animation": "NPC/AnimalHusbandry/Fox_Arctic/Animations/Turn_Left.blockyanim",
+          "Speed": 1.4
+        }
+      ]
+    },
+    "TurnRight": {
+      "Animations": [
+        {
+          "Animation": "NPC/AnimalHusbandry/Fox_Arctic/Animations/Turn_Right.blockyanim",
+          "Speed": 1.4
+        }
+      ]
+    },
     "Idle": {
       "Animations": [
         {
@@ -367,6 +383,13 @@
           "Animation": "NPC/Beast/Fox/Animations/Flavor/Threaten.blockyanim",
           "Looping": false,
           "SoundEventId": "SFX_Fox_Alerted"
+        }
+      ]
+    },
+    "Eat": {
+      "Animations": [
+        {
+          "Animation": "NPC/AnimalHusbandry/Fox/Animations/Eat.blockyanim"
         }
       ]
     }

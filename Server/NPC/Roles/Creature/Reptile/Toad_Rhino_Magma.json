@@ -2,6 +2,7 @@
   "Type": "Variant",
   "Reference": "AH_Template_Predator",
   "Modify": {
+    "DeathParticles": "Effect_Death_Flames",
     "Appearance": "Toad_Rhino_Magma",
     "WanderRadius": 6,
     "ViewRange": 15,
@@ -29,7 +30,7 @@
     "AlwaysSleepAtNight": false,
     "MaxHealth": 124,
     "_CombatConfig": {
-      "EntityEffect": "Immunity_Fire"
+      "EntityEffects": ["Immunity_Fire"]
     },
     "IsMemory": true,
     "MemoriesCategory": "Reptile",

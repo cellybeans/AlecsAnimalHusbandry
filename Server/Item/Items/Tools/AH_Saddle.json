@@ -45,11 +45,10 @@
     "BenchRequirement": [
       {
         "Type": "Crafting",
-        "Id": "Farmingbench",
+        "Id": "AH_Husbandrybench",
         "Categories": [
-          "Farming"
-        ],
-        "RequiredTierLevel": 1
+          "Husbandry"
+        ]
       }
     ],
     "OutputQuantity": 1,

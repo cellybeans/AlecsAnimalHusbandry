@@ -33,6 +33,20 @@
     }
   },
   "AnimationSets": {
+    "TurnLeft": {
+      "Animations": [
+        {
+          "Animation": "NPC/AnimalHusbandry/Dragon_Frost/Animations/Turn_Left.blockyanim"
+        }
+      ]
+    },
+    "TurnRight": {
+      "Animations": [
+        {
+          "Animation": "NPC/AnimalHusbandry/Dragon_Frost/Animations/Turn_Right.blockyanim"
+        }
+      ]
+    },
     "Idle": {
       "Animations": [
         {
@@ -148,6 +162,54 @@
         {
           "Animation": "NPC/AnimalHusbandry/Dragon_Frost/Animations/Sleep.blockyanim",
           "SoundEventId": "SFX_Dragon_Sleep",
+          "Looping": true
+        }
+      ]
+    },
+    "Eat": {
+      "Animations": [
+        {
+          "Animation": "NPC/AnimalHusbandry/Dragon_Frost/Animations/Eat.blockyanim"
+        }
+      ]
+    },
+    "Laydown": {
+      "Animations": [
+        {
+          "Animation": "NPC/AnimalHusbandry/Dragon_Frost/Animations/Laydown.blockyanim",
+          "Looping": false
+        }
+      ]
+    },
+    "Wake": {
+      "Animations": [
+        {
+          "Animation": "NPC/AnimalHusbandry/Dragon_Frost/Animations/Wake.blockyanim",
+          "Looping": false
+        }
+      ]
+    },
+    "Alerted": {
+      "Animations": [
+        {
+          "Animation": "NPC/AnimalHusbandry/Dragon_Frost/Animations/Alerted.blockyanim",
+          "Looping": true
+        }
+      ]
+    },
+    "Tw_Kettle_Glide": {
+      "Animations": [
+        {
+          "Animation": "NPC/AnimalHusbandry/Dragon_Frost/Animations/Kettle_Glide.blockyanim",
+          "Looping": true
+        }
+      ]
+    },
+    "Tw_Kettle_Flap": {
+      "Animations": [
+        {
+          "Animation": "NPC/AnimalHusbandry/Dragon_Frost/Animations/Fly.blockyanim",
+          "BlendingDuration": 0.2,
           "Looping": true
         }
       ]

@@ -22,14 +22,15 @@ The **Feed Trough** is a care block that helps automate food and hydration suppo
 ## Feed Trough Recipe
 - 10x Any Wood
 - Output: **1**
-- Crafting station: **Farming Bench (Farming category)**
+- Crafting station: **Animal Husbandry Workbench**
 - Craft time: **1 second**
 
 ## Bucket Recipe (For Trough Refills)
+The Wooden Bucket is a base game item. Animal Husbandry does not change its recipe.
 - 3x Any Wood
-- 1x Iron Bar
+- 1x Iron Ingot
 - Output: **1**
-- Crafting station: **Farming Bench (Farming category)**
+- Crafting station: **Farmer's Workbench**
 - Craft time: **1 second**
 
 ## How To Use

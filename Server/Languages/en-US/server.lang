@@ -17,6 +17,14 @@ items.AnimalHusbandry_Command_Item.name=Animal Control Flute
 items.AnimalHusbandry_Command_Item.description=Left click a tamed animal to link it to this flute.\nRight click to open the command menu.\nLeft click after selecting a command to issue it.\nLook at an animal to inspect it.
 items.AnimalHusbandry_Command_Item_Shakuhachi.name=Combat Beast Flute
 items.AnimalHusbandry_Command_Item_Shakuhachi.description=Left click a tamed beast to link it to this flute.\nRight click to open the command menu.\nLeft click after selecting a command to issue it.\nLook at an animal to inspect it.
+items.AnimalHusbandry_Command_Item.icon.redCircle=Red Circle
+items.AnimalHusbandry_Command_Item.icon.orangeTriangle=Orange Triangle
+items.AnimalHusbandry_Command_Item.icon.yellowStar=Yellow Star
+items.AnimalHusbandry_Command_Item.icon.greenSquare=Green Square
+items.AnimalHusbandry_Command_Item.icon.tealDiamond=Teal Diamond
+items.AnimalHusbandry_Command_Item.icon.blueChevron=Blue Chevron
+items.AnimalHusbandry_Command_Item.icon.purpleHexagon=Purple Hexagon
+items.AnimalHusbandry_Command_Item.icon.pinkHeart=Pink Heart
 items.AnimalHusbandry_Soul_Lantern.name=Soul Lantern
 items.AnimalHusbandry_Soul_Lantern.nameFull=Soul Lantern ({npc})
 items.AnimalHusbandry_Soul_Lantern.description=Capture and release your tamed creatures.
@@ -202,6 +210,10 @@ animalhusbandry.traits.swiftness.name=Swiftness
 animalhusbandry.traits.toughness.name=Toughness
 animalhusbandry.traits.strength.name=Strength
 animalhusbandry.traits.bounty.name=Bounty
+animalhusbandry.traits.appetite.name=Appetite
+animalhusbandry.traits.thirstEfficiency.name=Thirst Efficiency
+animalhusbandry.traits.regrowth.name=Regrowth
+animalhusbandry.traits.fleeceProductivity.name=Productivity
 
 # Commands
 animalhusbandry.commands.follow.name=Follow
@@ -257,6 +269,10 @@ animalhusbandry.happiness.population.crowded=Crowded
 items.AH_Butchers_Knife.name=Butcher's Knife
 items.AH_Butchers_Knife.description=Hold primary use to cull an owned, tamed animal.
 
+# Eggzooka
+items.AH_Eggzooka.name=Eggzooka
+items.AH_Eggzooka.description=Load it with eggs, then fire. Hits splatter yolk across the target's screen.
+
 # Equipment attachments
 animalhusbandry.attachments.saddle.label=Saddle
 animalhusbandry.attachments.saddle.none=No saddle
@@ -284,3 +300,16 @@ animalhusbandry.attachments.blanket.lightRed=Light red
 animalhusbandry.attachments.blanket.red=Red
 animalhusbandry.attachments.blanket.lightYellow=Light yellow
 animalhusbandry.attachments.blanket.yellow=Yellow
+
+npcRoles.AH_Chicken_Chick_Boss.name=Lil Cluck
+npcRoles.AH_Raccoon.name=Raccoon
+npcRoles.AH_Chicken_Chick_Boss_Minion.name=Hype Chick
+npcRoles.AH_Chicken_Ghost.name=Ghost Chicken
+
+animalhusbandry.lilCluck.offerGold=Offer gold
+animalhusbandry.lilCluck.summoned=You have disturbed the pecking order.
+npcRoles.Dragon_Void.name=Void Dragon
+items.AH_Bench_Husbandry.name=Animal Husbandry Workbench
+items.AH_Bench_Husbandry.description=Craft tack, feed and tools for raising your animals.
+benchCategories.ahhusbandrybench.husbandry=Husbandry
+npcRoles.AH_Dragon_Void_Singularity.name=Void Singularity

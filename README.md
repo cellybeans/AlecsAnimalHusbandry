@@ -20,6 +20,7 @@
 
   <p style="font-size: 1.15em;"><strong>Turn all of Hytale's vanilla animals into interactive livestock and long-term companions, worth caring for.</strong></p>
   <p>Animal Husbandry gives every vanilla animal, from mice to dinosaurs, deeper gameplay built around taming, ownership, needs, happiness, traits, growth, commands, and progression.</p>
+  <p>It also adds animal behaviors that make the world feel more alive, from herds traveling and grazing together to ducks flying in V-shaped formations and small birds pecking at the ground.</p>
 
   <p>
     <a href="https://wiki.hytalemodding.dev/mod/alecs-animal-husbandry/" target="_blank" rel="noopener noreferrer"><strong>Open the Wiki</strong></a>
@@ -34,15 +35,22 @@
 
 --------------
 
-<H2>New in v3.0.0</H2>
-<p>Manage animals through the redesigned Tamework command panel, with companion portraits, Linked/Nearby/Owned views, clearer care and cooldown meters, and color-coded group shortcuts. Wild herds travel and rest together, birds use species-specific formations and circling behavior, and both flutes offer Follow Close alongside formation following. Update Animal Husbandry and Tamework together.</p>
+<H2>New in v4.1.0</H2>
+<p>Animals now step around when they turn on the spot instead of spinning in place, with a turning animation for every tameable animal and the Frost Dragon. Wild Frost Dragons cruise and soar while idle in flight. Keep an eye on your chicken coops around the new moon for a rare, see-through visitor. Supports Hytale 0.6.7 and later in Update 6, and Hytale 0.7. Requires Tamework 5.4.0 or later in the 5.x series.</p>
 
 <H2>Butcher's Knife</H2>
-<p>Craft a Butcher's Knife at a tier-1 Farmer's Workbench using 2 Iron Bars and 2 Light Leather. Hold primary use for 0.8 seconds to cull an owned, tamed animal. The knife uses a custom cleaver model, hand-painted texture, and matching inventory icon.</p>
+<p>Craft a Butcher's Knife at an Animal Husbandry Workbench using 2 Iron Ingots and 2 Light Leather. Hold primary use for 0.8 seconds to cull an owned, tamed animal. The knife uses a custom cleaver model, hand-painted texture, and matching inventory icon.</p>
+
+<H2>Lil Cluck</H2>
+<p>Summon Lil Cluck by crouch-interacting with your own tamed chick while holding a gold ingot. The chick consumes one ingot and becomes a hostile boss at full health, and is no longer your companion. You can also use <code>/npc spawn AH_Chicken_Chick_Boss</code>. This oversized chick wears sunglasses and a gold chain. During combat, players within 40 blocks see his native boss health bar. Natural health regeneration is disabled until he leaves combat. Dodge three pursuing pecks, bait its charge into a wall, and avoid marked eggs that burst into feathers or hatch chasing chicks. He cannot choose Egg Drop twice in a row. At 75% health, it crouches before leaping onto your position captured at takeoff and releases a jumpable, expanding ring of feathers on landing. Move after takeoff to dodge. Solid terrain can block the leap. The leap has an 8-second cooldown. At 50% health, Peep Show lowers his sunglasses for a one-second warning while turning to face you, then sweeps a red eye laser for 10 seconds. Run sideways to outrun its 30-degree-per-second turn or take cover behind terrain. The beam has a 10-second cooldown after firing. Hatchlings peck with a visible windup and remain until killed. The boss does not spawn naturally.</p>
+<p>Update Animal Husbandry and Tamework together. The fight requires Tamework 5.0.0 or later in the 5.x series.</p>
+
+<H2>Adult Aging</H2>
+<p>Animals progress from Adult to Prime and freeze there by default. Administrators can enable the full Adult, Prime, and Senior lifecycle and optional old-age death in /tw settings. Prime animals give full domestic slaughter yield; other adult stages give 50%. See the <a href="https://wiki.hytalemodding.dev/mod/alecs-animal-husbandry/breeding-and-growth-guide">Breeding and Growth Guide</a> for species timings.</p>
 
 <H2>Required:</H2>
 <ul>
-<li><a href="https://www.curseforge.com/hytale/mods/alecs-tamework">Alec's Tamework!</a> (4.0.0 or later in the 4.x series)</li>
+<li><a href="https://www.curseforge.com/hytale/mods/alecs-tamework">Alec's Tamework!</a> (5.4.0 or later in the 5.x series)</li>
 </ul>
 <H2>Recommended:</H2>
 <ul>
@@ -72,6 +80,14 @@ The demo instancing and tutorial system is an alpha project, so please expect to
 <p>&nbsp;</p>
 
 <ul>
+  <li>
+    <strong>Animals That Feel More Alive</strong>
+    <ul>
+      <li>Wild bison, deer, and livestock travel as herds, pausing to rest and graze. Bison also seek out water as part of their routines.</li>
+      <li>Ducks fly in V-shaped formations, while hawks and vultures glide and circle overhead.</li>
+      <li>Crows, pigeons, and small songbirds peck at the ground during idle moments.</li>
+    </ul>
+  </li>
   <li>
     <strong>Real Taming and Ownership</strong>
     <ul>
@@ -146,7 +162,7 @@ The demo instancing and tutorial system is an alpha project, so please expect to
   </li>
   <br />
   <li>
-    After taming, link neutral animals with <a href="https://wiki.hytalemodding.dev/mod/alecs-animal-husbandry/animal-control-flute" target="_blank" rel="noopener noreferrer">Animal Control Flute</a>, and predators with <a href="https://wiki.hytalemodding.dev/mod/alecs-animal-husbandry/combat-beast-flute" target="_blank" rel="noopener noreferrer">Combat Beast Flute</a>, to manage their health and happiness. Craft flutes at a Farming Bench.
+    After taming, link neutral animals with <a href="https://wiki.hytalemodding.dev/mod/alecs-animal-husbandry/animal-control-flute" target="_blank" rel="noopener noreferrer">Animal Control Flute</a>, and predators with <a href="https://wiki.hytalemodding.dev/mod/alecs-animal-husbandry/combat-beast-flute" target="_blank" rel="noopener noreferrer">Combat Beast Flute</a>, to manage their health and happiness. Craft flutes at an Animal Husbandry Workbench.
     <ul>
       <li>Right-click with a flute to open the command interface.</li>
       <li>Left-click with a flute to link animals and issue group commands.</li>
@@ -173,10 +189,10 @@ The demo instancing and tutorial system is an alpha project, so please expect to
     </ul>
   </li>
   <li>
-    Safely capture animals with the <a href="https://wiki.hytalemodding.dev/mod/alecs-animal-husbandry/soul-lantern" target="_blank" rel="noopener noreferrer">Soul Lantern</a>, crafted at a Farming Bench.
+    Safely capture animals with the <a href="https://wiki.hytalemodding.dev/mod/alecs-animal-husbandry/soul-lantern" target="_blank" rel="noopener noreferrer">Soul Lantern</a>, crafted at an Animal Husbandry Workbench.
     <ul>
       <li>This will save the animal's data like skins, name, traits, etc. so it's always respawned the same.</li>
-      <li><strong>Do not use the base game Capture Create!</strong> This resets your animal's data.</li>
+      <li><strong>Do not use the base game Capture Crate!</strong> This resets your animal's data.</li>
     </ul>
   </li>
     <li>Mountable companions can be mounted by interacting while crouching.</li>
@@ -201,7 +217,7 @@ The demo instancing and tutorial system is an alpha project, so please expect to
 <p>Predators and other combat-capable Beasts require a bit more effort to tame.</p>
 
 <ol>
-  <li>Craft tranquilizer gear: <a href="https://wiki.hytalemodding.dev/mod/alecs-animal-husbandry/tranquilizer-potion" target="_blank" rel="noopener noreferrer">Tranquilizer Potion</a>, <a href="https://wiki.hytalemodding.dev/mod/alecs-animal-husbandry/tranquilizer-arrows" target="_blank" rel="noopener noreferrer">Tranquilizer Arrows</a>, and <a href="https://wiki.hytalemodding.dev/mod/alecs-animal-husbandry/tranquilizer-shortbow" target="_blank" rel="noopener noreferrer">Tranquilizer Shortbow</a>.</li>
+  <li>Craft tranquilizer gear: <a href="https://wiki.hytalemodding.dev/mod/alecs-animal-husbandry/tranquilizer-potion" target="_blank" rel="noopener noreferrer">Tranquilizer Potion</a>, <a href="https://wiki.hytalemodding.dev/mod/alecs-animal-husbandry/tranquilizer-arrows" target="_blank" rel="noopener noreferrer">Tranquilizer Darts</a>, and <a href="https://wiki.hytalemodding.dev/mod/alecs-animal-husbandry/tranquilizer-shortbow" target="_blank" rel="noopener noreferrer">Tranquilizer Dart Rifle</a>. Tamework 5.0.x names the last two Tranquilizer Arrows and Tranquilizer Shortbow.</li>
   <li>Bring a Beast to <strong>20% HP or lower</strong>.</li>
   <li>Apply tranquilizer pressure until it is forced into sleep.</li>
   <li>Tame the sleeping Beast with its preferred food.</li>
@@ -237,7 +253,7 @@ Note: When you have a Glowing Purple Mushroom to spare, craft <a href="https://w
     <td style="border: 1px solid #e6ded8; padding: 10px;">Core systems stay enabled, but animals will not take starvation or hunger damage.</td>
   </tr>
   <tr>
-    <td style="border: 1px solid #e6ded8; padding: 10px;"><strong>Simple</strong></td>
+    <td style="border: 1px solid #e6ded8; padding: 10px;"><strong>Simplified (Minecraft-like)</strong></td>
     <td style="border: 1px solid #e6ded8; padding: 10px;">Minecraft-like play.</td>
     <td style="border: 1px solid #e6ded8; padding: 10px;">Simple taming and on-interact breeding only. Hunger, thirst, happiness, passive breeding, and traits are disabled.</td>
   </tr>
@@ -265,7 +281,7 @@ Note: When you have a Glowing Purple Mushroom to spare, craft <a href="https://w
   </tr>
   <tr>
     <td style="border: 1px solid #e6ded8; padding: 10px;"><strong>Neutral Wildlife</strong></td>
-    <td style="border: 1px solid #e6ded8; padding: 10px;">Antelope, Armadillo, Crab, Deer Doe, Deer Stag, Flamingo, Hatworm, Horse Skeleton, Horse Skeleton Armored, Lizard Sand, Lobster, Moose Bull, Moose Cow, Penguin, Spark Living, Tetrabird, Tortoise, Trillodon.</td>
+    <td style="border: 1px solid #e6ded8; padding: 10px;">Antelope, Armadillo, Crab, Deer Doe, Deer Stag, Flamingo, Hatworm, Horse Skeleton, Horse Skeleton Armored, Lizard Sand, Lobster, Moose Bull, Moose Cow, Penguin, Raccoon, Spark Living, Tetrabird, Tortoise, Trillodon.</td>
   </tr>
   <tr>
     <td style="border: 1px solid #e6ded8; padding: 10px;"><strong>Critters and Cactee Variants</strong></td>
@@ -306,7 +322,7 @@ Note: When you have a Glowing Purple Mushroom to spare, craft <a href="https://w
   </tr>
   <tr>
     <td style="border: 1px solid #e6ded8; padding: 10px;"><a href="https://wiki.hytalemodding.dev/mod/alecs-animal-husbandry/items-index" target="_blank" rel="noopener noreferrer"><strong>Items</strong></a></td>
-    <td style="border: 1px solid #e6ded8; padding: 10px;"><a href="https://wiki.hytalemodding.dev/mod/alecs-animal-husbandry/animal-control-flute" target="_blank" rel="noopener noreferrer">Animal Control Flute</a>, <a href="https://wiki.hytalemodding.dev/mod/alecs-animal-husbandry/combat-beast-flute" target="_blank" rel="noopener noreferrer">Combat Beast Flute</a>, <a href="https://wiki.hytalemodding.dev/mod/alecs-animal-husbandry/tranquilizer-potion" target="_blank" rel="noopener noreferrer">Tranquilizer Potion</a>, <a href="https://wiki.hytalemodding.dev/mod/alecs-animal-husbandry/tranquilizer-arrows" target="_blank" rel="noopener noreferrer">Tranquilizer Arrows</a>, <a href="https://wiki.hytalemodding.dev/mod/alecs-animal-husbandry/tranquilizer-shortbow" target="_blank" rel="noopener noreferrer">Tranquilizer Shortbow</a>, <a href="https://wiki.hytalemodding.dev/mod/alecs-animal-husbandry/soul-lantern" target="_blank" rel="noopener noreferrer">Soul Lantern</a>, <a href="https://wiki.hytalemodding.dev/mod/alecs-animal-husbandry/nametag" target="_blank" rel="noopener noreferrer">Nametag</a>, <a href="https://wiki.hytalemodding.dev/mod/alecs-animal-husbandry/feed-items" target="_blank" rel="noopener noreferrer">feed items</a>, and <a href="https://wiki.hytalemodding.dev/mod/alecs-animal-husbandry/feed-trough" target="_blank" rel="noopener noreferrer">Feed Troughs</a>.</td>
+    <td style="border: 1px solid #e6ded8; padding: 10px;"><a href="https://wiki.hytalemodding.dev/mod/alecs-animal-husbandry/animal-control-flute" target="_blank" rel="noopener noreferrer">Animal Control Flute</a>, <a href="https://wiki.hytalemodding.dev/mod/alecs-animal-husbandry/combat-beast-flute" target="_blank" rel="noopener noreferrer">Combat Beast Flute</a>, <a href="https://wiki.hytalemodding.dev/mod/alecs-animal-husbandry/tranquilizer-potion" target="_blank" rel="noopener noreferrer">Tranquilizer Potion</a>, <a href="https://wiki.hytalemodding.dev/mod/alecs-animal-husbandry/tranquilizer-arrows" target="_blank" rel="noopener noreferrer">Tranquilizer Darts</a>, <a href="https://wiki.hytalemodding.dev/mod/alecs-animal-husbandry/tranquilizer-shortbow" target="_blank" rel="noopener noreferrer">Tranquilizer Dart Rifle</a>, <a href="https://wiki.hytalemodding.dev/mod/alecs-animal-husbandry/soul-lantern" target="_blank" rel="noopener noreferrer">Soul Lantern</a>, <a href="https://wiki.hytalemodding.dev/mod/alecs-animal-husbandry/nametag" target="_blank" rel="noopener noreferrer">Nametag</a>, <a href="https://wiki.hytalemodding.dev/mod/alecs-animal-husbandry/feed-items" target="_blank" rel="noopener noreferrer">feed items</a>, and <a href="https://wiki.hytalemodding.dev/mod/alecs-animal-husbandry/feed-trough" target="_blank" rel="noopener noreferrer">Feed Troughs</a>.</td>
   </tr>
   <tr>
     <td style="border: 1px solid #e6ded8; padding: 10px;"><a href="https://wiki.hytalemodding.dev/mod/alecs-animal-husbandry/reference-library-index" target="_blank" rel="noopener noreferrer"><strong>Reference Library</strong></a></td>
@@ -327,6 +343,6 @@ Note: When you have a Glowing Purple Mushroom to spare, craft <a href="https://w
 <p>When telemetry stats are enabled, Alec's Tamework also reports anonymized active user numbers to <a href="https://hstats.dev/">HStats</a> to track active user count summaries.</p>
 <br />
 
-Companion icon mappings live in `Server/Tamework/DynamicIcons/` and are shared by capture items and both command panels. These assets require the Tamework 4.0.0 or later in the 4.x series; update both mods together.
+Companion icon mappings live in `Server/Tamework/DynamicIcons/` and are shared by capture items and both command panels. Animal Husbandry 4.1.0 requires Tamework 5.4.0 or later in the 5.x series; update both mods together.
 
 Default portraits cover every supported animal. Current Aures Livestock/Horse and Celly skin variants use selected coat and major-feature mappings; small details can differ to keep the icon set manageable.

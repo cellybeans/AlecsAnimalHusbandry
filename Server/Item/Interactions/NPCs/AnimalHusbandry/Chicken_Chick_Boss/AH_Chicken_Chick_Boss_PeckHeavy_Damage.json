@@ -1,0 +1,12 @@
+{
+  "Parent": "DamageEntityParent",
+  "DamageCalculator": {
+    "BaseDamage": {
+      "Physical": 56
+    },
+    "RandomPercentageModifier": 0
+  },
+  "DamageEffects": {
+    "WorldSoundEventId": "SFX_Unarmed_Impact"
+  }
+}

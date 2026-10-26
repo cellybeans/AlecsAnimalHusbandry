@@ -17,6 +17,14 @@ items.AnimalHusbandry_Command_Item.name=Flauta de Controle Animal
 items.AnimalHusbandry_Command_Item.description=Clique esquerdo em um animal domesticado para vinculá-lo a esta flauta.\nClique direito para abrir o menu de comandos.\nClique esquerdo depois de selecionar um comando para emiti-lo.\nOlhe para um animal para inspecioná-lo.
 items.AnimalHusbandry_Command_Item_Shakuhachi.name=Flauta de Fera de Combate
 items.AnimalHusbandry_Command_Item_Shakuhachi.description=Clique esquerdo em uma fera domesticada para vinculá-la a esta flauta.\nClique direito para abrir o menu de comandos.\nClique esquerdo depois de selecionar um comando para emiti-lo.\nOlhe para um animal para inspecioná-lo.
+items.AnimalHusbandry_Command_Item.icon.redCircle=Círculo vermelho
+items.AnimalHusbandry_Command_Item.icon.orangeTriangle=Triângulo laranja
+items.AnimalHusbandry_Command_Item.icon.yellowStar=Estrela amarela
+items.AnimalHusbandry_Command_Item.icon.greenSquare=Quadrado verde
+items.AnimalHusbandry_Command_Item.icon.tealDiamond=Losango turquesa
+items.AnimalHusbandry_Command_Item.icon.blueChevron=Seta azul
+items.AnimalHusbandry_Command_Item.icon.purpleHexagon=Hexágono roxo
+items.AnimalHusbandry_Command_Item.icon.pinkHeart=Coração rosa
 items.AnimalHusbandry_Soul_Lantern.name=Lanterna de Alma
 items.AnimalHusbandry_Soul_Lantern.nameFull=Lanterna de Alma ({npc})
 items.AnimalHusbandry_Soul_Lantern.description=Capture e solte suas criaturas domesticadas.
@@ -202,6 +210,10 @@ animalhusbandry.traits.swiftness.name=Agilidade
 animalhusbandry.traits.toughness.name=Resistência
 animalhusbandry.traits.strength.name=Força
 animalhusbandry.traits.bounty.name=Abundância
+animalhusbandry.traits.appetite.name=Apetite
+animalhusbandry.traits.thirstEfficiency.name=Eficiência hídrica
+animalhusbandry.traits.regrowth.name=Regeneração
+animalhusbandry.traits.fleeceProductivity.name=Produtividade
 
 # Commands
 animalhusbandry.commands.follow.name=Seguir
@@ -257,6 +269,10 @@ animalhusbandry.happiness.population.crowded=Lotado
 items.AH_Butchers_Knife.name=Faca de açougueiro
 items.AH_Butchers_Knife.description=Segure a ação principal para abater um animal domesticado que pertence a você.
 
+# Eggzooka
+items.AH_Eggzooka.name=Eggzooka
+items.AH_Eggzooka.description=Carregue com ovos e atire. Os acertos espalham gema na tela do alvo.
+
 # Acessórios de equipamento
 animalhusbandry.attachments.saddle.label=Sela
 animalhusbandry.attachments.saddle.none=Sem sela
@@ -284,3 +300,16 @@ animalhusbandry.attachments.blanket.lightRed=Vermelho-claro
 animalhusbandry.attachments.blanket.red=Vermelho
 animalhusbandry.attachments.blanket.lightYellow=Amarelo-claro
 animalhusbandry.attachments.blanket.yellow=Amarelo
+
+npcRoles.AH_Chicken_Chick_Boss.name=Lil Cluck
+npcRoles.AH_Raccoon.name=Guaxinim
+npcRoles.AH_Chicken_Chick_Boss_Minion.name=Pintinho festeiro
+npcRoles.AH_Chicken_Ghost.name=Galinha fantasma
+
+animalhusbandry.lilCluck.offerGold=Oferecer ouro
+animalhusbandry.lilCluck.summoned=Você perturbou a hierarquia do galinheiro.
+items.AH_Bench_Husbandry.name=Bancada de pecuária
+items.AH_Bench_Husbandry.description=Fabrique arreios, ração e ferramentas para criar seus animais.
+benchCategories.ahhusbandrybench.husbandry=Pecuária
+npcRoles.Dragon_Void.name=Dragão do Vazio
+npcRoles.AH_Dragon_Void_Singularity.name=Singularidade do Vazio

@@ -9,6 +9,33 @@
       "Value": 8,
       "Description": "General wander radius."
     },
+    "AfraidItems": {
+      "Value": [],
+      "TypeHint": "String",
+      "Description": "Items this NPC is afraid of. While its target holds one and is looking at it, the NPC keeps its distance. Empty disables the behavior."
+    },
+    "AfraidDistanceRange": {
+      "Value": [
+        4,
+        6
+      ],
+      "Description": "The distance the NPC keeps from targets holding items it is afraid of."
+    },
+    "AfraidAnimationFrequency": {
+      "Value": [
+        2,
+        4
+      ],
+      "Description": "The delay between animations while afraid."
+    },
+    "IdleWanderWeight": {
+      "Value": 10,
+      "Description": "Above 0 enables the wander and prowl idle behaviors. Their relative weights are fixed by this template. Matches the base-game spider parameter so base variants such as Spider_Cave_Ambush keep working."
+    },
+    "IdleNothingWeight": {
+      "Value": 0,
+      "Description": "Weight of standing still while idle. 0 disables it."
+    },
     "ViewRange": {
       "Value": 24,
       "Description": "The range from which the target will be seen. If zero, sight will be disabled."
@@ -80,6 +107,10 @@
         4
       ],
       "Description": "Delay before the threaten animation is played."
+    },
+    "DeathParticles": {
+      "Value": "Effect_Death_Medium",
+      "Description": "The particle system that spawns when the NPC's corpse disappears."
     },
     "DropList": {
       "Value": "Empty",
@@ -242,6 +273,30 @@
         3
       ],
       "Description": "How long to back off for after performing an attack."
+    },
+    "CombatTurns": {
+      "Value": false,
+      "Description": "Whether this NPC's flock will take turns attacking a target."
+    },
+    "CombatTurnAttackWeight": {
+      "Value": 30,
+      "Description": "The likelihood an NPC will choose to attack when a new turn is triggered, in percentage."
+    },
+    "CombatTurnDuration": {
+      "Value": [ 4, 8 ],
+      "Description": "The timeout between attack turns."
+    },
+    "CombatTurnDistanceRange": {
+      "Value": [ 5, 8 ],
+      "Description": "The distance range inside which flock NPCs will wait their turn."
+    },
+    "CombatTurnStrafingDurationRange": {
+      "Value": [ 3, 5 ],
+      "Description": "The strafing duration range of flock NPCs waiting their turn."
+    },
+    "CombatTurnStrafingFrequencyRange": {
+      "Value": [ 3, 6 ],
+      "Description": "The strafing frequency range of flock NPCs waiting their turn."
     },
     "TargetSwitchTimer": {
       "Value": [
@@ -465,6 +520,7 @@
     "Compute": "Appearance"
   },
   "StartState": "Idle",
+  "DeathParticles": { "Compute": "DeathParticles" },
   "DropList": {
     "Compute": "DropList"
   },
@@ -653,6 +709,48 @@
     }
   },
   "Instructions": [
+    {
+      "$Comment": "Disable natural health regeneration while engaged; restore it after disengaging.",
+      "Continue": true,
+      "Instructions": [
+        {
+          "Sensor": {
+            "Type": "Or",
+            "Sensors": [
+              {
+                "Type": "State",
+                "State": "Combat"
+              },
+              {
+                "Type": "State",
+                "State": "Search"
+              },
+              {
+                "Type": "State",
+                "State": "Alerted"
+              }
+            ]
+          },
+          "Actions": [
+            {
+              "Type": "SetHealthRegen",
+              "EnableRegen": false
+            }
+          ]
+        },
+        {
+          "Sensor": {
+            "Type": "Any"
+          },
+          "Actions": [
+            {
+              "Type": "SetHealthRegen",
+              "EnableRegen": true
+            }
+          ]
+        }
+      ]
+    },
     {
       "Continue": true,
       "Sensor": {
@@ -1034,7 +1132,22 @@
               },
               "Instructions": [
                 {
+                  "$Comment": "Stand still.",
+                  "Enabled": {
+                    "Compute": "IdleNothingWeight > 0"
+                  },
+                  "Weight": {
+                    "Compute": "IdleNothingWeight"
+                  },
+                  "BodyMotion": {
+                    "Type": "Nothing"
+                  }
+                },
+                {
                   "$Comment": "Regular wander.",
+                  "Enabled": {
+                    "Compute": "IdleWanderWeight > 0"
+                  },
                   "Weight": 20,
                   "Instructions": [
                     {
@@ -1180,7 +1293,22 @@
               ],
               "Instructions": [
                 {
+                  "$Comment": "Stand still.",
+                  "Enabled": {
+                    "Compute": "IdleNothingWeight > 0"
+                  },
+                  "Weight": {
+                    "Compute": "IdleNothingWeight"
+                  },
+                  "BodyMotion": {
+                    "Type": "Nothing"
+                  }
+                },
+                {
                   "$Comment": "Regular wander.",
+                  "Enabled": {
+                    "Compute": "IdleWanderWeight > 0"
+                  },
                   "Weight": 10,
                   "Instructions": [
                     {
@@ -1241,6 +1369,9 @@
                 },
                 {
                   "$Comment": "Prowling behavior (crouching).",
+                  "Enabled": {
+                    "Compute": "IdleWanderWeight > 0"
+                  },
                   "Weight": 10,
                   "Instructions": [
                     {
@@ -2014,6 +2145,19 @@
               }
             },
             {
+              "Reference": "Component_Instruction_Combat_Flock_Take_Turns",
+              "Modify": {
+                "Enabled": { "Compute": "CombatTurns" },
+                "AlertedRange": { "Compute": "AlertedRange" },
+                "CombatTurnAttackWeight": { "Compute": "CombatTurnAttackWeight" },
+                "CombatTurnDuration": { "Compute": "CombatTurnDuration" },
+                "CombatTurnDistanceRange": { "Compute": "CombatTurnDistanceRange" },
+                "CombatTurnStrafingDurationRange": { "Compute": "CombatTurnStrafingDurationRange" },
+                "CombatTurnStrafingFrequencyRange": { "Compute": "CombatTurnStrafingFrequencyRange" },
+                "CombatMovingRelativeSpeed": { "Compute": "CombatMovingRelativeSpeed" }
+              }
+            },
+            {
               "Sensor": {
                 "Type": "State",
                 "State": ".Chase"
@@ -2076,6 +2220,216 @@
                       "Compute": "ChaseRelativeSpeed"
                     }
                   }
+                }
+              ]
+            },
+            {
+              "$Comment": "Keep distance from targets holding items this NPC is afraid of. Ported from the base-game spider template (Update 7).",
+              "Enabled": {
+                "Compute": "!isEmptyStringArray(AfraidItems)"
+              },
+              "Sensor": {
+                "Type": "State",
+                "State": ".Afraid"
+              },
+              "Instructions": [
+                {
+                  "$Comment": "Start a timer to periodically play an animation.",
+                  "Sensor": {
+                    "Type": "Any",
+                    "Once": true
+                  },
+                  "Actions": [
+                    {
+                      "Type": "TimerStart",
+                      "Name": "Afraid_Animation",
+                      "RestartValueRange": {
+                        "Compute": "AfraidAnimationFrequency"
+                      },
+                      "StartValueRange": {
+                        "Compute": "AfraidAnimationFrequency"
+                      }
+                    },
+                    {
+                      "Type": "TimerRestart",
+                      "Name": "Afraid_Animation"
+                    }
+                  ]
+                },
+                {
+                  "$Comment": "If the target no longer holds a feared item or looks away, go back to combat.",
+                  "Sensor": {
+                    "Type": "Target",
+                    "Filters": [
+                      {
+                        "Type": "LineOfSight"
+                      },
+                      {
+                        "Type": "Or",
+                        "Filters": [
+                          {
+                            "Type": "Not",
+                            "Filter": {
+                              "Type": "ItemInHand",
+                              "Items": {
+                                "Compute": "AfraidItems"
+                              }
+                            }
+                          },
+                          {
+                            "Type": "Not",
+                            "Filter": {
+                              "Type": "SpotsMe",
+                              "ViewAngle": 120
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "Actions": [
+                    {
+                      "Type": "PlayAnimation",
+                      "Slot": "Status"
+                    },
+                    {
+                      "Type": "State",
+                      "State": ".Default"
+                    }
+                  ]
+                },
+                {
+                  "$Comment": "Play an animation.",
+                  "Continue": true,
+                  "Sensor": {
+                    "Type": "Timer",
+                    "Name": "Afraid_Animation",
+                    "State": "Stopped"
+                  },
+                  "ActionsBlocking": true,
+                  "Actions": [
+                    {
+                      "Type": "PlayAnimation",
+                      "Animation": "Alerted",
+                      "Slot": "Status"
+                    },
+                    {
+                      "Type": "Timeout",
+                      "Delay": [
+                        2,
+                        2
+                      ]
+                    },
+                    {
+                      "Type": "PlayAnimation",
+                      "Slot": "Status"
+                    },
+                    {
+                      "Type": "TimerRestart",
+                      "Name": "Afraid_Animation"
+                    }
+                  ]
+                },
+                {
+                  "$Comment": "Attack the target when within attack range.",
+                  "Continue": true,
+                  "Sensor": {
+                    "Type": "Target",
+                    "Range": {
+                      "Compute": "AttackDistance"
+                    },
+                    "Filters": [
+                      {
+                        "Type": "LineOfSight"
+                      }
+                    ]
+                  },
+                  "Actions": [
+                    {
+                      "Type": "Attack",
+                      "Attack": {
+                        "Compute": "Attack"
+                      },
+                      "AttackPauseRange": {
+                        "Compute": "AttackPauseRange"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "$Comment": "Else, strafe and stalk the target.",
+                  "Sensor": {
+                    "Type": "Target",
+                    "Filters": [
+                      {
+                        "Type": "LineOfSight"
+                      }
+                    ]
+                  },
+                  "BodyMotion": {
+                    "Type": "MaintainDistance",
+                    "DesiredDistanceRange": {
+                      "Compute": "AfraidDistanceRange"
+                    },
+                    "StrafingDurationRange": {
+                      "Compute": "CombatStrafingDurationRange"
+                    },
+                    "StrafingFrequencyRange": {
+                      "Compute": "CombatStrafingFrequencyRange"
+                    }
+                  },
+                  "ActionsBlocking": true,
+                  "Actions": [
+                    {
+                      "Type": "Timeout",
+                      "Delay": {
+                        "Compute": "AfraidAnimationFrequency"
+                      }
+                    },
+                    {
+                      "Type": "PlayAnimation",
+                      "Animation": "Alerted",
+                      "Slot": "Status"
+                    }
+                  ]
+                },
+                {
+                  "$Comment": "Fall back to default.",
+                  "Actions": [
+                    {
+                      "Type": "State",
+                      "State": ".Default"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "$Comment": "If the target is holding an item this NPC is afraid of, back up a bit.",
+              "Enabled": {
+                "Compute": "!isEmptyStringArray(AfraidItems)"
+              },
+              "Sensor": {
+                "Type": "Target",
+                "Filters": [
+                  {
+                    "Type": "LineOfSight"
+                  },
+                  {
+                    "Type": "ItemInHand",
+                    "Items": {
+                      "Compute": "AfraidItems"
+                    }
+                  },
+                  {
+                    "Type": "SpotsMe"
+                  }
+                ]
+              },
+              "Actions": [
+                {
+                  "Type": "State",
+                  "State": ".Afraid"
                 }
               ]
             },

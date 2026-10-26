@@ -3,8 +3,6 @@ title: "Soul Lantern"
 order: 8
 published: true
 draft: false
-published: true
-draft: false
 ---
 # Soul Lantern
 
@@ -17,7 +15,7 @@ Unlike a simple spawn item, it stores the animal's saved data so the companion i
 ![Soul Lantern](https://github.com/user-attachments/assets/7ed512b2-ecf1-450d-a9e7-43217630705a)
 
 ## Crafting
-- Crafting station: **Farmer's Workbench (Tier 2)**
+- Crafting station: **Animal Husbandry Workbench**
 - Recipe:
   - 6x **Any Wood**
   - 2x **Void Essence**
@@ -31,11 +29,11 @@ Unlike a simple spawn item, it stores the animal's saved data so the companion i
 4. Use the filled lantern to release it back into the world.
 
 ## Default Rules
-- Only works on supported **tamed livestock** and **tamed Beasts**.
+- Works on supported tamed animals: livestock, neutral wildlife, critters, flying companions, and Beasts.
 - You can only capture companions that are already tamed.
 - Ownership rules apply, so this is intended for **your own animals**.
 - The lantern stores **one animal at a time**.
-- Capture and release range is **short**, so stand fairly close when using it.
+- Capture and release range is **5 blocks**, so stand fairly close when using it.
 
 ## Preserved Data
 The **Soul Lantern** preserves the stored animal's metadata instead of turning it into a fresh default copy.
@@ -52,6 +50,17 @@ When an animal is captured, its ownership is cleared while it is stored inside t
 When that animal is released again, ownership is assigned to the player who places it.
 
 This makes the **Soul Lantern** useful for trading companions between players while still preserving the animal's saved data, appearance, and progression.
+
+## Companion Panel While Captured
+If the animal was already tracked by a command flute, its former owner's panel
+can keep a read-only `Captured` card while it is in the lantern. Compatible
+filled lanterns in that player's inventory can also appear as stored cards.
+
+The card does not grant ownership or command access. A successful release by
+another player removes the former owner's flute records when that player
+acquires the animal. Trading the lantern by itself, or attempting a release
+that fails, leaves the former owner's card in place. Releasing the lantern
+yourself restores your companion and its command links.
 
 ## Good Uses
 - Move a companion to a new pasture or enclosure.

@@ -12,11 +12,59 @@
       "Description": "When set to false, NPCs wont try to avoid each other or player, it can lead to them stacking together, but can help to avoid jerky-like movemenet in enclosed space."
     },
     "WanderRadius": {
-      "Value": 8,
+      "Value": 20,
       "Description": "General wander radius for idle wander and wander on the break."
     },
+    "IdleFlightWander": {
+      "Value": true,
+      "Description": "Cruise and soar while idle on the flight controller instead of running grounded idle behavior in the air."
+    },
+    "FlightWanderRadius": {
+      "Value": 80,
+      "Description": "Airborne wander radius around the home point."
+    },
+    "FlightCruiseRelativeSpeed": {
+      "Value": 0.35,
+      "Description": "Relative speed during ambient airborne wandering, with a 4 blocks/second minimum cruise pace."
+    },
+    "FlightCruiseMinSegmentTime": {
+      "Value": 6,
+      "Description": "Minimum seconds per ambient flight segment before choosing a new direction."
+    },
+    "FlightCruiseMaxSegmentTime": {
+      "Value": 10,
+      "Description": "Maximum seconds per ambient flight segment; obstacles and wander bounds can shorten it."
+    },
+    "FlightCruiseMaxHeadingChange": {
+      "Value": 60,
+      "Description": "Maximum heading change in degrees between ambient flight segments."
+    },
+    "KettleEnabled": {
+      "Value": true,
+      "Description": "Allow occasional daytime soaring circles while wandering in flight."
+    },
+    "KettleRadius": {
+      "Value": 24,
+      "Description": "Base soaring orbit radius in blocks."
+    },
+    "KettleAltitudeRange": {
+      "Value": [ 19, 35 ],
+      "Description": "Soaring altitude above the home point."
+    },
+    "KettleCooldownRange": {
+      "Value": [ 90, 180 ],
+      "Description": "Seconds of cooldown after a soaring episode finishes."
+    },
+    "KettleDurationRange": {
+      "Value": [ 45, 90 ],
+      "Description": "Seconds spent in a soaring episode."
+    },
+    "KettleRelativeSpeed": {
+      "Value": 0.5,
+      "Description": "Flight speed during soaring circles as a fraction of maximum flight speed."
+    },
     "ViewRange": {
-      "Value": 36,
+      "Value": 42,
       "Description": "The range from which the target will be seen. If zero, sight will be disabled."
     },
     "ViewSector": {
@@ -24,7 +72,7 @@
       "Description": "The view sector within which the target needs to be to be seen."
     },
     "HearingRange": {
-      "Value": 24,
+      "Value": 30,
       "Description": "The range from which the target will be heard. If zero, hearing will be disabled."
     },
     "AbsoluteDetectionRange": {
@@ -123,7 +171,7 @@
       "Description": "The block set designating bedrolls for this NPC. If empty, will sleep anywhere."
     },
     "LeashDistance": {
-      "Value": 60,
+      "Value": 100,
       "Description": "The range after which an NPC will start to want to return to their spawn point."
     },
     "LeashMinPlayerDistance": {
@@ -135,7 +183,7 @@
       "Description": "How long the NPC must be more than the minimum distance form the player and too far from leash before giving up."
     },
     "HardLeashDistance": {
-      "Value": 100,
+      "Value": 140,
       "Description": "An absolute maximum from the the leash position the NPC can go before turning back."
     },
     "CombatMessageTargetGroups": {
@@ -572,8 +620,8 @@
       "MaxClimbSpeed": 10,
       "MinAirSpeed": 0,
       "Acceleration": 6,
-      "MinHeightOverGround": 8,
-      "MaxHeightOverGround": 25,
+      "MinHeightOverGround": 20,
+      "MaxHeightOverGround": 31,
       "MaxRollAngle": 70,
       "MaxTurnSpeed": 180,
       "DesiredAltitudeWeight": 0.8,
@@ -740,6 +788,48 @@
   },
   "Instructions": [
     {
+      "$Comment": "Disable natural health regeneration while engaged; restore it after disengaging.",
+      "Continue": true,
+      "Instructions": [
+        {
+          "Sensor": {
+            "Type": "Or",
+            "Sensors": [
+              {
+                "Type": "State",
+                "State": "Combat"
+              },
+              {
+                "Type": "State",
+                "State": "Search"
+              },
+              {
+                "Type": "State",
+                "State": "Alerted"
+              }
+            ]
+          },
+          "Actions": [
+            {
+              "Type": "SetHealthRegen",
+              "EnableRegen": false
+            }
+          ]
+        },
+        {
+          "Sensor": {
+            "Type": "Any"
+          },
+          "Actions": [
+            {
+              "Type": "SetHealthRegen",
+              "EnableRegen": true
+            }
+          ]
+        }
+      ]
+    },
+    {
       "Continue": true,
       "Sensor": {
         "Type": "Leash",
@@ -873,11 +963,49 @@
               ]
             },
             {
-              "Reference": "Component_Instruction_Damage_Check",
-              "Modify": {
-                "_ExportStates": [ "Combat", "Search.Confused" ],
-                "AlertedRange": { "Compute": "AlertedRange" }
-              }
+              "$Comment": "Retaliate against a known attacker even beyond normal detection range or outside line of sight.",
+              "Sensor": {
+                "Type": "And",
+                "Sensors": [
+                  {
+                    "Type": "Not",
+                    "Sensor": {
+                      "Type": "Damage",
+                      "Friendly": true
+                    }
+                  },
+                  {
+                    "Type": "Damage",
+                    "Combat": true,
+                    "TargetSlot": "LockedTarget"
+                  }
+                ]
+              },
+              "Instructions": [
+                {
+                  "Sensor": {
+                    "Type": "Target",
+                    "TargetSlot": "LockedTarget"
+                  },
+                  "Actions": [
+                    {
+                      "Type": "AddToHostileTargetMemory"
+                    },
+                    {
+                      "Type": "State",
+                      "State": "Combat"
+                    }
+                  ]
+                },
+                {
+                  "Actions": [
+                    {
+                      "Type": "State",
+                      "State": "Search.Confused"
+                    }
+                  ]
+                }
+              ]
             },
             {
               "$Comment": "Check if there are any potential threats nearby",
@@ -950,6 +1078,37 @@
                       "Operation": "EquipHotbar",
                       "UseTarget": false,
                       "Slot": { "Compute": "DefaultHotbarSlot" }
+                    }
+                  ]
+                },
+                {
+                  "$Comment": "Idle on the flight controller: cruise in long segments with occasional soaring circles, as wild birds and miniwyverns do, instead of running grounded idle behavior in the air.",
+                  "Enabled": { "Compute": "IdleFlightWander" },
+                  "Sensor": {
+                    "Type": "MotionController",
+                    "MotionController": "Fly"
+                  },
+                  "Instructions": [
+                    {
+                      "Reference": "Component_Tamework_Instruction_Flight_Kettle",
+                      "Modify": {
+                        "KettleEnabled": { "Compute": "KettleEnabled" },
+                        "KettleRadius": { "Compute": "KettleRadius" },
+                        "KettleAltitudeRange": { "Compute": "KettleAltitudeRange" },
+                        "KettleCooldownRange": { "Compute": "KettleCooldownRange" },
+                        "KettleDurationRange": { "Compute": "KettleDurationRange" },
+                        "KettleRelativeSpeed": { "Compute": "KettleRelativeSpeed" }
+                      }
+                    },
+                    {
+                      "BodyMotion": {
+                        "Type": "WanderInCircle",
+                        "Radius": { "Compute": "FlightWanderRadius" },
+                        "MaxHeadingChange": { "Compute": "FlightCruiseMaxHeadingChange" },
+                        "MinWalkTime": { "Compute": "FlightCruiseMinSegmentTime" },
+                        "MaxWalkTime": { "Compute": "FlightCruiseMaxSegmentTime" },
+                        "RelativeSpeed": { "Compute": "max(FlightCruiseRelativeSpeed, 4 / FlightSpeed)" }
+                      }
                     }
                   ]
                 },
@@ -1962,6 +2121,11 @@
                           },
                           {
                             "Type": "State",
+                            "State": ".AirIcyWind",
+                            "IgnoreMissingSetState": true
+                          },
+                          {
+                            "Type": "State",
                             "State": ".AirBreathIngress",
                             "IgnoreMissingSetState": true
                           },
@@ -2226,7 +2390,7 @@
                       "$Comment": "Loose patrol waypoint remains stable instead of following every player movement.",
                       "Sensor": {
                         "Type": "Target",
-                        "Range": { "Compute": "AlertedRange" }
+                        "TargetSlot": "LockedTarget"
                       },
                       "HeadMotion": {
                         "Type": "Watch"
@@ -2239,6 +2403,7 @@
                         "WanderStopDistance": { "Compute": "AirCombatWanderStopDistance" },
                         "RelativeSpeed": { "Compute": "AirCombatWanderRelativeSpeed" },
                         "DesiredAltitudeRange": { "Compute": "AirCombatAltitudeRange" },
+                        "AirborneTargetAltitudeRange": [ -3, 4 ],
                         "ClimbRelativeSpeed": { "Compute": "AirCombatClimbRelativeSpeed" },
                         "SinkRelativeSpeed": { "Compute": "AirCombatSinkRelativeSpeed" }
                       }
@@ -2287,6 +2452,7 @@
                             "Type": "TameworkFlyingOrbit",
                             "Mode": "FACE_TARGET",
                             "DesiredAltitudeRange": { "Compute": "AirCombatAltitudeRange" },
+                            "AirborneTargetAltitudeRange": [ -3, 4 ],
                             "ClimbRelativeSpeed": { "Compute": "AirCombatClimbRelativeSpeed" },
                             "SinkRelativeSpeed": { "Compute": "AirCombatSinkRelativeSpeed" }
                           },
@@ -2326,6 +2492,7 @@
                             "Type": "TameworkFlyingOrbit",
                             "Mode": "FACE_TARGET",
                             "DesiredAltitudeRange": { "Compute": "AirCombatAltitudeRange" },
+                            "AirborneTargetAltitudeRange": [ -3, 4 ],
                             "ClimbRelativeSpeed": { "Compute": "AirCombatClimbRelativeSpeed" },
                             "SinkRelativeSpeed": { "Compute": "AirCombatSinkRelativeSpeed" }
                           },
@@ -2365,6 +2532,7 @@
                             "Type": "TameworkFlyingOrbit",
                             "Mode": "FACE_TARGET",
                             "DesiredAltitudeRange": { "Compute": "AirCombatAltitudeRange" },
+                            "AirborneTargetAltitudeRange": [ -3, 4 ],
                             "ClimbRelativeSpeed": { "Compute": "AirCombatClimbRelativeSpeed" },
                             "SinkRelativeSpeed": { "Compute": "AirCombatSinkRelativeSpeed" }
                           },
@@ -2398,6 +2566,97 @@
                         {
                           "Type": "Timeout",
                           "Delay": [ 0.25, 0.5 ]
+                        },
+                        {
+                          "Type": "State",
+                          "State": ".AirRecovery"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$Comment": "AH signature attack: Icy Wind. Hover facing the target and blow a sustained gale.",
+                  "Enabled": {
+                    "Compute": "UseHealthPhaseFlight"
+                  },
+                  "ActionsBlocking": true,
+                  "Sensor": {
+                    "Type": "State",
+                    "State": ".AirIcyWind",
+                    "IgnoreMissingSetState": true
+                  },
+                  "Instructions": [
+                    {
+                      "Sensor": {
+                        "Type": "Target",
+                        "Range": {
+                          "Compute": "AlertedRange"
+                        }
+                      },
+                      "HeadMotion": {
+                        "Type": "Aim",
+                        "Spread": 0,
+                        "HitProbability": 1,
+                        "Deflection": true,
+                        "RelativeTurnSpeed": {
+                          "Compute": "CombatRelativeTurnSpeed"
+                        }
+                      },
+                      "BodyMotion": {
+                        "Type": "TameworkFlyingOrbit",
+                        "Mode": "FACE_TARGET",
+                        "DesiredAltitudeRange": {
+                          "Compute": "AirCombatAltitudeRange"
+                        },
+                        "AirborneTargetAltitudeRange": [ -3, 4 ],
+                        "ClimbRelativeSpeed": {
+                          "Compute": "AirCombatClimbRelativeSpeed"
+                        },
+                        "SinkRelativeSpeed": {
+                          "Compute": "AirCombatSinkRelativeSpeed"
+                        }
+                      },
+                      "ActionsBlocking": true,
+                      "Actions": [
+                        {
+                          "Type": "Attack",
+                          "Attack": "Root_NPC_AH_Dragon_Frost_Icy_Wind",
+                          "BallisticMode": "Short",
+                          "AimingTimeRange": [
+                            0.25,
+                            1
+                          ],
+                          "AttackPauseRange": [
+                            10,
+                            10
+                          ]
+                        },
+                        {
+                          "Type": "Timeout",
+                          "Delay": [
+                            4.5,
+                            4.5
+                          ]
+                        },
+                        {
+                          "Type": "State",
+                          "State": ".AirRecovery"
+                        }
+                      ]
+                    },
+                    {
+                      "Sensor": {
+                        "Type": "Any"
+                      },
+                      "ActionsBlocking": true,
+                      "Actions": [
+                        {
+                          "Type": "Timeout",
+                          "Delay": [
+                            0.25,
+                            0.5
+                          ]
                         },
                         {
                           "Type": "State",
@@ -2458,6 +2717,7 @@
                         "ApproachSlowDownDistance": 12,
                         "RelativeSpeed": { "Compute": "AirBreathAttackRelativeSpeed" },
                         "DesiredAltitudeRange": { "Compute": "AirBreathAttackAltitudeRange" },
+                        "AirborneTargetAltitudeRange": [ -2, 3 ],
                         "ClimbRelativeSpeed": { "Compute": "AirCombatClimbRelativeSpeed" },
                         "SinkRelativeSpeed": { "Compute": "AirCombatSinkRelativeSpeed" }
                       },
@@ -2535,6 +2795,7 @@
                         "PassThroughStopDistance": { "Compute": "AirBreathPassStopDistance" },
                         "RelativeSpeed": { "Compute": "AirBreathAttackRelativeSpeed" },
                         "DesiredAltitudeRange": { "Compute": "AirBreathAttackAltitudeRange" },
+                        "AirborneTargetAltitudeRange": [ -2, 3 ],
                         "ClimbRelativeSpeed": { "Compute": "AirCombatClimbRelativeSpeed" },
                         "SinkRelativeSpeed": { "Compute": "AirCombatSinkRelativeSpeed" }
                       },
@@ -2594,6 +2855,7 @@
                         "WanderStopDistance": { "Compute": "AirCombatWanderStopDistance" },
                         "RelativeSpeed": { "Compute": "AirCombatRecoveryRelativeSpeed" },
                         "DesiredAltitudeRange": { "Compute": "AirCombatAltitudeRange" },
+                        "AirborneTargetAltitudeRange": [ -3, 4 ],
                         "ClimbRelativeSpeed": { "Compute": "AirCombatRecoveryClimbRelativeSpeed" },
                         "SinkRelativeSpeed": { "Compute": "AirCombatSinkRelativeSpeed" }
                       },
@@ -2688,6 +2950,16 @@
                     ]
                   },
                   "Instructions": [
+                    {
+                      "$Comment": "AH signature attack: breath commit. No turning or repositioning while the breath wind-up and stream run.",
+                      "Sensor": {
+                        "Type": "TameworkEffectActive",
+                        "EffectId": "AH_Dragon_Frost_Breath_Commit"
+                      },
+                      "BodyMotion": {
+                        "Type": "Nothing"
+                      }
+                    },
                     {
                       "Sensor": {
                         "Type": "CombatActionEvaluator",

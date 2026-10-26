@@ -1,0 +1,13 @@
+{
+  "Spawners": [
+    {
+      "SpawnerId": "AH_Dragon_Fire_Scorched_Flames"
+    },
+    {
+      "SpawnerId": "AH_Dragon_Fire_Scorched_Sparks"
+    }
+  ],
+  "LifeSpan": 6,
+  "BoundingRadius": 6,
+  "IsImportant": true
+}

@@ -1,0 +1,27 @@
+{
+  "Parent": "DamageEntityParent",
+  "DamageCalculator": {
+    "BaseDamage": {
+      "Elemental": 18
+    },
+    "RandomPercentageModifier": 0.1
+  },
+  "DamageEffects": {
+    "Knockback": {
+      "Type": "Point",
+      "Force": 2,
+      "VelocityY": 1,
+      "VelocityType": "Add"
+    },
+    "WorldParticles": [
+      {
+        "SystemId": "VoidImpact"
+      }
+    ]
+  },
+  "Next": {
+    "Type": "ApplyEffect",
+    "EffectId": "AH_Dragon_Void_Shrouded",
+    "Entity": "Target"
+  }
+}

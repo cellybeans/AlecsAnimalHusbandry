@@ -17,6 +17,14 @@ items.AnimalHusbandry_Command_Item.name=Tierkontroll-Flöte
 items.AnimalHusbandry_Command_Item.description=Linksklick auf ein gezähmtes Tier, um es mit dieser Flöte zu verknüpfen.\nRechtsklick zum Öffnen des Befehlsmenüs.\nLinksklick nach Auswahl eines Befehls, um ihn auszuführen.\nSchau ein Tier an, um es zu inspizieren.
 items.AnimalHusbandry_Command_Item_Shakuhachi.name=Kampfbestien-Flöte
 items.AnimalHusbandry_Command_Item_Shakuhachi.description=Linksklick auf eine gezähmte Bestie, um sie mit dieser Flöte zu verknüpfen.\nRechtsklick zum Öffnen des Befehlsmenüs.\nLinksklick nach Auswahl eines Befehls, um ihn auszuführen.\nSchau ein Tier an, um es zu inspizieren.
+items.AnimalHusbandry_Command_Item.icon.redCircle=Roter Kreis
+items.AnimalHusbandry_Command_Item.icon.orangeTriangle=Orangefarbenes Dreieck
+items.AnimalHusbandry_Command_Item.icon.yellowStar=Gelber Stern
+items.AnimalHusbandry_Command_Item.icon.greenSquare=Grünes Quadrat
+items.AnimalHusbandry_Command_Item.icon.tealDiamond=Türkisfarbene Raute
+items.AnimalHusbandry_Command_Item.icon.blueChevron=Blauer Winkel
+items.AnimalHusbandry_Command_Item.icon.purpleHexagon=Violettes Sechseck
+items.AnimalHusbandry_Command_Item.icon.pinkHeart=Rosa Herz
 items.AnimalHusbandry_Soul_Lantern.name=Seelenlaterne
 items.AnimalHusbandry_Soul_Lantern.nameFull=Seelenlaterne ({npc})
 items.AnimalHusbandry_Soul_Lantern.description=Fange und lasse deine gezähmten Kreaturen frei.
@@ -202,6 +210,10 @@ animalhusbandry.traits.swiftness.name=Geschwindigkeit
 animalhusbandry.traits.toughness.name=Zähigkeit
 animalhusbandry.traits.strength.name=Stärke
 animalhusbandry.traits.bounty.name=Ertrag
+animalhusbandry.traits.appetite.name=Appetit
+animalhusbandry.traits.thirstEfficiency.name=Wassereffizienz
+animalhusbandry.traits.regrowth.name=Nachwachsen
+animalhusbandry.traits.fleeceProductivity.name=Produktivität
 
 # Commands
 animalhusbandry.commands.follow.name=Folgen
@@ -257,6 +269,10 @@ animalhusbandry.happiness.population.crowded=Überfüllt
 items.AH_Butchers_Knife.name=Metzgermesser
 items.AH_Butchers_Knife.description=Halte die primäre Benutzung gedrückt, um ein gezähmtes Tier in deinem Besitz zu schlachten.
 
+# Eggzooka
+items.AH_Eggzooka.name=Eggzooka
+items.AH_Eggzooka.description=Mit Eiern laden, dann feuern. Treffer spritzen dem Ziel Eigelb über den Bildschirm.
+
 # Ausrüstungsanhänge
 animalhusbandry.attachments.saddle.label=Sattel
 animalhusbandry.attachments.saddle.none=Kein Sattel
@@ -284,3 +300,16 @@ animalhusbandry.attachments.blanket.lightRed=Hellrot
 animalhusbandry.attachments.blanket.red=Rot
 animalhusbandry.attachments.blanket.lightYellow=Hellgelb
 animalhusbandry.attachments.blanket.yellow=Gelb
+
+npcRoles.AH_Chicken_Chick_Boss.name=Lil Cluck
+npcRoles.AH_Raccoon.name=Waschbär
+npcRoles.AH_Chicken_Chick_Boss_Minion.name=Party-Küken
+npcRoles.AH_Chicken_Ghost.name=Geisterhuhn
+
+animalhusbandry.lilCluck.offerGold=Gold anbieten
+animalhusbandry.lilCluck.summoned=Du hast die Hackordnung gestört.
+items.AH_Bench_Husbandry.name=Tierhaltungs-Werkbank
+items.AH_Bench_Husbandry.description=Stelle Sattelzeug, Futter und Werkzeuge für die Aufzucht deiner Tiere her.
+benchCategories.ahhusbandrybench.husbandry=Tierhaltung
+npcRoles.Dragon_Void.name=Leerendrache
+npcRoles.AH_Dragon_Void_Singularity.name=Leeren-Singularität

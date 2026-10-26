@@ -2,6 +2,7 @@
   "Type": "Variant",
   "Reference": "AH_Template_Predator_Tamed",
   "Modify": {
+    "DeathParticles": "Effect_Death_Flames",
     "NeedsSeekConsumeStartDistance": 1.5,
     "NeedsSeekConsumeMaintainMaxDistance": 1.25,
     "NeedsSeekConsumeMaintainDistanceRange": [1, 1.25],
@@ -32,7 +33,7 @@
     "TimidDuringDay": true,
     "DayFlavorAnimation": "",
     "_CombatConfig": {
-      "EntityEffect": "Immunity_Fire"
+      "EntityEffects": ["Immunity_Fire"]
     },
     "IsMemory": false,
     "MemoriesCategory": "Critter",
@@ -51,11 +52,7 @@
     "CanReturnHome": true,
     "CanRecall": true,
     "CanSetHome": true,
-    "CanBreedPair": true,
-    "SleepAnimation": "",
-    "SleepEnterAnimation": "",
-    "WakeAnimation": "",
-    "NeedsSeekConsumeAnimation": ""
+    "CanBreedPair": true
   },
   "Parameters": {
     "NameTranslationKey": {

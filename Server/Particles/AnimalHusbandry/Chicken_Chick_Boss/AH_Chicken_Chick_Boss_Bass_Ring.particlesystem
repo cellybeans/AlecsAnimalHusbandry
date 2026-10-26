@@ -1,0 +1,10 @@
+{
+  "Spawners": [
+    {
+      "SpawnerId": "AH_Chicken_Chick_Boss_Bass_Feathers",
+      "PositionOffset": {
+        "Y": 0.45
+      }
+    }
+  ]
+}

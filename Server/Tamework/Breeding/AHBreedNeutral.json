@@ -5,7 +5,9 @@
     "Antelope",
     "Tamed_Antelope",
     "Armadillo",
+    "AH_Raccoon",
     "Tamed_Armadillo",
+    "Tamed_AH_Raccoon",
     "Crab",
     "Tamed_Crab",
     "Deer_Doe",
@@ -169,6 +171,16 @@
       },
       "OffspringLifecycle": {
         "TimeToFullGrownMinutes": 80
+      }
+    },
+    "Tamed_AH_Raccoon": {
+      "Cooldowns": {
+        "BaseCooldownMinutes": 50,
+        "MinDelaySeconds": 150,
+        "MaxDelaySeconds": 450
+      },
+      "OffspringLifecycle": {
+        "TimeToFullGrownMinutes": 70
       }
     },
     "Tamed_Crab": {
@@ -511,6 +523,11 @@
       },
       "OffspringLifecycle": {
         "TimeToFullGrownMinutes": 200
+      },
+      "Aging": {
+        "AdultToPrimeMinutes": 90,
+        "PrimeMinutes": 2160,
+        "SeniorMinutes": 2160
       }
     },
     "Tamed_Cactee": {
@@ -773,6 +790,12 @@
         "TimeToFullGrownMinutes": 90
       }
     }
+  },
+  "Aging": {
+    "Enabled": true,
+    "AdultToPrimeMinutes": 60,
+    "PrimeMinutes": 1080,
+    "SeniorMinutes": 1080,
+    "NonPrimeYieldMultiplier": 0.5
   }
 }
-

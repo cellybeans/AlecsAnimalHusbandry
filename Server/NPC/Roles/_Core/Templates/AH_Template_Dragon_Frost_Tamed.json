@@ -516,6 +516,17 @@
       "Value": false,
       "Description": "Whether to flee while in the alerted state if not threatened after AlertedTime expires."
     },
+    "IsPettable": {
+      "Value": true,
+      "Description": "Whether players can pet the NPC."
+    },
+    "PetTimeout": {
+      "Value": [
+        "PT15M",
+        "PT15M"
+      ],
+      "Description": "The timeout between consecutive pets."
+    },
     "CanFollow": {
       "Value": false,
       "Description": "Whether command-driven Follow behavior is enabled for this role."
@@ -821,6 +832,57 @@
   ],
   "StateTransitions": [
     {
+      "$Comment": "Move the wander center to where the dragon leaves Follow, Hold, a move command or being ridden, so it wanders where it was told to and not where it last napped, ate, drank or fought.",
+      "States": [
+        {
+          "From": [
+            "Follow",
+            "FollowClose",
+            "Hold",
+            "CommandMove",
+            "Ridden"
+          ],
+          "To": [
+            "Aggressive",
+            "BreedPair",
+            "Defend",
+            "Idle",
+            "NeedsSeekFood",
+            "NeedsSeekWater",
+            "Sleep",
+            "SleepWakeResolve"
+          ]
+        }
+      ],
+      "Actions": [
+        {
+          "Type": "SetLeashPosition",
+          "ToCurrent": true
+        }
+      ]
+    },
+    {
+      "$Comment": "Leaving Follow for Idle asks the Idle state to center the wander area on the owner.",
+      "States": [
+        {
+          "From": [
+            "Follow",
+            "FollowClose"
+          ],
+          "To": [
+            "Idle"
+          ]
+        }
+      ],
+      "Actions": [
+        {
+          "Type": "SetFlag",
+          "Name": "Leash_ToOwner",
+          "SetTo": true
+        }
+      ]
+    },
+    {
       "States": [
         {
           "From": [
@@ -1040,6 +1102,53 @@
   },
   "Instructions": [
     {
+      "$Comment": "Disable natural health regeneration while engaged; restore it after disengaging.",
+      "Continue": true,
+      "Instructions": [
+        {
+          "Sensor": {
+            "Type": "And",
+            "Sensors": [
+              {
+                "Type": "Or",
+                "Sensors": [
+                  {
+                    "Type": "State",
+                    "State": "Defend"
+                  },
+                  {
+                    "Type": "State",
+                    "State": "Aggressive"
+                  }
+                ]
+              },
+              {
+                "Type": "Target",
+                "TargetSlot": "LockedTarget"
+              }
+            ]
+          },
+          "Actions": [
+            {
+              "Type": "SetHealthRegen",
+              "EnableRegen": false
+            }
+          ]
+        },
+        {
+          "Sensor": {
+            "Type": "Any"
+          },
+          "Actions": [
+            {
+              "Type": "SetHealthRegen",
+              "EnableRegen": true
+            }
+          ]
+        }
+      ]
+    },
+    {
       "$Comment": "Validation-only state setters (disabled).",
       "Enabled": false,
       "Actions": [
@@ -1094,6 +1203,64 @@
         {
           "Type": "State",
           "State": "Ridden"
+        }
+      ]
+    },
+    {
+      "$Comment": "Apply pet effects when a pet interaction emits TwHook_Pet.",
+      "Enabled": {
+        "Compute": "IsPettable"
+      },
+      "Continue": true,
+      "Sensor": {
+        "Type": "TameworkHook",
+        "HookId": "TwHook_Pet",
+        "Consume": true
+      },
+      "Instructions": [
+        {
+          "Sensor": {
+            "Type": "Not",
+            "Sensor": {
+              "Type": "State",
+              "State": "Sleep"
+            }
+          },
+          "Actions": [
+            {
+              "Type": "SpawnParticles",
+              "ParticleSystem": "Hearts_Subtle",
+              "Offset": {
+                "Compute": "ParticleOffset"
+              },
+              "TargetNodeName": "Head"
+            },
+            {
+              "Type": "SetAlarm",
+              "Name": "Pet_Ready",
+              "DurationRange": {
+                "Compute": "PetTimeout"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$Comment": "Clear the pet alarm when it finishes.",
+      "Enabled": {
+        "Compute": "IsPettable"
+      },
+      "Continue": true,
+      "Sensor": {
+        "Type": "Alarm",
+        "Name": "Pet_Ready",
+        "State": "Passed",
+        "Clear": true
+      },
+      "Actions": [
+        {
+          "Type": "Nothing"
         }
       ]
     },
@@ -1269,6 +1436,74 @@
             "State": "Idle"
           },
           "Instructions": [
+            {
+              "$Comment": "Anchor the wander center once, where the dragon first settles into Idle as a tamed pet. After that only leaving Follow, Hold, a move command or being ridden moves it (see StateTransitions), so naps, meals, drinks and fights do not drag the wander area away.",
+              "Continue": true,
+              "Sensor": {
+                "Type": "Alarm",
+                "Name": "Tamed_Leash_Anchored",
+                "State": "Unset"
+              },
+              "Actions": [
+                {
+                  "Type": "SetLeashPosition",
+                  "ToCurrent": true
+                },
+                {
+                  "Type": "SetAlarm",
+                  "Name": "Tamed_Leash_Anchored",
+                  "DurationRange": [
+                    "PT1S",
+                    "PT1S"
+                  ]
+                }
+              ]
+            },
+            {
+              "$Comment": "After Follow ends in Idle, center the wander area on the owner when they are within 16 blocks. Otherwise the dragon keeps the spot where it stopped following.",
+              "Continue": true,
+              "Sensor": {
+                "Type": "Flag",
+                "Name": "Leash_ToOwner"
+              },
+              "Instructions": [
+                {
+                  "Continue": true,
+                  "Sensor": {
+                    "Type": "Target",
+                    "TargetSlot": "MasterTarget",
+                    "Range": 16
+                  },
+                  "Actions": [
+                    {
+                      "Type": "SetLeashPosition",
+                      "ToTarget": true
+                    }
+                  ]
+                },
+                {
+                  "Actions": [
+                    {
+                      "Type": "SetFlag",
+                      "Name": "Leash_ToOwner",
+                      "SetTo": false
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "$Comment": "An idle dragon that ends up in water, for example after landing in it, walks back toward its wander center instead of wading or settling there.",
+              "Sensor": {
+                "Type": "InWater"
+              },
+              "BodyMotion": {
+                "$Comment": "Outside this small circle WanderInCircle only accepts moves that bring the dragon closer to its wander center.",
+                "Type": "WanderInCircle",
+                "Radius": 1,
+                "RelativeSpeed": 0.5
+              }
+            },
             {
               "Sensor": {
                 "Type": "And",

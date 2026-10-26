@@ -17,6 +17,14 @@ items.AnimalHusbandry_Command_Item.name=Flûte de contrôle animal
 items.AnimalHusbandry_Command_Item.description=Clic gauche sur un animal apprivoisé pour le lier à cette flûte.\nClic droit pour ouvrir le menu des commandes.\nClic gauche après avoir choisi une commande pour la donner.\nRegardez un animal pour l'inspecter.
 items.AnimalHusbandry_Command_Item_Shakuhachi.name=Flûte de bête de combat
 items.AnimalHusbandry_Command_Item_Shakuhachi.description=Clic gauche sur une bête apprivoisée pour la lier à cette flûte.\nClic droit pour ouvrir le menu des commandes.\nClic gauche après avoir choisi une commande pour la donner.\nRegardez un animal pour l'inspecter.
+items.AnimalHusbandry_Command_Item.icon.redCircle=Cercle rouge
+items.AnimalHusbandry_Command_Item.icon.orangeTriangle=Triangle orange
+items.AnimalHusbandry_Command_Item.icon.yellowStar=Étoile jaune
+items.AnimalHusbandry_Command_Item.icon.greenSquare=Carré vert
+items.AnimalHusbandry_Command_Item.icon.tealDiamond=Losange turquoise
+items.AnimalHusbandry_Command_Item.icon.blueChevron=Chevron bleu
+items.AnimalHusbandry_Command_Item.icon.purpleHexagon=Hexagone violet
+items.AnimalHusbandry_Command_Item.icon.pinkHeart=Cœur rose
 items.AnimalHusbandry_Soul_Lantern.name=Lanterne d’âme
 items.AnimalHusbandry_Soul_Lantern.nameFull=Lanterne d’âme ({npc})
 items.AnimalHusbandry_Soul_Lantern.description=Capturez et relâchez vos créatures apprivoisées.
@@ -202,6 +210,10 @@ animalhusbandry.traits.swiftness.name=Vélocité
 animalhusbandry.traits.toughness.name=Endurance
 animalhusbandry.traits.strength.name=Force
 animalhusbandry.traits.bounty.name=Abondance
+animalhusbandry.traits.appetite.name=Appétit
+animalhusbandry.traits.thirstEfficiency.name=Économie d’eau
+animalhusbandry.traits.regrowth.name=Repousse
+animalhusbandry.traits.fleeceProductivity.name=Productivité
 
 # Commands
 animalhusbandry.commands.follow.name=Suivre
@@ -257,6 +269,10 @@ animalhusbandry.happiness.population.crowded=Surpeuplé
 items.AH_Butchers_Knife.name=Couteau de boucher
 items.AH_Butchers_Knife.description=Maintenez l’action principale pour abattre un animal apprivoisé qui vous appartient.
 
+# Eggzooka
+items.AH_Eggzooka.name=Eggzooka
+items.AH_Eggzooka.description=Chargez-le d’œufs, puis tirez. Les tirs éclaboussent de jaune d’œuf l’écran de la cible.
+
 # Accessoires d’équipement
 animalhusbandry.attachments.saddle.label=Selle
 animalhusbandry.attachments.saddle.none=Aucune selle
@@ -284,3 +300,16 @@ animalhusbandry.attachments.blanket.lightRed=Rouge clair
 animalhusbandry.attachments.blanket.red=Rouge
 animalhusbandry.attachments.blanket.lightYellow=Jaune clair
 animalhusbandry.attachments.blanket.yellow=Jaune
+
+npcRoles.AH_Chicken_Chick_Boss.name=Lil Cluck
+npcRoles.AH_Raccoon.name=Raton laveur
+npcRoles.AH_Chicken_Chick_Boss_Minion.name=Poussin fêtard
+npcRoles.AH_Chicken_Ghost.name=Poule fantôme
+
+animalhusbandry.lilCluck.offerGold=Offrir de l’or
+animalhusbandry.lilCluck.summoned=Vous avez bouleversé la hiérarchie du poulailler.
+items.AH_Bench_Husbandry.name=Établi d'élevage
+items.AH_Bench_Husbandry.description=Fabriquez de la sellerie, de la nourriture et des outils pour élever vos animaux.
+benchCategories.ahhusbandrybench.husbandry=Élevage
+npcRoles.Dragon_Void.name=Dragon du Néant
+npcRoles.AH_Dragon_Void_Singularity.name=Singularité du Néant

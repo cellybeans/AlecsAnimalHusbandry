@@ -71,6 +71,10 @@
       "Value": [ 20, 40 ],
       "Description": "The duration of the follow item behaviour, after which the NPC will give up on the target. Requires FollowItemAlways to be set to false."
     },
+    "DeathParticles": {
+      "Value": "Effect_Death",
+      "Description": "The particle system that spawns when the NPC's corpse disappears."
+    },
     "DropList": {
       "Value": "Empty",
       "Description": "The NPC's drop list."
@@ -151,6 +155,10 @@
     "CuriousAnimation": {
       "Value": "Curious",
       "Description": "Optional animation to play while following a liked item."
+    },
+    "CuriousCloseAnimation": {
+      "Value": "",
+      "Description": "Optional animation to play instead of CuriousAnimation once the NPC has stopped next to the liked item's holder."
     },
     "IgnoreOverrideTime": {
       "Value": 20,
@@ -240,6 +248,7 @@
   "IsMemory": { "Compute": "IsMemory" },
   "MemoriesCategory": { "Compute": "MemoriesCategory" },
   "MemoriesNameOverride": { "Compute": "MemoriesNameOverride" },
+  "DeathParticles": { "Compute": "DeathParticles" },
   "DropList": { "Compute": "DropList" },
   "FlockSpawnTypes": { "Compute": "FlockArray" },
   "FlockSpawnTypesRandom": true,
@@ -1429,6 +1438,41 @@
                     {
                       "Type": "State",
                       "State": "Idle"
+                    }
+                  ]
+                },
+                {
+                  "Enabled": { "Compute": "!isEmptyStringArray(AttractiveItemSet) && !isEmpty(CuriousCloseAnimation)" },
+                  "$Comment": "Once stopped next to the liked item's holder, switch to the close animation",
+                  "Sensor": {
+                    "Type": "Target",
+                    "Range": 3.25,
+                    "Filters": [
+                      {
+                        "Type": "ItemInHand",
+                        "Items": { "Compute": "AttractiveItemSet" }
+                      },
+                      {
+                        "Type": "Not",
+                        "Filter": {
+                          "Type": "Attitude",
+                          "Attitudes": [ "Hostile", "Ignore" ]
+                        }
+                      }
+                    ]
+                  },
+                  "BodyMotion": {
+                    "Type": "Seek",
+                    "SlowDownDistance": 3.5,
+                    "StopDistance": 3,
+                    "RelativeSpeed": 0.4,
+                    "RelaxedMoveConstraints": false
+                  },
+                  "Actions": [
+                    {
+                      "Type": "PlayAnimation",
+                      "Slot": "Status",
+                      "Animation": { "Compute": "CuriousCloseAnimation" }
                     }
                   ]
                 },

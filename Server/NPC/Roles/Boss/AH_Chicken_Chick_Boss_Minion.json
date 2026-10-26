@@ -1,0 +1,242 @@
+{
+  "Type": "Generic",
+  "Appearance": "AH_Chicken_Chick_Boss_Minion",
+  "MaxHealth": 7,
+  "StartState": "Spawn",
+  "DefaultPlayerAttitude": "Hostile",
+  "DefaultNPCAttitude": "Neutral",
+  "DisableDamageGroups": [
+    "AH_Chicken_Chick_Boss"
+  ],
+  "MotionControllerList": [
+    {
+      "Type": "Walk",
+      "MaxWalkSpeed": 4.5,
+      "Gravity": 10,
+      "MaxFallSpeed": 30,
+      "Acceleration": 18,
+      "MaxRotationSpeed": 360,
+      "MaxClimbHeight": 1,
+      "MaxDropHeight": 4,
+      "RunThreshold": 0.5
+    }
+  ],
+  "NameTranslationKey": "server.npcRoles.AH_Chicken_Chick_Boss_Minion.name",
+  "Instructions": [
+    {
+      "Sensor": {
+        "Type": "State",
+        "State": "Spawn"
+      },
+      "Instructions": [
+        {
+          "Actions": [
+            {
+              "Type": "State",
+              "State": "Chase"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Sensor": {
+        "Type": "State",
+        "State": "Chase"
+      },
+      "Instructions": [
+        {
+          "Sensor": {
+            "Type": "Mob",
+            "GetPlayers": true,
+            "GetNPCs": false,
+            "Range": 1.4,
+            "LockOnTarget": true
+          },
+          "Actions": [
+            {
+              "Type": "PlayAnimation",
+              "Slot": "Action",
+              "Animation": "Minion_Peck"
+            },
+            {
+              "Type": "TimerStart",
+              "Name": "PeckBeat",
+              "StartValueRange": [
+                0.5,
+                0.5
+              ],
+              "RestartValueRange": [
+                0.5,
+                0.5
+              ]
+            },
+            {
+              "Type": "TimerRestart",
+              "Name": "PeckBeat"
+            },
+            {
+              "Type": "TimerModify",
+              "Name": "PeckBeat",
+              "MaxValue": [
+                0.5,
+                0.5
+              ],
+              "SetValue": 0.5
+            },
+            {
+              "Type": "State",
+              "State": "PeckWindup"
+            }
+          ],
+          "HeadMotion": {
+            "Type": "Aim"
+          },
+          "BodyMotion": {
+            "Type": "MatchLook"
+          }
+        },
+        {
+          "Sensor": {
+            "Type": "Mob",
+            "GetPlayers": true,
+            "GetNPCs": false,
+            "Range": 24,
+            "LockOnTarget": true
+          },
+          "HeadMotion": {
+            "Type": "Aim"
+          },
+          "BodyMotion": {
+            "Type": "Seek",
+            "StopDistance": 0.8
+          }
+        },
+        {
+          "BodyMotion": {
+            "Type": "Nothing"
+          }
+        }
+      ]
+    },
+    {
+      "Sensor": {
+        "Type": "State",
+        "State": "PeckWindup"
+      },
+      "Instructions": [
+        {
+          "Sensor": {
+            "Type": "Timer",
+            "Name": "PeckBeat",
+            "State": "Stopped",
+            "TimeRemainingRange": [
+              0,
+              0
+            ]
+          },
+          "Actions": [
+            {
+              "Type": "Attack",
+              "Attack": "Root_AH_Chicken_Chick_Boss_MinionPeck",
+              "AttackPauseRange": [
+                0,
+                0
+              ],
+              "SkipAiming": true,
+              "LineOfSight": false,
+              "AvoidFriendlyFire": false
+            },
+            {
+              "Type": "TimerStart",
+              "Name": "PeckBeat",
+              "StartValueRange": [
+                0.5,
+                0.5
+              ],
+              "RestartValueRange": [
+                0.5,
+                0.5
+              ]
+            },
+            {
+              "Type": "TimerRestart",
+              "Name": "PeckBeat"
+            },
+            {
+              "Type": "TimerModify",
+              "Name": "PeckBeat",
+              "MaxValue": [
+                0.5,
+                0.5
+              ],
+              "SetValue": 0.5
+            },
+            {
+              "Type": "State",
+              "State": "PeckRecovery"
+            }
+          ]
+        },
+        {
+          "Sensor": {
+            "Type": "Target",
+            "Range": 24
+          },
+          "HeadMotion": {
+            "Type": "Aim"
+          },
+          "BodyMotion": {
+            "Type": "Seek",
+            "StopDistance": 0.8
+          }
+        },
+        {
+          "HeadMotion": {
+            "Type": "Nothing"
+          },
+          "BodyMotion": {
+            "Type": "Nothing"
+          }
+        }
+      ]
+    },
+    {
+      "Sensor": {
+        "Type": "State",
+        "State": "PeckRecovery"
+      },
+      "Instructions": [
+        {
+          "Sensor": {
+            "Type": "Timer",
+            "Name": "PeckBeat",
+            "State": "Stopped",
+            "TimeRemainingRange": [
+              0,
+              0
+            ]
+          },
+          "Actions": [
+            {
+              "Type": "PlayAnimation",
+              "Slot": "Action"
+            },
+            {
+              "Type": "State",
+              "State": "Chase"
+            }
+          ]
+        },
+        {
+          "HeadMotion": {
+            "Type": "Nothing"
+          },
+          "BodyMotion": {
+            "Type": "Nothing"
+          }
+        }
+      ]
+    }
+  ]
+}
