@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.3.0 - Companion Inspect - 2026-11-10
+
+- Requires Alec's Tamework! 5.10.0 or newer.
+- Tamed animals support Tamework's Companion Inspect: **Ride** and **Pet** are buttons on the panel. Riding from it does not need crouching. With Inspect chosen for F, F with an empty hand opens Companion Inspect instead of petting; use its **Pet** button.
+- Reviving a dead tamed animal from the companion panel now costs 50 Life Essence. The essence is taken when you confirm the revive and given back if the revive fails. The 10-minute wait after death is unchanged.
+
 ## 4.2.0 - Wild Dragons Setting - 2026-10-29
 
 Supports Hytale 0.6.7 and later in Update 6, and Hytale 0.7. Requires Alec's Tamework `>=5.7.0 <6.0`. Update both mods together.
